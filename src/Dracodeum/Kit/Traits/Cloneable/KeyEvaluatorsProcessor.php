@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @author Cláudio "Feralidragon" Luís <claudio.luis@aptoide.com>
+ * @author Cláudio "Feralidragon" Luís <claudioluis8@gmail.com>
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
@@ -17,7 +17,7 @@ trait KeyEvaluatorsProcessor
 {
 	//Public magic methods
 	/** Process instance clone. */
-	public function __clone()
+	public function __clone(): void
 	{
 		$this->processKeyEvaluatorsCloning();
 	}

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @author Cláudio "Feralidragon" Luís <claudio.luis@aptoide.com>
+ * @author Cláudio "Feralidragon" Luís <claudioluis8@gmail.com>
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
@@ -15,7 +15,7 @@ interface Integerable
 	 * Cast this object to an integer.
 	 * 
 	 * @return int
-	 * <p>This object cast to an integer.</p>
+	 * <p>An integer cast from this object.</p>
 	 */
 	public function toInteger(): int;
 }

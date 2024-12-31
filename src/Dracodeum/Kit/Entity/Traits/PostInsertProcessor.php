@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @author Cláudio "Feralidragon" Luís <claudio.luis@aptoide.com>
+ * @author Cláudio "Feralidragon" Luís <claudioluis8@gmail.com>
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
@@ -16,7 +16,6 @@ trait PostInsertProcessor
 	 * 
 	 * @param array $values
 	 * <p>The values to perform processing with, as a set of <samp>name => value</samp> pairs.</p>
-	 * @return void
 	 */
 	protected function processPostInsert(array $values): void {}
 }

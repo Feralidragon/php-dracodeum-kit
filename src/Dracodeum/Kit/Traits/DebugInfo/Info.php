@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @author Cláudio "Feralidragon" Luís <claudio.luis@aptoide.com>
+ * @author Cláudio "Feralidragon" Luís <claudioluis8@gmail.com>
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
@@ -15,7 +15,7 @@ use Dracodeum\Kit\Utilities\Type as UType;
 final class Info
 {
 	//Traits
-	use Traits\NoConstructor;
+	use Traits\EmptyConstructor;
 	
 	
 	

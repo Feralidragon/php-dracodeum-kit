@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @author Cláudio "Feralidragon" Luís <claudio.luis@aptoide.com>
+ * @author Cláudio "Feralidragon" Luís <claudioluis8@gmail.com>
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
@@ -9,13 +9,15 @@ namespace Dracodeum\Kit\Utilities;
 
 use Dracodeum\Kit\Utility;
 use Dracodeum\Kit\Utilities\Type\{
+	Info,
 	Options,
 	Exceptions
 };
+use Dracodeum\Kit\Utilities\Type\Info\Enums\Kind as EInfoKind;
 use Dracodeum\Kit\Interfaces\{
 	Integerable as IIntegerable,
 	Floatable as IFloatable,
-	Stringifiable as IStringifiable,
+	Stringable as IStringable,
 	IntegerInstantiable as IIntegerInstantiable,
 	FloatInstantiable as IFloatInstantiable,
 	StringInstantiable as IStringInstantiable,
@@ -29,6 +31,14 @@ use Dracodeum\Kit\Interfaces\{
 	Persistable as IPersistable,
 	Unpersistable as IUnpersistable
 };
+use Dracodeum\Kit\Components\Type as Component;
+use Dracodeum\Kit\Components\Type\Enumerations\Context as EContext;
+use Dracodeum\Kit\Enums\Error\Type as EErrorType;
+use Dracodeum\Kit\Primitives\{
+	Error,
+	Text as TextPrimitive
+};
+use LogicException;
 
 /**
  * This utility implements a set of methods used to check, validate and get information from PHP types, 
@@ -59,12 +69,27 @@ final class Type extends Utility
 	/** All supported integer bits fully on (unsigned). */
 	public const INTEGER_BITS_FULL_UNSIGNED = 0x7fffffffffffffff;
 	
+	/** Normalize into a short name (flag). */
+	public const NORMALIZE_SHORT_NAME = 0x01;
+	
+	/** Normalize with a namespace leading slash (flag). */
+	public const NORMALIZE_NAMESPACE_LEADING_SLASH = 0x02;
+	
 	
 	
 	//Private constants
 	/** Phpfy non-associative array maximum pretty output horizontal length. */
 	private const PHPFY_NONASSOC_ARRAY_PRETTY_MAX_HORIZONTAL_LENGTH = 50;
 	
+	/** Inner delimiter character for types and parameters. */
+	private const INNER_DELIMITER = ',';
+	
+	/** Regular expression pattern of the characters which must be followed by colon in flags. */
+	private const FLAGS_REQUIRED_COLON_CHARS_PATTERN = '\w.,:;"\'\\\\\/\[\](){}<>&|';
+	
+	/** Regular expression pattern of the characters which must be escaped in a parameter value. */
+	private const PARAMETER_VALUE_ESCAPABLE_CHARS_PATTERN = self::INNER_DELIMITER . ':()<>\\\\"';
+
 	
 	
 	//Final public static methods
@@ -504,10 +529,10 @@ final class Type extends Utility
 				$value = $number;
 				return true;
 			}
-		} elseif (is_object($value) && $value instanceof IIntegerable) {
+		} elseif ($value instanceof IIntegerable) {
 			$value = $value->toInteger();
 			return true;
-		} elseif (is_object($value) && $value instanceof IFloatable) {
+		} elseif ($value instanceof IFloatable) {
 			$value = $value->toFloat();
 			if ($value === floor($value)) {
 				$value = (int)$value;
@@ -910,10 +935,10 @@ final class Type extends Utility
 	 * Only the following types and formats can be evaluated into a string:<br>
 	 * &nbsp; &#8226; &nbsp; a string, integer or float;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>__toString</code> method;<br>
-	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Stringifiable</code> interface.
+	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Stringable</code> interface.
 	 * 
 	 * @see https://php.net/manual/en/language.oop5.magic.php#object.tostring
-	 * @see \Dracodeum\Kit\Interfaces\Stringifiable
+	 * @see \Dracodeum\Kit\Interfaces\Stringable
 	 * @param mixed $value [reference]
 	 * <p>The value to evaluate (validate and sanitize).</p>
 	 * @param bool $non_empty [default = false]
@@ -934,10 +959,10 @@ final class Type extends Utility
 	 * Only the following types and formats can be coerced into a string:<br>
 	 * &nbsp; &#8226; &nbsp; a string, integer or float;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>__toString</code> method;<br>
-	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Stringifiable</code> interface.
+	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Stringable</code> interface.
 	 * 
 	 * @see https://php.net/manual/en/language.oop5.magic.php#object.tostring
-	 * @see \Dracodeum\Kit\Interfaces\Stringifiable
+	 * @see \Dracodeum\Kit\Interfaces\Stringable
 	 * @param mixed $value
 	 * <p>The value to coerce (validate and sanitize).</p>
 	 * @param bool $non_empty [default = false]
@@ -961,10 +986,10 @@ final class Type extends Utility
 	 * Only the following types and formats can be coerced into a string:<br>
 	 * &nbsp; &#8226; &nbsp; a string, integer or float;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>__toString</code> method;<br>
-	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Stringifiable</code> interface.
+	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Stringable</code> interface.
 	 * 
 	 * @see https://php.net/manual/en/language.oop5.magic.php#object.tostring
-	 * @see \Dracodeum\Kit\Interfaces\Stringifiable
+	 * @see \Dracodeum\Kit\Interfaces\Stringable
 	 * @param mixed $value [reference]
 	 * <p>The value to process (validate and sanitize).</p>
 	 * @param bool $non_empty [default = false]
@@ -1012,7 +1037,7 @@ final class Type extends Utility
 			$value = (string)$value;
 			return true;
 		} elseif (is_object($value)) {
-			if ($value instanceof IStringifiable) {
+			if ($value instanceof IStringable) {
 				$value = $value->toString();
 				return true;
 			} elseif (method_exists($value, '__toString')) {
@@ -1031,7 +1056,7 @@ final class Type extends Utility
 			'error_message' => "Only the following types and formats can be coerced into a string:\n" . 
 				" - a string, integer or float;\n" . 
 				" - an object implementing the \"__toString\" method;\n" . 
-				" - an object implementing the \"Dracodeum\\Kit\\Interfaces\\Stringifiable\" interface."
+				" - an object implementing the \"Dracodeum\\Kit\\Interfaces\\Stringable\" interface."
 		]);
 	}
 	
@@ -1855,16 +1880,20 @@ final class Type extends Utility
 	}
 	
 	/**
-	 * Check if a given class or interface exists.
+	 * Check if a given class, interface or enumeration name exists.
 	 * 
-	 * @param string $class_interface
-	 * <p>The class or interface to check.</p>
+	 * @param string $name
+	 * <p>The class, interface or enumeration name to check.</p>
 	 * @return bool
-	 * <p>Boolean <code>true</code> if the given class or interface exists.</p>
+	 * <p>Boolean <code>true</code> if the given class, interface or enumeration name exists.</p>
 	 */
-	final public static function exists(string $class_interface): bool
+	final public static function exists(string $name): bool
 	{
-		return class_exists($class_interface) || interface_exists($class_interface);
+		static $map = [];
+		if (!isset($map[$name])) {
+			$map[$name] = class_exists($name) || interface_exists($name) || enum_exists($name);
+		}
+		return $map[$name];
 	}
 	
 	/**
@@ -1919,18 +1948,16 @@ final class Type extends Utility
 	 * 
 	 * @param object $object
 	 * <p>The object to clone.</p>
-	 * @param bool $recursive [default = false]
-	 * <p>Clone all the possible referenced subobjects into new instances recursively (if applicable).</p>
 	 * @throws \Dracodeum\Kit\Utilities\Type\Exceptions\UncloneableObject
 	 * @return object
 	 * <p>The cloned object from the given one.</p>
 	 */
-	final public static function clone(object $object, bool $recursive = false): object
+	final public static function clone(object $object): object
 	{
 		if (!self::cloneable($object)) {
 			throw new Exceptions\UncloneableObject([$object]);
 		} elseif ($object instanceof ICloneable) {
-			return $object->clone($recursive);
+			return $object->clone();
 		}
 		return clone $object;
 	}
@@ -1939,25 +1966,23 @@ final class Type extends Utility
 	 * Clone a given value.
 	 * 
 	 * If the given value is a cloneable object, then a clone of it is returned.<br>
-	 * If the given value is an array and <var>$recursive</var> is set to boolean <code>true</code>, 
-	 * then it is transversed recursively, with every cloneable object found being cloned and returned.<br>
+	 * If the given value is an array, then it is transversed recursively with every cloneable object found being 
+	 * cloned and returned.<br>
 	 * <br>
 	 * For any other case, the given value is returned as is.
 	 * 
 	 * @param mixed $value
 	 * <p>The value to clone.</p>
-	 * @param bool $recursive [default = false]
-	 * <p>Clone all the possible referenced subobjects into new instances recursively (if applicable).</p>
 	 * @return mixed
 	 * <p>The cloned value from the given one if applicable, or the given value if otherwise.</p>
 	 */
-	final public static function cloneValue($value, bool $recursive = false)
+	final public static function cloneValue($value)
 	{
 		if (is_object($value) && self::cloneable($value)) {
-			return self::clone($value, $recursive);
-		} elseif ($recursive && is_array($value)) {
+			return self::clone($value);
+		} elseif (is_array($value)) {
 			foreach ($value as &$v) {
-				$v = self::cloneValue($v, $recursive);
+				$v = self::cloneValue($v);
 			}
 			unset($v);
 		}
@@ -1982,44 +2007,38 @@ final class Type extends Utility
 	 * 
 	 * @param object $object
 	 * <p>The object to check.</p>
-	 * @param bool $recursive [default = false]
-	 * <p>Check if the given object has been recursively set as read-only.</p>
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the given object is read-only.</p>
 	 */
-	final public static function readonly(object $object, bool $recursive = false): bool
+	final public static function readonly(object $object): bool
 	{
-		return $object instanceof IReadonlyable ? $object->isReadonly($recursive) : false;
+		return $object instanceof IReadonlyable ? $object->isReadonly() : false;
 	}
 	
 	/**
 	 * Check if a given value is read-only.
 	 * 
 	 * If the given value is a read-only-able object, then it is checked.<br>
-	 * If the given value is an array or an object implementing the <code>Dracodeum\Kit\Interfaces\Arrayable</code> 
-	 * interface, and <var>$recursive</var> is set to boolean <code>true</code>, then it is transversed recursively, 
-	 * with every read-only-able object found being checked.<br>
+	 * If the given value is an array, then it is transversed recursively with every read-only-able object found being 
+	 * checked.<br>
 	 * <br>
 	 * For any other case, the given value is assumed to not be read-only.
 	 * 
-	 * @see \Dracodeum\Kit\Interfaces\Arrayable
 	 * @param mixed $value
 	 * <p>The value to check.</p>
-	 * @param bool $recursive [default = false]
-	 * <p>Check if the given value has been recursively set as read-only.</p>
 	 * @param bool $readonlyables_only [default = false]
 	 * <p>Check read-only-able values only.</p>
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the given value is read-only.</p>
 	 */
-	final public static function readonlyValue($value, bool $recursive = false, bool $readonlyables_only = false): bool
+	final public static function readonlyValue($value, bool $readonlyables_only = false): bool
 	{
-		if (is_object($value) && $value instanceof IReadonlyable) {
-			return $value->isReadonly($recursive);
-		} elseif ($recursive && Data::evaluate($value)) {
+		if ($value instanceof IReadonlyable) {
+			return $value->isReadonly();
+		} elseif (is_array($value)) {
 			foreach ($value as $v) {
 				$readonlyable = is_object($v) && self::readonlyable($v);
-				if ((!$readonlyables_only || $readonlyable) && !self::readonlyValue($v, true, $readonlyables_only)) {
+				if ((!$readonlyables_only || $readonlyable) && !self::readonlyValue($v, $readonlyables_only)) {
 					return false;
 				}
 			}
@@ -2033,15 +2052,12 @@ final class Type extends Utility
 	 * 
 	 * @param object $object
 	 * <p>The object to set as read-only.</p>
-	 * @param bool $recursive [default = false]
-	 * <p>Set all the possible referenced subobjects as read-only recursively (if applicable).</p>
 	 * @throws \Dracodeum\Kit\Utilities\Type\Exceptions\UnreadonlyableObject
-	 * @return void
 	 */
-	final public static function setAsReadonly(object $object, bool $recursive = false): void
+	final public static function setAsReadonly(object $object): void
 	{
 		if ($object instanceof IReadonlyable) {
-			$object->setAsReadonly($recursive);
+			$object->setAsReadonly();
 			return;
 		}
 		throw new Exceptions\UnreadonlyableObject([$object]);
@@ -2051,26 +2067,21 @@ final class Type extends Utility
 	 * Set a given value as read-only.
 	 * 
 	 * If the given value is a read-only-able object, then it is set as read-only.<br>
-	 * If the given value is an array or an object implementing the <code>Dracodeum\Kit\Interfaces\Arrayable</code> 
-	 * interface, and <var>$recursive</var> is set to boolean <code>true</code>, then it is transversed recursively, 
-	 * with every read-only-able object found being set as read-only.<br>
+	 * If the given value is an array, then it is transversed recursively with every read-only-able object found being 
+	 * set as read-only.<br>
 	 * <br>
 	 * For any other case, the given value is left as is.
 	 * 
-	 * @see \Dracodeum\Kit\Interfaces\Arrayable
 	 * @param mixed $value
 	 * <p>The value to set as read-only.</p>
-	 * @param bool $recursive [default = false]
-	 * <p>Set all the possible referenced subobjects as read-only recursively (if applicable).</p>
-	 * @return void
 	 */
-	final public static function setValueAsReadonly($value, bool $recursive = false): void
+	final public static function setValueAsReadonly($value): void
 	{
-		if (is_object($value) && $value instanceof IReadonlyable) {
-			$value->setAsReadonly($recursive);
-		} elseif ($recursive && Data::evaluate($value)) {
+		if ($value instanceof IReadonlyable) {
+			$value->setAsReadonly();
+		} elseif (is_array($value)) {
 			foreach ($value as $v) {
-				self::setValueAsReadonly($v, $recursive);
+				self::setValueAsReadonly($v);
 			}
 		}
 	}
@@ -2094,12 +2105,12 @@ final class Type extends Utility
 	 * @param object $object
 	 * <p>The object to cast.</p>
 	 * @param bool $recursive [default = false]
-	 * <p>Cast the given object to a recursive key with all the possible referenced subobjects (if applicable).</p>
+	 * <p>Cast the given object to a recursive key with all the possible referenced subobjects.</p>
 	 * @param bool|null $safe [reference output] [default = null]
 	 * <p>The safety indicator which, if set to boolean <code>true</code>, 
 	 * indicates that the returning key may be used for longer term purposes, such as internal cache keys.</p>
 	 * @return string
-	 * <p>The given object cast to a key.</p>
+	 * <p>A key cast from the given object.</p>
 	 */
 	final public static function key(object $object, bool $recursive = false, ?bool &$safe = null): string
 	{
@@ -2121,14 +2132,14 @@ final class Type extends Utility
 	 * @param mixed $value
 	 * <p>The value to cast.</p>
 	 * @param bool $recursive [default = false]
-	 * <p>Cast the given value to a recursive key with all the possible referenced subobjects (if applicable).</p>
+	 * <p>Cast the given value to a recursive key with all the possible referenced subobjects.</p>
 	 * @param bool $keyables_only [default = false]
 	 * <p>Cast key-able values only.</p>
 	 * @param bool|null $safe [reference output] [default = null]
 	 * <p>The safety indicator which, if set to boolean <code>true</code>, 
 	 * indicates that the returning key may be used for longer term purposes, such as internal cache keys.</p>
 	 * @return string|null
-	 * <p>The given value cast to a key.<br>
+	 * <p>A key cast from the given value.<br>
 	 * If <var>$keyables_only</var> is set to boolean <code>true</code>, 
 	 * then <code>null</code> is returned if it could not be cast to a key.</p>
 	 */
@@ -2137,7 +2148,7 @@ final class Type extends Utility
 	): ?string
 	{
 		$safe = null;
-		if (is_object($value) && $value instanceof IKeyable) {
+		if ($value instanceof IKeyable) {
 			return $value->toKey($recursive, $safe);
 		} elseif ($recursive && Data::evaluate($value)) {
 			//array
@@ -2193,30 +2204,26 @@ final class Type extends Utility
 	 * Check if a given value has already been persisted at least once.
 	 * 
 	 * If the given value is a persistable object, then it is checked.<br>
-	 * If the given value is an array or an object implementing the <code>Dracodeum\Kit\Interfaces\Arrayable</code> 
-	 * interface, and <var>$recursive</var> is set to boolean <code>true</code>, then it is transversed recursively, 
-	 * with every persistable object found being checked.<br>
+	 * If the given value is an array, then it is transversed recursively with every persistable object found being 
+	 * checked.<br>
 	 * <br>
 	 * For any other case, the given value is assumed to not have been persisted.
 	 * 
-	 * @see \Dracodeum\Kit\Interfaces\Arrayable
 	 * @param mixed $value
 	 * <p>The value to check.</p>
-	 * @param bool $recursive [default = false]
-	 * <p>Check if the given value has already been recursively persisted at least once.</p>
 	 * @param bool $persistables_only [default = false]
 	 * <p>Check persistable values only.</p>
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the given value has already been persisted at least once.</p>
 	 */
-	final public static function persistedValue($value, bool $recursive = false, bool $persistables_only = false): bool
+	final public static function persistedValue($value, bool $persistables_only = false): bool
 	{
-		if (is_object($value) && $value instanceof IPersistable) {
+		if ($value instanceof IPersistable) {
 			return $value->isPersisted();
-		} elseif ($recursive && Data::evaluate($value)) {
+		} elseif (is_array($value)) {
 			foreach ($value as $v) {
 				$persistable = is_object($v) && self::persistable($v);
-				if ((!$persistables_only || $persistable) && !self::persistedValue($v, true, $persistables_only)) {
+				if ((!$persistables_only || $persistable) && !self::persistedValue($v, $persistables_only)) {
 					return false;
 				}
 			}
@@ -2231,7 +2238,6 @@ final class Type extends Utility
 	 * @param object $object
 	 * <p>The object to persist.</p>
 	 * @throws \Dracodeum\Kit\Utilities\Type\Exceptions\NotPersistableObject
-	 * @return void
 	 */
 	final public static function persist(object $object): void
 	{
@@ -2246,26 +2252,21 @@ final class Type extends Utility
 	 * Persist a given value.
 	 * 
 	 * If the given value is a persistable object, then it is persisted.<br>
-	 * If the given value is an array or an object implementing the <code>Dracodeum\Kit\Interfaces\Arrayable</code> 
-	 * interface, and <var>$recursive</var> is set to boolean <code>true</code>, then it is transversed recursively, 
-	 * with every persistable object found being persisted.<br>
+	 * If the given value is an array, then it is transversed recursively with every persistable object found being 
+	 * persisted.<br>
 	 * <br>
 	 * For any other case, the given value is left as is.
 	 * 
-	 * @see \Dracodeum\Kit\Interfaces\Arrayable
 	 * @param mixed $value
 	 * <p>The value to persist.</p>
-	 * @param bool $recursive [default = false]
-	 * <p>Persist all the possible referenced subobjects recursively (if applicable).</p>
-	 * @return void
 	 */
-	final public static function persistValue($value, bool $recursive = false): void
+	final public static function persistValue($value): void
 	{
-		if (is_object($value) && $value instanceof IPersistable) {
+		if ($value instanceof IPersistable) {
 			$value->persist();
-		} elseif ($recursive && Data::evaluate($value)) {
+		} elseif (is_array($value)) {
 			foreach ($value as $v) {
-				self::persistValue($v, true);
+				self::persistValue($v);
 			}
 		}
 	}
@@ -2289,7 +2290,6 @@ final class Type extends Utility
 	 * @param object $object
 	 * <p>The object to unpersist.</p>
 	 * @throws \Dracodeum\Kit\Utilities\Type\Exceptions\NotUnpersistableObject
-	 * @return void
 	 */
 	final public static function unpersist(object $object): void
 	{
@@ -2304,26 +2304,21 @@ final class Type extends Utility
 	 * Unpersist a given value.
 	 * 
 	 * If the given value is an unpersistable object, then it is unpersisted.<br>
-	 * If the given value is an array or an object implementing the <code>Dracodeum\Kit\Interfaces\Arrayable</code> 
-	 * interface, and <var>$recursive</var> is set to boolean <code>true</code>, then it is transversed recursively, 
-	 * with every unpersistable object found being unpersisted.<br>
+	 * If the given value is an array, then it is transversed recursively with every unpersistable object found being 
+	 * unpersisted.<br>
 	 * <br>
 	 * For any other case, the given value is left as is.
 	 * 
-	 * @see \Dracodeum\Kit\Interfaces\Arrayable
 	 * @param mixed $value
 	 * <p>The value to unpersist.</p>
-	 * @param bool $recursive [default = false]
-	 * <p>Unpersist all the possible referenced subobjects recursively (if applicable).</p>
-	 * @return void
 	 */
-	final public static function unpersistValue($value, bool $recursive = false): void
+	final public static function unpersistValue($value): void
 	{
-		if (is_object($value) && $value instanceof IUnpersistable) {
+		if ($value instanceof IUnpersistable) {
 			$value->unpersist();
-		} elseif ($recursive && Data::evaluate($value)) {
+		} elseif (is_array($value)) {
 			foreach ($value as $v) {
-				self::unpersistValue($v, true);
+				self::unpersistValue($v);
 			}
 		}
 	}
@@ -2350,7 +2345,7 @@ final class Type extends Utility
 	/**
 	 * Check if all given objects or classes extend from or are of the same class as a given base object or class.
 	 * 
-	 * @param object[]|string[] $objects_classes
+	 * @param (object|string)[] $objects_classes
 	 * <p>The objects or classes to check.</p>
 	 * @param object|string $base_object_class
 	 * <p>The base object or class to check against.</p>
@@ -2374,7 +2369,7 @@ final class Type extends Utility
 	 * 
 	 * @param object|string $object_class
 	 * <p>The object or class to check.</p>
-	 * @param object[]|string[] $base_objects_classes
+	 * @param (object|string)[] $base_objects_classes
 	 * <p>The base objects or classes to check against.</p>
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the given object or class extends from or
@@ -2396,9 +2391,9 @@ final class Type extends Utility
 	/**
 	 * Check if all given objects or classes extend from or are of the same class as any given base objects or classes.
 	 * 
-	 * @param object[]|string[] $objects_classes
+	 * @param (object|string)[] $objects_classes
 	 * <p>The objects or classes to check.</p>
-	 * @param object[]|string[] $base_objects_classes
+	 * @param (object|string)[] $base_objects_classes
 	 * <p>The base objects or classes to check against.</p>
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the given objects or classes extend from or
@@ -2667,5 +2662,676 @@ final class Type extends Utility
 	{
 		$filename = self::filename($object_class);
 		return isset($filename) ? basename($filename) : null;
+	}
+	
+	/**
+	 * Normalize a given name.
+	 * 
+	 * @param string $name
+	 * <p>The name to normalize.</p>
+	 * @param int $flags
+	 * <p>The flags to normalize with, as any combination of the following:<br>
+	 * <br>
+	 * &nbsp; &#8226; &nbsp; <code>self::NORMALIZE_SHORT_NAME</code> : 
+	 * Return a short name for a class, interface or enumeration instead of the full namespaced name.<br><br>
+	 * &nbsp; &#8226; &nbsp; <code>self::NORMALIZE_NAMESPACE_LEADING_SLASH</code> : 
+	 * Return a namespace with the leading slash.</p>
+	 * @throws \LogicException
+	 * @return string
+	 * <p>The given name normalized.</p>
+	 */
+	final public static function normalize(string $name, int $flags = 0x00): string
+	{
+		static $map = [];
+		if (!isset($map[$name][$flags])) {
+			//initialize
+			$n_name = trim($name);
+			if ($n_name === '') {
+				$n_name = 'mixed';
+			}
+			
+			//info
+			$info = self::info($n_name);
+			switch ($info->kind) {
+				//generic
+				case EInfoKind::GENERIC:
+					//initialize
+					$n_name = $info->name;
+					if (!self::exists($n_name)) {
+						$n_name = strtolower($n_name);
+					} elseif ($flags & self::NORMALIZE_SHORT_NAME) {
+						$n_name = self::shortname($n_name);
+					} elseif ($flags & self::NORMALIZE_NAMESPACE_LEADING_SLASH) {
+						$n_name = '\\' . $n_name;
+					}
+					
+					//names
+					if (isset($info->names[1])) {
+						$subtypes = [];
+						for ($i = 1; $i < count($info->names); $i++) {
+							$subtypes[] = self::normalize($info->names[$i], $flags);
+						}
+						$n_name .= '<' . implode(',', $subtypes) . '>';
+						unset($subtypes);
+					}
+					
+					//flags
+					$n_flags = $info->flags;
+					static $flags_colon_chars_pattern = '/[' . self::FLAGS_REQUIRED_COLON_CHARS_PATTERN . ']/';
+					if (preg_match_all($flags_colon_chars_pattern, $n_flags, $matches)) {
+						$colon_flags = $matches[0];
+						$non_colon_flags = array_keys(
+							array_diff_key(array_flip(str_split($n_flags)), array_flip($colon_flags))
+						);
+						sort($colon_flags, SORT_STRING);
+						sort($non_colon_flags, SORT_STRING);
+						$n_flags = implode('', $colon_flags) . ':' . $non_colon_flags;
+						unset($colon_flags, $non_colon_flags);
+					}
+					$n_name = $n_flags . $n_name;
+					unset($n_flags, $matches);
+					
+					//parameters
+					if ($info->parameters) {
+						//initialize
+						$n_parameters = [];
+						static $parameter_value_escapable_chars_pattern = '/[' .
+							self::PARAMETER_VALUE_ESCAPABLE_CHARS_PATTERN . ']/';
+							
+						//process
+						$i = 0;
+						foreach ($info->parameters as $k => $v) {
+							//value
+							$n_parameter = $v;
+							if (preg_match($parameter_value_escapable_chars_pattern, $v)) {
+								$n_parameter = '"' . addcslashes($n_parameter, '"') . '"';
+							}
+							
+							//key
+							if ($k !== $i++) {
+								$n_parameter = $k . ':' . $n_parameter;
+							}
+							
+							//finalize
+							$n_parameters[] = $n_parameter;
+							unset($n_parameter);
+						}
+						
+						//finalize
+						$n_name .= '(' . implode(',', $n_parameters) . ')';
+						unset($n_parameters);
+					}
+					
+					//finalize
+					break;
+					
+				//array
+				case EInfoKind::ARRAY:
+					$n_name = self::normalize($info->name, $flags) . '[';
+					if (isset($info->parameters[0])) {
+						$n_name .= $info->parameters[0];
+					}
+					$n_name .= ']';
+					break;
+					
+				//group
+				case EInfoKind::GROUP:
+					$n_name = '(' . self::normalize($info->name, $flags) . ')';
+					break;
+					
+				//union or intersection
+				case EInfoKind::UNION:
+				case EInfoKind::INTERSECTION:
+					$n_names = [];
+					$is_union = $info->kind === EInfoKind::UNION;
+					foreach ($info->names as $i_name) {
+						$n_names[] = self::normalize($i_name, $flags);
+					}
+					$n_name = implode($is_union ? '|' : '&', $n_names);
+					unset($n_names, $is_union);
+					break;
+					
+				//default
+				default:
+					throw new LogicException("Unknown info kind \"{$info->kind}\".");
+			}
+			
+			//finalize
+			$map[$name][$flags] = $n_name;
+		}
+		return $map[$name][$flags];
+	}
+	
+	/**
+	 * Check if a given type is covariant in relation to a given base type.
+	 * 
+	 * @param string $type
+	 * <p>The type to check.</p>
+	 * @param string $base_type
+	 * <p>The base type to check against.</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the given type is covariant in relation to the given base type.</p>
+	 */
+	final public static function covariant(string $type, string $base_type): bool
+	{
+		static $map = [];
+		if (!isset($map[$type][$base_type])) {
+			//initialize
+			$t_info = self::info($type, true);
+			$bt_info = self::info($base_type, true);
+			
+			//generic
+			if ($t_info->kind === EInfoKind::GENERIC && $bt_info->kind === $t_info->kind) {
+				//initialize
+				$t = self::normalize($t_info->name);
+				$bt = self::normalize($bt_info->name);
+				$t_count = count($t_info->names);
+				$t_nullable = strpos($t_info->flags, '?') !== false;
+				$bt_nullable = strpos($bt_info->flags, '?') !== false;
+				$null_covariant = ($t === 'null' || $bt === 'null') && ($t_nullable || $bt_nullable);
+				
+				//covariant
+				$covariant = $null_covariant || $bt === 'void' || ($bt === 'mixed' && $t !== 'void') || (
+					$t_count === count($bt_info->names) && ($bt_nullable || !$t_nullable) && (
+						$t === $bt || (
+							self::exists($t) && ($bt === 'object' || (self::exists($bt) && is_a($t, $bt, true)))
+						)
+					)
+				);
+				
+				//subtypes
+				if ($covariant) {
+					for ($i = 1; $i < $t_count; $i++) {
+						if (!self::covariant($t_info->names[$i], $bt_info->names[$i])) {
+							$covariant = false;
+							break;
+						}
+					}
+				}
+				
+				//finalize
+				$map[$type][$base_type] = $covariant;
+				
+			//array
+			} elseif ($t_info->kind === EInfoKind::ARRAY && $bt_info->kind === $t_info->kind) {
+				$map[$type][$base_type] = self::covariant($t_info->name, $bt_info->name);
+				
+			//union and intersection (type)
+			} elseif (in_array($t_info->kind, [EInfoKind::UNION, EInfoKind::INTERSECTION], true)) {
+				$is_union = $t_info->kind === EInfoKind::UNION;
+				$covariant = $is_union;
+				foreach ($t_info->names as $t_name) {
+					if (self::covariant($t_name, $base_type) !== $is_union) {
+						$covariant = !$is_union;
+						break;
+					}
+				}
+				$map[$type][$base_type] = $covariant;
+				
+			//union and intersection (base type)
+			} elseif (in_array($bt_info->kind, [EInfoKind::UNION, EInfoKind::INTERSECTION], true)) {
+				$is_union = $bt_info->kind === EInfoKind::UNION;
+				$covariant = !$is_union;
+				foreach ($bt_info->names as $bt_name) {
+					if (self::covariant($type, $bt_name) === $is_union) {
+						$covariant = $is_union;
+						break;
+					}
+				}
+				$map[$type][$base_type] = $covariant;
+			
+			//other
+			} else {
+				$map[$type][$base_type] = false;
+			}
+		}
+		return $map[$type][$base_type];
+	}
+	
+	/**
+	 * Check if a given type is contravariant in relation to a given base type.
+	 * 
+	 * @param string $type
+	 * <p>The type to check.</p>
+	 * @param string $base_type
+	 * <p>The base type to check against.</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the given type is contravariant in relation to the given base type.</p>
+	 */
+	final public static function contravariant(string $type, string $base_type): bool
+	{
+		return self::covariant($base_type, $type);
+	}
+	
+	/**
+	 * Cast a given value.
+	 * 
+	 * @param mixed $value
+	 * The value to cast.
+	 * 
+	 * @param coercible<\Dracodeum\Kit\Components\Type> $type
+	 * The type to cast with.
+	 * 
+	 * @param array $properties
+	 * The properties to cast with, as a set of `name => value` pairs.  
+	 * Required properties may also be given as an array of values (`[value1, value2, ...]`), 
+	 * in the same order as how these properties were first declared.
+	 * 
+	 * @param coercible<enum<\Dracodeum\Kit\Components\Type\Enumerations\Context>> $context
+	 * The context to cast for.
+	 * 
+	 * @param bool $no_throw
+	 * Do not throw an exception.
+	 * 
+	 * @throws \Dracodeum\Kit\Components\Type\Exceptions\CastFailed
+	 * 
+	 * @return mixed
+	 * The given value cast.  
+	 * If `$no_throw` is set to boolean `true`, then `null` is returned if the given value failed to be cast.
+	 */
+	final public static function cast(
+		mixed $value, $type, array $properties = [], $context = EContext::INTERNAL, bool $no_throw = false
+	): mixed
+	{
+		if (!($type instanceof Component)) {
+			$type = Component::build($type, $properties);
+		}
+		return $type->processCast($value, $context, $no_throw);
+	}
+	
+	/**
+	 * Coerce a given value.
+	 * 
+	 * @param mixed $value
+	 * The value to coerce.
+	 * 
+	 * @param coercible<\Dracodeum\Kit\Components\Type> $type
+	 * The type to coerce with.
+	 * 
+	 * @param array $properties
+	 * The properties to coerce with, as a set of `name => value` pairs.  
+	 * Required properties may also be given as an array of values (`[value1, value2, ...]`), 
+	 * in the same order as how these properties were first declared.
+	 * 
+	 * @param coercible<enum<\Dracodeum\Kit\Components\Type\Enumerations\Context>> $context
+	 * The context to coerce for.
+	 * 
+	 * @param bool $no_throw
+	 * Do not throw an exception.
+	 * 
+	 * @throws \Dracodeum\Kit\Components\Type\Exceptions\CoercionFailed
+	 * 
+	 * @return bool
+	 * Boolean `true` is always returned if the given value is successfully coerced, otherwise an exception is thrown, 
+	 * unless `$no_throw` is set to boolean `true`, in which case boolean `false` is returned instead.
+	 */
+	final public static function coerce(
+		mixed &$value, $type, array $properties = [], $context = EContext::INTERNAL, bool $no_throw = false
+	): bool
+	{
+		if (!($type instanceof Component)) {
+			$type = Component::build($type, $properties);
+		}
+		return $type->processCoercion2($value, $context, $no_throw);
+	}
+	
+	/**
+	 * Textify a given value.
+	 * 
+	 * @param mixed $value
+	 * The value to textify.
+	 * 
+	 * @param coercible<\Dracodeum\Kit\Components\Type>|null $type
+	 * The type to textify with.
+	 * 
+	 * @param array $properties
+	 * The properties to textify with, as a set of `name => value` pairs.  
+	 * Required properties may also be given as an array of values (`[value1, value2, ...]`), 
+	 * in the same order as how these properties were first declared.
+	 * 
+	 * @param coercible<enum<\Dracodeum\Kit\Components\Type\Enumerations\Context>> $context
+	 * The context to textify for.
+	 * 
+	 * @param bool $no_throw
+	 * Do not throw an exception.
+	 * 
+	 * @throws \Dracodeum\Kit\Components\Type\Exceptions\TextificationFailed
+	 * 
+	 * @return \Dracodeum\Kit\Primitives\Text|null
+	 * The given value textified, as a text instance.  
+	 * If `$no_throw` is set to boolean `true`, then `null` is returned if the given value failed to be textified.
+	 */
+	final public static function textify(
+		mixed $value, $type = null, array $properties = [], $context = EContext::INTERNAL, bool $no_throw = false
+	): ?TextPrimitive
+	{
+		if (!($type instanceof Component)) {
+			if ($type === null) {
+				//type
+				$type_name = gettype($value);
+				$type = match ($type_name) {
+					'boolean', 'integer', 'double', 'string', 'array', 'object', 'resource' => $type_name,
+					'resource (closed)' => 'resource',
+					default => 'mixed'
+				};
+				
+				//array
+				if ($type === 'array') {
+					$properties += ['non_associative' => !Data::associative($value)];
+				}
+			}
+			$type = Component::build($type, $properties);
+		}
+		return $type->textify($value, $context, $no_throw);
+	}
+	
+	/**
+	 * Get info instance from a given name.
+	 * 
+	 * @param string $name
+	 * The name to get from.
+	 * 
+	 * @param bool $degroup
+	 * Return an info instance with the given name already degrouped.
+	 * 
+	 * @param \Dracodeum\Kit\Enums\Error\Type $error_type
+	 * The type of error to return if an error occurs.
+	 * 
+	 * @throws \Dracodeum\Kit\Utilities\Type\Exceptions\Info\InvalidName
+	 * 
+	 * @return \Dracodeum\Kit\Utilities\Type\Info|\Dracodeum\Kit\Primitives\Error|null
+	 * An info instance from the given name.  
+	 * If an error occurs, then the returning value follows the behavior set through `$error_type` instead.
+	 */
+	final public static function info(
+		string $name, bool $degroup = false, EErrorType $error_type = EErrorType::THROWABLE
+	): Info|Error|null
+	{
+		//name
+		$name = trim($name);
+		if ($name === '') {
+			return match ($error_type) {
+				EErrorType::NULL => null,
+				default => $error_type->handleThrowable(
+					new Exceptions\Info\InvalidName([$name, 'error_message' => "Cannot be empty."])
+				)
+			};
+		}
+		
+		//memoization
+		static $infos = [];
+		if (isset($infos[$name][$degroup])) {
+			return $infos[$name][$degroup];
+		}
+		
+		//initialize
+		static $type_delimiter = self::INNER_DELIMITER;
+		static $union_delimiter = '|';
+		static $intersection_delimiter = '&';
+		static $parameter_delimiter = self::INNER_DELIMITER;
+		static $split_flags = PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY;
+		
+		//patterns
+		static $name_pattern = '[a-z_]\w*(?:\.[a-z_]\w*)*';
+		static $base_pattern = "(?:{$name_pattern}|\\\\?[a-z_]\w*(?:\\\\[a-z_]\w*)*)";
+		static $flags_pattern = '(?:(?:\w\s*)+:)?(?:[^' . self::FLAGS_REQUIRED_COLON_CHARS_PATTERN . ']+)?';
+		static $quoted_pattern = '"(?:\\\\.|[^"])*"';
+		static $unnested_pattern = "(?:{$quoted_pattern}|\\\\.|[^()<>\"])";
+		static $parameter_value_pattern = "(?:{$quoted_pattern}|(?:\\\\.|[^" .
+			self::PARAMETER_VALUE_ESCAPABLE_CHARS_PATTERN . "])+)";
+		static $parameter_pattern = "(?:{$name_pattern}\s*:\s*)?{$parameter_value_pattern}";
+		static $parameters_pattern = "{$parameter_pattern}(?:\s*{$parameter_delimiter}\s*{$parameter_pattern})*";
+		
+		//match patterns
+		static $match_array_pattern = '/\S\s*(\[\s*(?P<size>\d+)?\s*\])$/';
+		static $match_group_pattern = "/^(\((?:{$quoted_pattern}|\\\\.|[^()\"]|(?1))*\))$/si";
+		static $match_generic_pattern = "/^" .
+			"(?P<flags>{$flags_pattern})?" .
+			"(?P<base>{$base_pattern})" .
+			"(?:\s*\(\s*(?P<parameters>{$parameters_pattern})?\s*\))?" .
+			"(?:\s*<(?P<types>.+)>)?" .
+			"$/si";
+		static $match_type_non_pattern = "/^(?:\(\s*(?!\))|[{$type_delimiter})<>\"])+$/";
+		static $match_parameter_pattern = "/^(?:(?P<name>{$name_pattern})\s*:\s*)?" .
+			"(?P<value>{$parameter_value_pattern})$/si";
+		
+		//split patterns
+		static $split_parameter_pattern = "/\s*({$parameter_pattern})\s*/si";
+		static $split_delimiter_patterns = [];
+		if (!$split_delimiter_patterns) {
+			foreach ([$type_delimiter, $union_delimiter, $intersection_delimiter] as $delimiter) {
+				$split_delimiter_patterns[$delimiter] = "/((?:" .
+					"(?:{$quoted_pattern}|\\\\.|[^{$delimiter}()<>\"])+|" .
+					"(\((?:{$unnested_pattern}|(?2)|(?3))*\))|" .
+					"(<(?:{$unnested_pattern}|(?2)|(?3))*>)" .
+				")+)/si";
+			}
+		}
+		static $split_type_pattern = $split_delimiter_patterns[$type_delimiter];
+		
+		//group
+		if (preg_match($match_group_pattern, $name)) {
+			//name
+			$group_name = trim(substr($name, 1, -1));
+			if ($group_name === '') {
+				return match ($error_type) {
+					EErrorType::NULL => null,
+					default => $error_type->handleThrowable(
+						new Exceptions\Info\InvalidName([$name, 'error_message' => "Cannot have an empty group."])
+					)
+				};
+			}
+			
+			//info
+			$info = $degroup ? self::info($group_name, true, $error_type) : new Info(EInfoKind::GROUP, [$group_name]);
+			if ($info instanceof Info) {
+				$infos[$name][$degroup] = $info;
+			}
+			return $info;
+		}
+		
+		//union and intersection
+		static $delimiters_kinds = [
+			$union_delimiter => EInfoKind::UNION,
+			$intersection_delimiter => EInfoKind::INTERSECTION
+		];
+		foreach ($delimiters_kinds as $delimiter => $kind) {
+			//process
+			$names = [];
+			$delimited = true;
+			$split_pattern = $split_delimiter_patterns[$delimiter];
+			foreach (preg_split($split_pattern, $name, flags: $split_flags) as $s) {
+				$s = trim($s);
+				if ($s === '' || ($s === $delimiter && $delimited)) {
+					return match ($error_type) {
+						EErrorType::NULL => null,
+						default => $error_type->handleThrowable(
+							new Exceptions\Info\InvalidName([
+								$name, 'error_message' => "Cannot have blanks within a union or intersection."
+							])
+						)
+					};
+				} elseif ($s === $delimiter) {
+					$delimited = true;
+				} elseif ($delimited) {
+					$names[] = $s;
+					$delimited = false;
+				}
+			}
+			
+			//error
+			if ($delimited && $names) {
+				return match ($error_type) {
+					EErrorType::NULL => null,
+					default => $error_type->handleThrowable(
+						new Exceptions\Info\InvalidName([
+							$name,
+							'error_message' => "Cannot have a union or intersection ending with a trailing operator."
+						])
+					)
+				};
+			}
+			
+			//finalize
+			if (count($names) > 1) {
+				$info = $infos[$name][false] = $infos[$name][true] = new Info($kind, $names);
+				return $info;
+			}
+		}
+		
+		//array
+		if (preg_match($match_array_pattern, $name, $matches)) {
+			//parameters
+			$parameters = [];
+			$size = $matches['size'] ?? '';
+			if ($size !== '') {
+				$parameters[] = (int)$size;
+			}
+			
+			//finalize
+			$info = $infos[$name][false] = $infos[$name][true] = new Info(
+				EInfoKind::ARRAY, [trim(substr($name, 0, -strlen($matches[1])))], parameters: $parameters
+			);
+			return $info;
+		}
+		
+		//generic
+		if (preg_match($match_generic_pattern, $name, $matches)) {
+			//initialize
+			$names = [$matches['base']];
+			
+			//flags
+			$flags = preg_replace('/[\s:]/', '', $matches['flags'] ?? '');
+			if (strlen(count_chars($flags, 3)) !== strlen($flags)) {
+				return match ($error_type) {
+					EErrorType::NULL => null,
+					default => $error_type->handleThrowable(
+						new Exceptions\Info\InvalidName([$name, 'error_message' => "Cannot have duplicated flags."])
+					)
+				};
+			}
+			
+			//parameters
+			$parameters = [];
+			$delimited = true;
+			foreach (preg_split($split_parameter_pattern, $matches['parameters'] ?? '', flags: $split_flags) as $s) {
+				$s = trim($s);
+				if ($s === '' || ($s === $parameter_delimiter && $delimited)) {
+					return match ($error_type) {
+						EErrorType::NULL => null,
+						default => $error_type->handleThrowable(
+							new Exceptions\Info\InvalidName([$name, 'error_message' => "Cannot have blank parameters."])
+						)
+					};
+				} elseif ($s === $parameter_delimiter) {
+					$delimited = true;
+				} elseif ($delimited) {
+					if (preg_match($match_parameter_pattern, $s, $parameter_matches)) {
+						//initialize
+						$parameter_name = trim($parameter_matches['name'] ?? '');
+						$parameter_value = trim($parameter_matches['value']);
+						if ($parameter_value[0] === '"') {
+							$parameter_value = substr($parameter_value, 1, -1);
+						}
+						$parameter_value = stripcslashes($parameter_value);
+						
+						//parameter
+						if ($parameter_name !== '') {
+							if (isset($parameters[$parameter_name])) {
+								return match ($error_type) {
+									EErrorType::NULL => null,
+									default => $error_type->handleThrowable(
+										new Exceptions\Info\InvalidName([
+											$name, 'error_message' => "Cannot have duplicated parameters."
+										])
+									)
+								};
+							}
+							$parameters[$parameter_name] = $parameter_value;
+						} else {
+							$parameters[] = $parameter_value;
+						}
+						
+						//finalize
+						$delimited = false;
+						unset($parameter_name, $parameter_value, $parameter_matches);
+					} else {
+						return match ($error_type) {
+							EErrorType::NULL => null,
+							default => $error_type->handleThrowable(
+								new Exceptions\Info\InvalidName([
+									$name, 'error_message' => "One or more malformed parameters were given."
+								])
+							)
+						};
+					}
+				}
+			}
+			
+			//parameters (finalize)
+			ksort($parameters);
+			if ($delimited && $parameters) {
+				return match ($error_type) {
+					EErrorType::NULL => null,
+					default => $error_type->handleThrowable(
+						new Exceptions\Info\InvalidName([
+							$name, 'error_message' => "Cannot have parameters ending with a trailing comma."
+						])
+					)
+				};
+			}
+			
+			//types
+			$delimited = true;
+			foreach (preg_split($split_type_pattern, $matches['types'] ?? '', flags: $split_flags) as $s) {
+				$s = trim($s);
+				if ($s === '' || ($s === $type_delimiter && $delimited)) {
+					return match ($error_type) {
+						EErrorType::NULL => null,
+						default => $error_type->handleThrowable(
+							new Exceptions\Info\InvalidName([$name, 'error_message' => "Cannot have blank types."])
+						)
+					};
+				} elseif ($s === $type_delimiter) {
+					$delimited = true;
+				} elseif (preg_match($match_type_non_pattern, $s)) {
+					return match ($error_type) {
+						EErrorType::NULL => null,
+						default => $error_type->handleThrowable(
+							new Exceptions\Info\InvalidName([
+								$name, 'error_message' => "At least one malformed type was found."
+							])
+						)
+					};
+				} elseif ($delimited) {
+					$names[] = $s;
+					$delimited = false;
+				}
+			}
+			
+			//types (finalize)
+			if ($delimited && isset($names[1])) {
+				return match ($error_type) {
+					EErrorType::NULL => null,
+					default => $error_type->handleThrowable(
+						new Exceptions\Info\InvalidName([
+							$name, 'error_message' => "Cannot have types ending with a trailing comma."
+						])
+					)
+				};
+			}
+			
+			//return
+			$info = $infos[$name][false] = $infos[$name][true] = new Info(
+				EInfoKind::GENERIC, $names, $flags, $parameters
+			);
+			return $info;
+		}
+		
+		//error
+		return match ($error_type) {
+			EErrorType::NULL => null,
+			default => $error_type->handleThrowable(new Exceptions\Info\InvalidName([$name]))
+		};
 	}
 }

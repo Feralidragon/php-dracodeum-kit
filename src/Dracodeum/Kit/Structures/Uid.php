@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @author Cláudio "Feralidragon" Luís <claudio.luis@aptoide.com>
+ * @author Cláudio "Feralidragon" Luís <claudioluis8@gmail.com>
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
@@ -132,9 +132,9 @@ class Uid extends Structure implements ILogEventData
 	 * Only the following types and formats can be evaluated into an ID:<br>
 	 * &nbsp; &#8226; &nbsp; an integer or string;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>__toString</code> method;<br>
-	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Stringifiable</code> interface.
+	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Stringable</code> interface.
 	 * 
-	 * @see \Dracodeum\Kit\Interfaces\Stringifiable
+	 * @see \Dracodeum\Kit\Interfaces\Stringable
 	 * @param mixed $value [reference]
 	 * <p>The value to evaluate (validate and sanitize).</p>
 	 * @param bool $nullable [default = false]
@@ -153,9 +153,9 @@ class Uid extends Structure implements ILogEventData
 	 * Only the following types and formats can be coerced into an ID:<br>
 	 * &nbsp; &#8226; &nbsp; an integer or string;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>__toString</code> method;<br>
-	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Stringifiable</code> interface.
+	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Stringable</code> interface.
 	 * 
-	 * @see \Dracodeum\Kit\Interfaces\Stringifiable
+	 * @see \Dracodeum\Kit\Interfaces\Stringable
 	 * @param mixed $value
 	 * <p>The value to coerce (validate and sanitize).</p>
 	 * @param bool $nullable [default = false]
@@ -177,9 +177,9 @@ class Uid extends Structure implements ILogEventData
 	 * Only the following types and formats can be coerced into an ID:<br>
 	 * &nbsp; &#8226; &nbsp; an integer or string;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>__toString</code> method;<br>
-	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Stringifiable</code> interface.
+	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Stringable</code> interface.
 	 * 
-	 * @see \Dracodeum\Kit\Interfaces\Stringifiable
+	 * @see \Dracodeum\Kit\Interfaces\Stringable
 	 * @param mixed $value [reference]
 	 * <p>The value to process (validate and sanitize).</p>
 	 * @param bool $nullable [default = false]
@@ -230,7 +230,7 @@ class Uid extends Structure implements ILogEventData
 			'error_message' => "Only the following types and formats can be coerced into an ID:\n" . 
 				" - an integer or string;\n" . 
 				" - an object implementing the \"__toString\" method;\n" . 
-				" - an object implementing the \"Dracodeum\\Kit\\Interfaces\\Stringifiable\" interface."
+				" - an object implementing the \"Dracodeum\\Kit\\Interfaces\\Stringable\" interface."
 		]);
 	}
 	
@@ -240,9 +240,9 @@ class Uid extends Structure implements ILogEventData
 	 * Only the following types and formats can be evaluated into a scope ID:<br>
 	 * &nbsp; &#8226; &nbsp; an integer or string;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>__toString</code> method;<br>
-	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Stringifiable</code> interface.
+	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Stringable</code> interface.
 	 * 
-	 * @see \Dracodeum\Kit\Interfaces\Stringifiable
+	 * @see \Dracodeum\Kit\Interfaces\Stringable
 	 * @param string $name
 	 * <p>The name to evaluate with.</p>
 	 * @param mixed $value [reference]
@@ -264,9 +264,9 @@ class Uid extends Structure implements ILogEventData
 	 * Only the following types and formats can be coerced into a scope ID:<br>
 	 * &nbsp; &#8226; &nbsp; an integer or string;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>__toString</code> method;<br>
-	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Stringifiable</code> interface.
+	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Stringable</code> interface.
 	 * 
-	 * @see \Dracodeum\Kit\Interfaces\Stringifiable
+	 * @see \Dracodeum\Kit\Interfaces\Stringable
 	 * @param string $name
 	 * <p>The name to coerce with.</p>
 	 * @param mixed $value
@@ -290,9 +290,9 @@ class Uid extends Structure implements ILogEventData
 	 * Only the following types and formats can be coerced into a scope ID:<br>
 	 * &nbsp; &#8226; &nbsp; an integer or string;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>__toString</code> method;<br>
-	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Stringifiable</code> interface.
+	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Stringable</code> interface.
 	 * 
-	 * @see \Dracodeum\Kit\Interfaces\Stringifiable
+	 * @see \Dracodeum\Kit\Interfaces\Stringable
 	 * @param string $name
 	 * <p>The name to process with.</p>
 	 * @param mixed $value [reference]
@@ -331,10 +331,10 @@ class Uid extends Structure implements ILogEventData
 	 * Only the following types and formats can be evaluated into scope IDs:<br>
 	 * &nbsp; &#8226; &nbsp; an array of integers or strings;<br>
 	 * &nbsp; &#8226; &nbsp; an array of objects implementing the <code>__toString</code> method;<br>
-	 * &nbsp; &#8226; &nbsp; an array of objects implementing the <code>Dracodeum\Kit\Interfaces\Stringifiable</code> 
+	 * &nbsp; &#8226; &nbsp; an array of objects implementing the <code>Dracodeum\Kit\Interfaces\Stringable</code> 
 	 * interface.
 	 * 
-	 * @see \Dracodeum\Kit\Interfaces\Stringifiable
+	 * @see \Dracodeum\Kit\Interfaces\Stringable
 	 * @param array $values [reference]
 	 * <p>The set of values to evaluate (validate and sanitize).</p>
 	 * @return bool
@@ -351,14 +351,14 @@ class Uid extends Structure implements ILogEventData
 	 * Only the following types and formats can be coerced into scope IDs:<br>
 	 * &nbsp; &#8226; &nbsp; an array of integers or strings;<br>
 	 * &nbsp; &#8226; &nbsp; an array of objects implementing the <code>__toString</code> method;<br>
-	 * &nbsp; &#8226; &nbsp; an array of objects implementing the <code>Dracodeum\Kit\Interfaces\Stringifiable</code> 
+	 * &nbsp; &#8226; &nbsp; an array of objects implementing the <code>Dracodeum\Kit\Interfaces\Stringable</code> 
 	 * interface.
 	 * 
-	 * @see \Dracodeum\Kit\Interfaces\Stringifiable
+	 * @see \Dracodeum\Kit\Interfaces\Stringable
 	 * @param array $values
 	 * <p>The set of values to coerce (validate and sanitize).</p>
 	 * @throws \Dracodeum\Kit\Structures\Uid\Exceptions\ScopeIdCoercionFailed
-	 * @return int[]|string[]
+	 * @return (int|string)[]
 	 * <p>The given set of values coerced into a set of scope IDs.</p>
 	 */
 	final public static function coerceScopeIds(array $values): array
@@ -373,10 +373,10 @@ class Uid extends Structure implements ILogEventData
 	 * Only the following types and formats can be coerced into scope IDs:<br>
 	 * &nbsp; &#8226; &nbsp; an array of integers or strings;<br>
 	 * &nbsp; &#8226; &nbsp; an array of objects implementing the <code>__toString</code> method;<br>
-	 * &nbsp; &#8226; &nbsp; an array of objects implementing the <code>Dracodeum\Kit\Interfaces\Stringifiable</code> 
+	 * &nbsp; &#8226; &nbsp; an array of objects implementing the <code>Dracodeum\Kit\Interfaces\Stringable</code> 
 	 * interface.
 	 * 
-	 * @see \Dracodeum\Kit\Interfaces\Stringifiable
+	 * @see \Dracodeum\Kit\Interfaces\Stringable
 	 * @param array $values [reference]
 	 * <p>The set of values to process (validate and sanitize).</p>
 	 * @param bool $no_throw [default = false]

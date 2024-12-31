@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @author Cláudio "Feralidragon" Luís <claudio.luis@aptoide.com>
+ * @author Cláudio "Feralidragon" Luís <claudioluis8@gmail.com>
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
@@ -11,12 +11,6 @@ use Dracodeum\Kit\Factory\Builder;
 use Dracodeum\Kit\Components\Input\Factories\Component\Builder\Interfaces\Filter as IBuilder;
 use Dracodeum\Kit\Components\Input\Components\Modifiers\Filter as Component;
 
-/**
- * This builder is used to build filter instances.
- * 
- * @see \Dracodeum\Kit\Components\Input\Components\Modifiers\Filter
- * [object]
- */
 class Filter extends Builder implements IBuilder
 {
 	//Implemented public methods (Dracodeum\Kit\Components\Input\Factories\Component\Builder\Interfaces\Filter)

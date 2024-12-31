@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @author Cláudio "Feralidragon" Luís <claudio.luis@aptoide.com>
+ * @author Cláudio "Feralidragon" Luís <claudioluis8@gmail.com>
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
@@ -13,7 +13,7 @@ use Dracodeum\Kit\Interfaces\{
 	Arrayable as IArrayable,
 	Keyable as IKeyable,
 	Readonlyable as IReadonlyable,
-	Stringifiable as IStringifiable,
+	Stringable as IStringable,
 	IntegerInstantiable as IIntegerInstantiable,
 	FloatInstantiable as IFloatInstantiable,
 	StringInstantiable as IStringInstantiable,
@@ -26,8 +26,7 @@ use Dracodeum\Kit\Structure\{
 	Traits,
 	Exceptions
 };
-use Dracodeum\Kit\Traits as KitTraits;
-use Dracodeum\Kit\Options\Text as TextOptions;
+use Dracodeum\Kit\Traits as KTraits;
 use Dracodeum\Kit\Utilities\{
 	Call as UCall,
 	Data as UData,
@@ -54,19 +53,19 @@ use Dracodeum\Kit\Utilities\{
  */
 abstract class Structure
 implements IDebugInfo, IDebugInfoProcessor, IProperties, \ArrayAccess, IArrayable, IKeyable, \JsonSerializable,
-IReadonlyable, IStringifiable, IIntegerInstantiable, IFloatInstantiable, IStringInstantiable, ICallableInstantiable,
+IReadonlyable, IStringable, IIntegerInstantiable, IFloatInstantiable, IStringInstantiable, ICallableInstantiable,
 IArrayInstantiable, ICloneable
 {
 	//Traits
-	use KitTraits\DebugInfo;
-	use KitTraits\DebugInfo\ReadonlyPropertiesDumpProcessor;
-	use KitTraits\Properties;
-	use KitTraits\Properties\Arrayable;
-	use KitTraits\Properties\ArrayAccess;
-	use KitTraits\Properties\Keyable;
-	use KitTraits\Readonly;
-	use KitTraits\Stringifiable;
-	use KitTraits\CloneableOnly;
+	use KTraits\DebugInfo;
+	use KTraits\DebugInfo\ReadonlyPropertiesDumpProcessor;
+	use KTraits\Properties;
+	use KTraits\Properties\Arrayable;
+	use KTraits\Properties\ArrayAccess;
+	use KTraits\Properties\Keyable;
+	use KTraits\TReadonly;
+	use KTraits\Stringable;
+	use KTraits\CloneableOnly;
 	use Traits\DefaultBuilder;
 	use Traits\PropertiesInitializer;
 	use Traits\IntegerPropertiesExtractor;
@@ -94,41 +93,31 @@ IArrayInstantiable, ICloneable
 		);
 		
 		//read-only
-		$this->addReadonlyCallback(function (bool $recursive): void {
-			//properties
+		$this->addReadonlyCallback(function (): void {
 			$this->setPropertiesAsReadonly();
-			
-			//recursive
-			if ($recursive) {
-				UType::setValueAsReadonly($this->getAll(true), $recursive);
-			}
 		});
 	}
 	
 	
 	
 	//Abstract protected methods
-	/**
-	 * Load properties.
-	 * 
-	 * @return void
-	 */
+	/** Load properties. */
 	abstract protected function loadProperties(): void;
 	
 	
 	
 	//Implemented final public methods (JsonSerializable)
 	/** {@inheritdoc} */
-	final public function jsonSerialize()
+	final public function jsonSerialize(): mixed
 	{
 		return $this->getAll();
 	}
 	
 	
 	
-	//Implemented public methods (Dracodeum\Kit\Interfaces\Stringifiable)
+	//Implemented public methods (Dracodeum\Kit\Interfaces\Stringable)
 	/** {@inheritdoc} */
-	public function toString(?TextOptions $text_options = null): string
+	public function toString($text_options = null): string
 	{
 		return UText::stringify($this->getAll(), $text_options);
 	}
@@ -182,10 +171,9 @@ IArrayInstantiable, ICloneable
 	
 	//Implemented final public methods (Dracodeum\Kit\Interfaces\Cloneable)
 	/** {@inheritdoc} */
-	final public function clone(bool $recursive = false): object
+	final public function clone(): object
 	{
-		$properties = $this->getAllInitializeable(true);
-		return new static($recursive ? UType::cloneValue($properties, $recursive) : $properties);
+		return new static($this->getAllInitializeable(true));
 	}
 	
 	
@@ -292,11 +280,8 @@ IArrayInstantiable, ICloneable
 	 * @see \Dracodeum\Kit\Interfaces\Arrayable
 	 * @param mixed $value [reference]
 	 * <p>The value to evaluate (validate and sanitize).</p>
-	 * @param bool|null $clone_recursive [default = null]
-	 * <p>Clone the given value recursively.<br>
-	 * If set to boolean <code>false</code> and an instance is given, then clone it into a new one with the same 
-	 * properties, but not recursively.<br>
-	 * If not set, then the given value is not cloned.</p>
+	 * @param bool $clone [default = false]
+	 * <p>If an instance is given, then clone it into a new one with the same properties.</p>
 	 * @param callable|null $builder [default = null]
 	 * <p>The function to use to build an instance with a given set of properties.<br>
 	 * It is expected to be compatible with the following signature:<br>
@@ -317,10 +302,10 @@ IArrayInstantiable, ICloneable
 	 * <p>Boolean <code>true</code> if the given value was successfully evaluated into an instance.</p>
 	 */
 	final public static function evaluate(
-		&$value, ?bool $clone_recursive = null, ?callable $builder = null, bool $nullable = false
+		&$value, bool $clone = false, ?callable $builder = null, bool $nullable = false
 	): bool
 	{
-		return self::processCoercion($value, $clone_recursive, $builder, $nullable, true);
+		return self::processCoercion($value, $clone, $builder, $nullable, true);
 	}
 	
 	/**
@@ -334,11 +319,8 @@ IArrayInstantiable, ICloneable
 	 * @see \Dracodeum\Kit\Interfaces\Arrayable
 	 * @param mixed $value
 	 * <p>The value to coerce (validate and sanitize).</p>
-	 * @param bool|null $clone_recursive [default = null]
-	 * <p>Clone the given value recursively.<br>
-	 * If set to boolean <code>false</code> and an instance is given, then clone it into a new one with the same 
-	 * properties, but not recursively.<br>
-	 * If not set, then the given value is not cloned.</p>
+	 * @param bool $clone [default = false]
+	 * <p>If an instance is given, then clone it into a new one with the same properties.</p>
 	 * @param callable|null $builder [default = null]
 	 * <p>The function to use to build an instance with a given set of properties.<br>
 	 * It is expected to be compatible with the following signature:<br>
@@ -361,10 +343,10 @@ IArrayInstantiable, ICloneable
 	 * If nullable, then <code>null</code> may also be returned.</p>
 	 */
 	final public static function coerce(
-		$value, ?bool $clone_recursive = null, ?callable $builder = null, bool $nullable = false
+		$value, bool $clone = false, ?callable $builder = null, bool $nullable = false
 	): ?Structure
 	{
-		self::processCoercion($value, $clone_recursive, $builder, $nullable);
+		self::processCoercion($value, $clone, $builder, $nullable);
 		return $value;
 	}
 	
@@ -379,11 +361,8 @@ IArrayInstantiable, ICloneable
 	 * @see \Dracodeum\Kit\Interfaces\Arrayable
 	 * @param mixed $value [reference]
 	 * <p>The value to process (validate and sanitize).</p>
-	 * @param bool|null $clone_recursive [default = null]
-	 * <p>Clone the given value recursively.<br>
-	 * If set to boolean <code>false</code> and an instance is given, then clone it into a new one with the same 
-	 * properties, but not recursively.<br>
-	 * If not set, then the given value is not cloned.</p>
+	 * @param bool $clone [default = false]
+	 * <p>If an instance is given, then clone it into a new one with the same properties.</p>
 	 * @param callable|null $builder [default = null]
 	 * <p>The function to use to build an instance with a given set of properties.<br>
 	 * It is expected to be compatible with the following signature:<br>
@@ -407,8 +386,7 @@ IArrayInstantiable, ICloneable
 	 * <p>Boolean <code>true</code> if the given value was successfully coerced into an instance.</p>
 	 */
 	final public static function processCoercion(
-		&$value, ?bool $clone_recursive = null, ?callable $builder = null, bool $nullable = false,
-		bool $no_throw = false
+		&$value, bool $clone = false, ?callable $builder = null, bool $nullable = false, bool $no_throw = false
 	): bool
 	{
 		//builder
@@ -435,9 +413,6 @@ IArrayInstantiable, ICloneable
 					$properties = static::getStringProperties($value);
 				} elseif (is_array($value)) {
 					$properties = $value;
-					if ($clone_recursive === true) {
-						$properties = UType::cloneValue($properties, true);
-					}
 				} elseif (is_callable($value)) {
 					$properties = static::getCallableProperties($value);
 				}
@@ -447,21 +422,13 @@ IArrayInstantiable, ICloneable
 				$instance = $value;
 				if ($instance instanceof Structure) {
 					if (!UType::isA($instance, static::class)) {
-						$properties = $instance->getAll(true);
-						if ($clone_recursive === true) {
-							$properties = UType::cloneValue($properties, true);
-						}
-						$value = UType::coerceObject($builder($properties), static::class);
-					} elseif ($clone_recursive !== null) {
-						$value = $value->clone($clone_recursive);
+						$value = UType::coerceObject($builder($instance->getAll(true)), static::class);
+					} elseif ($clone) {
+						$value = $value->clone();
 					}
 					return true;
 				} elseif (UData::evaluate($instance)) {
-					$properties = $instance;
-					if ($clone_recursive === true) {
-						$properties = UType::cloneValue($properties, true);
-					}
-					$value = UType::coerceObject($builder($properties), static::class);
+					$value = UType::coerceObject($builder($instance), static::class);
 					return true;
 				}
 			}

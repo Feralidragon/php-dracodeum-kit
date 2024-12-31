@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @author Cláudio "Feralidragon" Luís <claudio.luis@aptoide.com>
+ * @author Cláudio "Feralidragon" Luís <claudioluis8@gmail.com>
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
@@ -35,6 +35,9 @@ final class System implements IUninstantiable
 	
 	
 	//Private static properties
+	/** @var bool */
+	private static $framework = false;
+	
 	/** @var \Dracodeum\Kit\Root\System\Components\Environment|null */
 	private static $environment = null;
 	
@@ -47,6 +50,28 @@ final class System implements IUninstantiable
 	
 	
 	//Final public static methods
+	/**
+	 * Set as framework.
+	 * 
+	 * When set as a framework, this package will act as the main framework for the entire application, 
+	 * thus global PHP settings (such as ones set through <code>ini_set</code> calls) will be affected and modified.
+	 */
+	final public static function setAsFramework(): void
+	{
+		self::$framework = true;
+	}
+	
+	/**
+	 * Check if is set as a framework.
+	 * 
+	 * @return bool
+	 * <p>Boolean <code>true</code> if is set as a framework.</p>
+	 */
+	final public static function isFramework(): bool
+	{
+		return self::$framework;
+	}
+	
 	/**
 	 * Get environment instance.
 	 * 
@@ -63,7 +88,6 @@ final class System implements IUninstantiable
 	 * 
 	 * @param \Dracodeum\Kit\Root\System\Components\Environment|\Dracodeum\Kit\Root\System\Prototypes\Environment|string $environment
 	 * <p>The environment component instance, or prototype instance, class or name, to set.</p>
-	 * @return void
 	 */
 	final public static function setEnvironment($environment): void
 	{
@@ -148,7 +172,7 @@ final class System implements IUninstantiable
 		]);
 		
 		//check
-		if (Vendor::isLibrary()) {
+		if (!self::isFramework()) {
 			if ($no_throw) {
 				return false;
 			}
@@ -186,11 +210,10 @@ final class System implements IUninstantiable
 	 * @see https://php.net/manual/en/errorfunc.constants.php
 	 * @param int $flags
 	 * <p>The flags to set.</p>
-	 * @return void
 	 */
 	final public static function setErrorReportingFlags(int $flags): void
 	{
-		if (!Vendor::isLibrary()) {
+		if (self::isFramework()) {
 			error_reporting($flags);
 		}
 	}
@@ -213,7 +236,7 @@ final class System implements IUninstantiable
 			if ($no_throw) {
 				return null;
 			}
-			throw new Exceptions\HostnameNotSet();
+			throw new Exceptions\HostnameNotSet;
 		}
 		return $hostname;
 	}
@@ -249,7 +272,7 @@ final class System implements IUninstantiable
 		if ($no_throw) {
 			return null;
 		}
-		throw new Exceptions\IpAddressNotSet();
+		throw new Exceptions\IpAddressNotSet;
 	}
 	
 	/**
@@ -270,7 +293,7 @@ final class System implements IUninstantiable
 			if ($no_throw) {
 				return null;
 			}
-			throw new Exceptions\HostNotSet();
+			throw new Exceptions\HostNotSet;
 		}
 		return $host;
 	}
@@ -290,7 +313,7 @@ final class System implements IUninstantiable
 				'release' => php_uname('r'),
 				'information' => php_uname('v'),
 				'architecture' => php_uname('m')
-			])->setAsReadonly(true);
+			])->setAsReadonly();
 		}
 		return self::$os;
 	}

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @author Cláudio "Feralidragon" Luís <claudio.luis@aptoide.com>
+ * @author Cláudio "Feralidragon" Luís <claudioluis8@gmail.com>
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
@@ -33,7 +33,7 @@ class Unique extends Constraint implements ISubtype, IInformation
 	/** {@inheritdoc} */
 	public function checkValue($value): bool
 	{
-		if (is_object($value) && $value instanceof Primitive) {
+		if ($value instanceof Primitive) {
 			$map = [];
 			foreach ($value as $v) {
 				$key = UData::keyfy($v);

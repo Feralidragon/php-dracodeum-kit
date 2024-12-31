@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @author Cláudio "Feralidragon" Luís <claudio.luis@aptoide.com>
+ * @author Cláudio "Feralidragon" Luís <claudioluis8@gmail.com>
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
@@ -22,7 +22,7 @@ trait ArrayAccess
 	}
 	
 	/** {@inheritdoc} */
-	final public function offsetGet($offset)
+	final public function offsetGet($offset): mixed
 	{
 		return $this->get($offset);
 	}

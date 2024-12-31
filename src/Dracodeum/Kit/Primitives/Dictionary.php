@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @author Cláudio "Feralidragon" Luís <claudio.luis@aptoide.com>
+ * @author Cláudio "Feralidragon" Luís <claudioluis8@gmail.com>
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
@@ -14,7 +14,7 @@ use Dracodeum\Kit\Interfaces\{
 	Arrayable as IArrayable,
 	ArrayInstantiable as IArrayInstantiable,
 	Keyable as IKeyable,
-	Stringifiable as IStringifiable,
+	Stringable as IStringable,
 	Cloneable as ICloneable
 };
 use Dracodeum\Kit\Traits\DebugInfo\Interfaces\DebugInfoProcessor as IDebugInfoProcessor;
@@ -32,7 +32,7 @@ use Dracodeum\Kit\Utilities\{
 /**
  * This primitive represents a dictionary.
  * 
- * A dictionary is a simple object which represents and stores an associative array.<br>
+ * This is a simple object which represents and stores an associative array.<br>
  * <br>
  * Unlike PHP associative arrays, this dictionary supports any type of key, and keys are strictly mapped by type.<br>
  * In other words, keys may also be arrays, objects and even resources themselves, and they retain their type and 
@@ -45,12 +45,12 @@ use Dracodeum\Kit\Utilities\{
  */
 final class Dictionary extends Primitive
 implements IDebugInfo, IDebugInfoProcessor, \ArrayAccess, \Countable, \Iterator, \JsonSerializable, IReadonlyable,
-IArrayable, IArrayInstantiable, IKeyable, IStringifiable, ICloneable
+IArrayable, IArrayInstantiable, IKeyable, IStringable, ICloneable
 {
 	//Traits
 	use Traits\DebugInfo;
-	use Traits\Readonly;
-	use Traits\Stringifiable;
+	use Traits\TReadonly;
+	use Traits\Stringable;
 	use Traits\Evaluators;
 	use Traits\KeyEvaluators;
 	use Traits\CloneableOnly;
@@ -79,15 +79,8 @@ IArrayable, IArrayInstantiable, IKeyable, IStringifiable, ICloneable
 	final public function __construct(array $pairs = [])
 	{
 		//read-only
-		$this->addReadonlyCallback(function (bool $recursive): void {
-			//evaluators
+		$this->addReadonlyCallback(function (): void {
 			$this->lockKeyEvaluators()->lockEvaluators();
-			
-			//recursive
-			if ($recursive) {
-				UType::setValueAsReadonly($this->keys, $recursive);
-				UType::setValueAsReadonly($this->values, $recursive);
-			}
 		});
 		
 		//key evaluator callback
@@ -167,7 +160,7 @@ IArrayable, IArrayInstantiable, IKeyable, IStringifiable, ICloneable
 	}
 	
 	/** {@inheritdoc} */
-	final public function offsetGet($offset)
+	final public function offsetGet($offset): mixed
 	{
 		return $this->get($offset);
 	}
@@ -236,7 +229,7 @@ IArrayable, IArrayInstantiable, IKeyable, IStringifiable, ICloneable
 	
 	//Implemented final public methods (JsonSerializable)
 	/** {@inheritdoc} */
-	final public function jsonSerialize()
+	final public function jsonSerialize(): mixed
 	{
 		return (object)$this->getAll();
 	}
@@ -245,18 +238,9 @@ IArrayable, IArrayInstantiable, IKeyable, IStringifiable, ICloneable
 	
 	//Implemented final public methods (Dracodeum\Kit\Interfaces\Arrayable)
 	/** {@inheritdoc} */
-	final public function toArray(bool $recursive = false): array
+	final public function toArray(): array
 	{
-		$array = $this->getAll();
-		if ($recursive) {
-			foreach ($array as &$value) {
-				if (is_object($value)) {
-					UData::evaluate($value, null, false, false, true);
-				}
-			}
-			unset($value);
-		}
-		return $array;
+		return $this->getAll();
 	}
 	
 	
@@ -292,11 +276,12 @@ IArrayable, IArrayInstantiable, IKeyable, IStringifiable, ICloneable
 	
 	
 	
-	//Implemented final public methods (Dracodeum\Kit\Interfaces\Stringifiable)
+	//Implemented final public methods (Dracodeum\Kit\Interfaces\Stringable)
 	/** {@inheritdoc} */
-	final public function toString(?TextOptions $text_options = null): string
+	final public function toString($text_options = null): string
 	{
 		$pairs = [];
+		$text_options = TextOptions::coerce($text_options, nullable: true);
 		foreach ($this->keys as $index => $key) {
 			$pairs[UText::stringify($key, $text_options)] = $this->values[$index];
 		}
@@ -307,10 +292,10 @@ IArrayable, IArrayInstantiable, IKeyable, IStringifiable, ICloneable
 	
 	//Implemented final public methods (Dracodeum\Kit\Interfaces\Cloneable)
 	/** {@inheritdoc} */
-	final public function clone(bool $recursive = false): object
+	final public function clone(): object
 	{
 		//clone
-		$clone = new static();
+		$clone = new static;
 		
 		//evaluators
 		foreach ($this->getKeyEvaluators() as $evaluator) {
@@ -325,12 +310,6 @@ IArrayable, IArrayInstantiable, IKeyable, IStringifiable, ICloneable
 		$clone->values = $this->values;
 		$clone->cursor_map = $this->cursor_map;
 		reset($clone->cursor_map);
-		
-		//recursive
-		if ($recursive) {
-			$clone->keys = UType::cloneValue($clone->keys, $recursive);
-			$clone->values = UType::cloneValue($clone->values, $recursive);
-		}
 		
 		//return
 		return $clone;
@@ -604,21 +583,18 @@ IArrayable, IArrayInstantiable, IKeyable, IStringifiable, ICloneable
 	 * <p>The value to evaluate (validate and sanitize).</p>
 	 * @param \Dracodeum\Kit\Primitives\Dictionary|null $template [default = null]
 	 * <p>The template instance to clone from and evaluate into.</p>
-	 * @param bool|null $clone_recursive [default = null]
-	 * <p>Clone the given value recursively.<br>
-	 * If set to boolean <code>false</code> and an instance is given, then clone it into a new one with the same pairs 
-	 * and evaluator functions, but not recursively.<br>
-	 * If not set, then the given value is not cloned.</p>
+	 * @param bool $clone [default = false]
+	 * <p>If an instance is given, then clone it into a new one with the same pairs and evaluator functions.</p>
 	 * @param bool $nullable [default = false]
 	 * <p>Allow the given value to evaluate as <code>null</code>.</p>
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the given value was successfully evaluated into an instance.</p>
 	 */
 	final public static function evaluate(
-		&$value, ?Dictionary $template = null, ?bool $clone_recursive = null, bool $nullable = false
+		&$value, ?Dictionary $template = null, bool $clone = false, bool $nullable = false
 	): bool
 	{
-		return self::processCoercion($value, $template, $clone_recursive, $nullable, true);
+		return self::processCoercion($value, $template, $clone, $nullable, true);
 	}
 	
 	/**
@@ -634,11 +610,8 @@ IArrayable, IArrayInstantiable, IKeyable, IStringifiable, ICloneable
 	 * <p>The value to coerce (validate and sanitize).</p>
 	 * @param \Dracodeum\Kit\Primitives\Dictionary|null $template [default = null]
 	 * <p>The template instance to clone from and coerce into.</p>
-	 * @param bool|null $clone_recursive [default = null]
-	 * <p>Clone the given value recursively.<br>
-	 * If set to boolean <code>false</code> and an instance is given, then clone it into a new one with the same pairs 
-	 * and evaluator functions, but not recursively.<br>
-	 * If not set, then the given value is not cloned.</p>
+	 * @param bool $clone [default = false]
+	 * <p>If an instance is given, then clone it into a new one with the same pairs and evaluator functions.</p>
 	 * @param bool $nullable [default = false]
 	 * <p>Allow the given value to coerce as <code>null</code>.</p>
 	 * @throws \Dracodeum\Kit\Primitives\Dictionary\Exceptions\CoercionFailed
@@ -647,10 +620,10 @@ IArrayable, IArrayInstantiable, IKeyable, IStringifiable, ICloneable
 	 * If nullable, then <code>null</code> may also be returned.</p>
 	 */
 	final public static function coerce(
-		$value, ?Dictionary $template = null, ?bool $clone_recursive = null, bool $nullable = false
+		$value, ?Dictionary $template = null, bool $clone = false, bool $nullable = false
 	): ?Dictionary
 	{
-		self::processCoercion($value, $template, $clone_recursive, $nullable);
+		self::processCoercion($value, $template, $clone, $nullable);
 		return $value;
 	}
 	
@@ -667,11 +640,8 @@ IArrayable, IArrayInstantiable, IKeyable, IStringifiable, ICloneable
 	 * <p>The value to process (validate and sanitize).</p>
 	 * @param \Dracodeum\Kit\Primitives\Dictionary|null $template [default = null]
 	 * <p>The template instance to clone from and coerce into.</p>
-	 * @param bool|null $clone_recursive [default = null]
-	 * <p>Clone the given value recursively.<br>
-	 * If set to boolean <code>false</code> and an instance is given, then clone it into a new one with the same pairs 
-	 * and evaluator functions, but not recursively.<br>
-	 * If not set, then the given value is not cloned.</p>
+	 * @param bool $clone [default = false]
+	 * <p>If an instance is given, then clone it into a new one with the same pairs and evaluator functions.</p>
 	 * @param bool $nullable [default = false]
 	 * <p>Allow the given value to coerce as <code>null</code>.</p>
 	 * @param bool $no_throw [default = false]
@@ -681,8 +651,7 @@ IArrayable, IArrayInstantiable, IKeyable, IStringifiable, ICloneable
 	 * <p>Boolean <code>true</code> if the given value was successfully coerced into an instance.</p>
 	 */
 	final public static function processCoercion(
-		&$value, ?Dictionary $template = null, ?bool $clone_recursive = null, bool $nullable = false,
-		bool $no_throw = false
+		&$value, ?Dictionary $template = null, bool $clone = false, bool $nullable = false, bool $no_throw = false
 	): bool
 	{
 		//nullable
@@ -703,27 +672,15 @@ IArrayable, IArrayInstantiable, IKeyable, IStringifiable, ICloneable
 		//coerce
 		try {
 			//object
-			if (is_object($value) && $value instanceof Dictionary) {
+			if ($value instanceof Dictionary) {
 				if (isset($template)) {
-					//initialize
 					$instance = $template->clone()->clear();
-					$keys = $value->keys;
-					$values = $value->values;
-					
-					//clone
-					if ($clone_recursive === true) {
-						$keys = UType::cloneValue($keys, true);
-						$values = UType::cloneValue($values, true);
-					}
-					
-					//set
-					foreach ($keys as $index => $key) {
-						$instance->set($key, $values[$index]);
+					foreach ($value->keys as $index => $key) {
+						$instance->set($key, $value->values[$index]);
 					}
 					$value = $instance;
-					
-				} elseif ($clone_recursive !== null) {
-					$value = $value->clone($clone_recursive);
+				} elseif ($clone) {
+					$value = $value->clone();
 				}
 				return true;
 			}
@@ -731,9 +688,6 @@ IArrayable, IArrayInstantiable, IKeyable, IStringifiable, ICloneable
 			//array
 			$array = $value;
 			if (UData::evaluate($array)) {
-				if ($clone_recursive === true) {
-					$array = UType::cloneValue($array, true);
-				}
 				$value = isset($template) ? $template->clone()->setAll($array) : static::build($array);
 				return true;
 			}

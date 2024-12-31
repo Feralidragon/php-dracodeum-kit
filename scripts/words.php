@@ -8,6 +8,7 @@ if (isset($len1) && isset($len2)) {
 	$len2 = (int)$len2;
 }
 $lite = isset($argv[3]) && $argv[3] === 'lite';
+$abc = isset($argv[3]) && $argv[3] === 'abc';
 
 //files (lite)
 $files = [];
@@ -63,16 +64,22 @@ usort($words, function ($a, $b) {
 //print words
 $row_size = 8;
 $row = 0;
+$char = null;
 echo "\n\n";
 foreach ($words as $word) {
 	$len = strlen($word);
 	if (preg_match('/^[a-z]+$/', $word) && (!isset($len1) || !isset($len2) || ($len >= $len1 && $len <= $len2))) {
+		if ($abc && $char !== null && $word[0] !== $char) {
+			echo "\n\n";
+			$row = 0;
+		}
 		echo "  $word  ";
 		$row++;
 		if ($row >= $row_size) {
 			echo "\n";
 			$row = 0;
 		}
+		$char = $word[0];
 	}
 }
 echo "\n\n";

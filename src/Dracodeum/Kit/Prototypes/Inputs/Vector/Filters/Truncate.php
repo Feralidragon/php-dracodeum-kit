@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @author Cláudio "Feralidragon" Luís <claudio.luis@aptoide.com>
+ * @author Cláudio "Feralidragon" Luís <claudioluis8@gmail.com>
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
@@ -44,7 +44,7 @@ class Truncate extends Filter implements ISubtype, IInformation, IStringificatio
 	/** {@inheritdoc} */
 	public function processValue(&$value): bool
 	{
-		if (is_object($value) && $value instanceof Primitive) {
+		if ($value instanceof Primitive) {
 			$value->truncate($this->length);
 			return true;
 		}

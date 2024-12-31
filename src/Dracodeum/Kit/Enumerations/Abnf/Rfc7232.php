@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @author Cláudio "Feralidragon" Luís <claudio.luis@aptoide.com>
+ * @author Cláudio "Feralidragon" Luís <claudioluis8@gmail.com>
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
@@ -17,45 +17,45 @@ use Dracodeum\Kit\Enumeration;
 class Rfc7232 extends Enumeration
 {
 	//Public constants
-	/** <samp>entity-tag</samp> ABNF regular expression. */
+	/** <samp>entity-tag</samp> */
 	public const ENTITY_TAG = '(?:' . self::WEAK . '?' . self::OPAQUE_TAG . ')';
 	
-	/** <samp>ETag</samp> ABNF regular expression. */
+	/** <samp>ETag</samp> */
 	public const ETAG = self::ENTITY_TAG;
 	
-	/** <samp>etagc</samp> ABNF regular expression. */
+	/** <samp>etagc</samp> */
 	public const ETAGC = '[\!\x23-\x7e]';
 	
-	/** <samp>HTTP-date</samp> ABNF regular expression. */
+	/** <samp>HTTP-date</samp> */
 	public const HTTP_DATE = Rfc7231::HTTP_DATE;
 	
-	/** <samp>If-Match</samp> ABNF regular expression. */
+	/** <samp>If-Match</samp> */
 	public const IF_MATCH = '(?:\*|' . 
 		'(?:,' . self::OWS . ')*' . self::ENTITY_TAG . 
 		'(?:' . self::OWS . ',(?:' . self::OWS . self::ENTITY_TAG . ')?)*' . 
 		')';
 	
-	/** <samp>If-Modified-Since</samp> ABNF regular expression. */
+	/** <samp>If-Modified-Since</samp> */
 	public const IF_MODIFIED_SINCE = self::HTTP_DATE;
 	
-	/** <samp>If-None-Match</samp> ABNF regular expression. */
+	/** <samp>If-None-Match</samp> */
 	public const IF_NONE_MATCH = '(?:\*|' . 
 		'(?:,' . self::OWS . ')*' . self::ENTITY_TAG . 
 		'(?:' . self::OWS . ',(?:' . self::OWS . self::ENTITY_TAG . ')?)*' . 
 		')';
 	
-	/** <samp>If-Unmodified-Since</samp> ABNF regular expression. */
+	/** <samp>If-Unmodified-Since</samp> */
 	public const IF_UNMODIFIED_SINCE = self::HTTP_DATE;
 	
-	/** <samp>Last-Modified</samp> ABNF regular expression. */
+	/** <samp>Last-Modified</samp> */
 	public const LAST_MODIFIED = self::HTTP_DATE;
 	
-	/** <samp>opaque-tag</samp> ABNF regular expression. */
+	/** <samp>opaque-tag</samp> */
 	public const OPAQUE_TAG = '(?:' . Rfc5234::DQUOTE . self::ETAGC . '*' . Rfc5234::DQUOTE . ')';
 	
-	/** <samp>OWS</samp> ABNF regular expression. */
+	/** <samp>OWS</samp> */
 	public const OWS = Rfc7230::OWS;
 	
-	/** <samp>weak</samp> ABNF regular expression. */
+	/** <samp>weak</samp> */
 	public const WEAK = '(?:W\/)';
 }

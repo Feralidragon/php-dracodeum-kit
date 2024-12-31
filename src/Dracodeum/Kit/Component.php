@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @author Cláudio "Feralidragon" Luís <claudio.luis@aptoide.com>
+ * @author Cláudio "Feralidragon" Luís <claudioluis8@gmail.com>
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
@@ -18,7 +18,7 @@ use Dracodeum\Kit\Component\{
 	Traits,
 	PrototypeProducer
 };
-use Dracodeum\Kit\Traits as KitTraits;
+use Dracodeum\Kit\Traits as KTraits;
 use Dracodeum\Kit\Traits\DebugInfo\Info as DebugInfo;
 use Dracodeum\Kit\Utilities\{
 	Call as UCall,
@@ -83,9 +83,9 @@ use Dracodeum\Kit\Utilities\Type\Exceptions as UTypeExceptions;
 abstract class Component implements IDebugInfo, IDebugInfoProcessor, IProperties, IUncloneable
 {
 	//Traits
-	use KitTraits\DebugInfo;
-	use KitTraits\LazyProperties;
-	use KitTraits\Uncloneable;
+	use KTraits\DebugInfo;
+	use KTraits\LazyProperties;
+	use KTraits\Uncloneable;
 	use Traits\DefaultBuilder;
 	use Traits\PreInitializer;
 	use Traits\PropertiesInitializer;
@@ -175,38 +175,41 @@ abstract class Component implements IDebugInfo, IDebugInfoProcessor, IProperties
 					return true;
 				};
 				
-				//build (prototype producers)
-				if (!empty(self::$prototype_producers)) {
-					for ($class = static::class; $class !== false; $class = get_parent_class($class)) {
-						//producers
-						if (!empty(self::$prototype_producers[$class])) {
-							foreach (self::$prototype_producers[$class] as $prototype_producer) {
-								//instance
-								$instance = UCall::guardExecution(
-									[$prototype_producer, 'produce'], [$prototype, $properties],
-									$callback, ['function_name' => '__construct']
-								);
-								
-								//check
-								if (isset($instance)) {
-									break;
+				//build
+				if (!class_exists($prototype) || !UType::isA($prototype, $prototype_base_class)) {
+					//prototype producers
+					if (!empty(self::$prototype_producers)) {
+						for ($class = static::class; $class !== false; $class = get_parent_class($class)) {
+							//producers
+							if (!empty(self::$prototype_producers[$class])) {
+								foreach (self::$prototype_producers[$class] as $prototype_producer) {
+									//instance
+									$instance = UCall::guardExecution(
+										[$prototype_producer, 'produce'], [$prototype, $properties],
+										$callback, ['function_name' => '__construct']
+									);
+									
+									//check
+									if (isset($instance)) {
+										break;
+									}
 								}
 							}
-						}
-						
-						//check
-						if (isset($instance)) {
-							break;
+							
+							//check
+							if (isset($instance)) {
+								break;
+							}
 						}
 					}
-				}
-				
-				//build (method)
-				if (!isset($instance)) {
-					$instance = UCall::guardExecution(
-						\Closure::fromCallable([$this, 'producePrototype']), [$prototype, $properties],
-						$callback, ['function_name' => '__construct']
-					);
+					
+					//method
+					if (!isset($instance)) {
+						$instance = UCall::guardExecution(
+							\Closure::fromCallable([$this, 'producePrototype']), [$prototype, $properties],
+							$callback, ['function_name' => '__construct']
+						);
+					}
 				}
 				
 				//check
@@ -237,12 +240,6 @@ abstract class Component implements IDebugInfo, IDebugInfoProcessor, IProperties
 			//prototype instantiation
 			if (is_string($prototype)) {
 				$prototype = UType::instantiate($prototype, $properties);
-			} else {
-				UCall::guardParameter('properties', $properties, empty($properties), [
-					'hint_message' => "Prototype specific properties are only allowed to be given whenever " . 
-						"the prototype is given as a class, a name or not given at all.",
-					'function_name' => '__construct'
-				]);
 			}
 			$prototype->setComponent($this);
 			$this->initializePrototype($prototype);
@@ -293,6 +290,17 @@ abstract class Component implements IDebugInfo, IDebugInfoProcessor, IProperties
 	
 	
 	//Final public methods
+	/**
+	 * Get prototype class.
+	 * 
+	 * @return string
+	 * The prototype class.
+	 */
+	final public function getPrototypeClass(): string
+	{
+		return $this->prototype::class;
+	}
+	
 	/**
 	 * Check if has proxy.
 	 * 
@@ -643,7 +651,10 @@ abstract class Component implements IDebugInfo, IDebugInfoProcessor, IProperties
 		}
 		
 		//named builder
-		if (isset($named_builder) && is_string($value)) {
+		if (
+			isset($named_builder) && is_string($value) && 
+			(!class_exists($value) || !UType::isA($value, static::getPrototypeBaseClass()))
+		) {
 			//assert
 			UCall::assert('named_builder', $named_builder, function (string $name, array $properties): ?Component {});
 			
@@ -729,7 +740,6 @@ abstract class Component implements IDebugInfo, IDebugInfoProcessor, IProperties
 	 * 
 	 * @param \Dracodeum\Kit\Component\PrototypeProducer|string $prototype_producer
 	 * <p>The prototype producer instance or class to prepend.</p>
-	 * @return void
 	 */
 	final public static function prependPrototypeProducer($prototype_producer): void
 	{
@@ -746,7 +756,6 @@ abstract class Component implements IDebugInfo, IDebugInfoProcessor, IProperties
 	 * 
 	 * @param \Dracodeum\Kit\Component\PrototypeProducer|string $prototype_producer
 	 * <p>The prototype producer instance or class to append.</p>
-	 * @return void
 	 */
 	final public static function appendPrototypeProducer($prototype_producer): void
 	{
@@ -773,7 +782,6 @@ abstract class Component implements IDebugInfo, IDebugInfoProcessor, IProperties
 	 * 
 	 * @param string $name
 	 * <p>The prototype method name to use.</p>
-	 * @return void
 	 */
 	final protected function haltPrototypeMethodNotImplemented(string $name): void
 	{

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @author Cláudio "Feralidragon" Luís <claudio.luis@aptoide.com>
+ * @author Cláudio "Feralidragon" Luís <claudioluis8@gmail.com>
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
@@ -11,10 +11,6 @@ namespace Dracodeum\Kit\Prototype\Traits;
 trait PropertiesInitializer
 {
 	//Protected methods
-	/**
-	 * Initialize properties.
-	 * 
-	 * @return void
-	 */
+	/** Initialize properties. */
 	protected function initializeProperties(): void {}
 }

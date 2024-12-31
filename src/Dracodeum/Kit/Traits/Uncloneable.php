@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @author Cláudio "Feralidragon" Luís <claudio.luis@aptoide.com>
+ * @author Cláudio "Feralidragon" Luís <claudioluis8@gmail.com>
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
@@ -18,7 +18,7 @@ trait Uncloneable
 {
 	//Final public magic methods
 	/** Prevent class instance from being cloned. */
-	final public function __clone()
+	final public function __clone(): void
 	{
 		UCall::halt(['error_message' => "Instances of this class cannot be cloned."]);
 	}

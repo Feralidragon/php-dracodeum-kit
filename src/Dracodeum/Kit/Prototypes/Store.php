@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @author Cláudio "Feralidragon" Luís <claudio.luis@aptoide.com>
+ * @author Cláudio "Feralidragon" Luís <claudioluis8@gmail.com>
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
@@ -44,7 +44,6 @@ abstract class Store extends Prototype implements IContract
 	 * @param string $type
 	 * <p>The type to halt with,
 	 * as a name or value from the <code>Dracodeum\Kit\Components\Store\Enumerations\Halt\Type</code> enumeration.</p>
-	 * @return void
 	 */
 	final protected function halt(Uid $uid, string $type): void
 	{
@@ -56,7 +55,6 @@ abstract class Store extends Prototype implements IContract
 	 *
 	 * @param \Dracodeum\Kit\Structures\Uid $uid
 	 * <p>The UID instance to halt with.</p>
-	 * @return void
 	 */
 	final protected function haltNotFound(Uid $uid): void
 	{
@@ -68,7 +66,6 @@ abstract class Store extends Prototype implements IContract
 	 *
 	 * @param \Dracodeum\Kit\Structures\Uid $uid
 	 * <p>The UID instance to halt with.</p>
-	 * @return void
 	 */
 	final protected function haltScopeNotFound(Uid $uid): void
 	{
@@ -80,7 +77,6 @@ abstract class Store extends Prototype implements IContract
 	 *
 	 * @param \Dracodeum\Kit\Structures\Uid $uid
 	 * <p>The UID instance to halt with.</p>
-	 * @return void
 	 */
 	final protected function haltConflict(Uid $uid): void
 	{

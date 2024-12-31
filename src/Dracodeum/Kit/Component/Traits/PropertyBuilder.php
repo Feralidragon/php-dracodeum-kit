@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @author Cláudio "Feralidragon" Luís <claudio.luis@aptoide.com>
+ * @author Cláudio "Feralidragon" Luís <claudioluis8@gmail.com>
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
@@ -9,17 +9,17 @@ namespace Dracodeum\Kit\Component\Traits;
 
 use Dracodeum\Kit\Traits\LazyProperties\Property;
 
-/** This trait defines a method to build properties in a component. */
 trait PropertyBuilder
 {
 	//Protected methods
 	/**
-	 * Build property instance with a given name.
+	 * Build a property instance.
 	 * 
 	 * @param string $name
-	 * <p>The name to build with.</p>
+	 * The name to build with.
+	 * 
 	 * @return \Dracodeum\Kit\Traits\LazyProperties\Property|null
-	 * <p>The built property instance with the given name or <code>null</code> if none was built.</p>
+	 * The built property instance, or `null` if none was built.
 	 */
 	protected function buildProperty(string $name): ?Property
 	{

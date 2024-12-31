@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @author Cláudio "Feralidragon" Luís <claudio.luis@aptoide.com>
+ * @author Cláudio "Feralidragon" Luís <claudioluis8@gmail.com>
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
@@ -14,10 +14,8 @@ interface Arrayable
 	/**
 	 * Cast this object to an array.
 	 * 
-	 * @param bool $recursive [default = false]
-	 * <p>Cast all the possible referenced subobjects to arrays recursively (if applicable).</p>
 	 * @return array
-	 * <p>This object cast to an array.</p>
+	 * <p>An array cast from this object.</p>
 	 */
-	public function toArray(bool $recursive = false): array;
+	public function toArray(): array;
 }

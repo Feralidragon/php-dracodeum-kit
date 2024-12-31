@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @author Cláudio "Feralidragon" Luís <claudio.luis@aptoide.com>
+ * @author Cláudio "Feralidragon" Luís <claudioluis8@gmail.com>
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
@@ -13,7 +13,7 @@ use Dracodeum\Kit\Prototypes\Input\Interfaces\{
 	ValueStringifier as IValueStringifier,
 	SchemaData as ISchemaData
 };
-use Dracodeum\Kit\Enumeration as KitEnumeration;
+use Dracodeum\Kit\Enumeration as KEnumeration;
 use Dracodeum\Kit\Traits\LazyProperties\Property;
 use Dracodeum\Kit\Options\Text as TextOptions;
 use Dracodeum\Kit\Components\Input\Options\Info as InfoOptions;
@@ -424,7 +424,7 @@ class Enumeration extends Input implements IInformation, IValueStringifier, ISch
 			case 'class':
 				return $this->createProperty()
 					->setMode('w--')
-					->setAsStrictClass(KitEnumeration::class)
+					->setAsStrictClass(KEnumeration::class)
 					->bind(self::class)
 				;
 			case 'values':

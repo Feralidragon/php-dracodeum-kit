@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @author Cláudio "Feralidragon" Luís <claudio.luis@aptoide.com>
+ * @author Cláudio "Feralidragon" Luís <claudioluis8@gmail.com>
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
@@ -18,7 +18,6 @@ trait PostUpdateProcessor
 	 * <p>The old values to perform processing with, as a set of <samp>name => value</samp> pairs.</p>
 	 * @param array $new_values
 	 * <p>The new values to perform processing with, as a set of <samp>name => value</samp> pairs.</p>
-	 * @return void
 	 */
 	protected function processPostUpdate(array $old_values, array $new_values): void {}
 }

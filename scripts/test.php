@@ -4,8 +4,68 @@ require_once __DIR__ . '/../vendor/autoload.php';
 
 use Dracodeum\Kit\Root\System;
 use Dracodeum\Kit\Factories\Component as FComponent;
+use Dracodeum\Kit\Attributes\Property\{
+	Coercive,
+	Strict,
+	Mutator,
+	Write
+};
 
+System::setAsFramework();
 System::setEnvironment('development');
+
+class A
+{
+	#[Coercive('ustring', nullable: true), Mutator('non_empty'), Mutator('truncate', 5, ellipsis: true)]
+	public string $label;
+	
+	protected int $amount = 12;
+	
+	private bool $enabled = false;
+}
+
+class B extends A
+{
+	protected array $list = [];
+	
+	public static mixed $value = null;
+}
+
+
+
+class C extends B
+{	
+	#[Coercive]
+	private float $ratio = 1.0;
+	
+	#[Strict, Write(true)]
+	public float $percentage = 100.0;
+};
+$a = new C;
+$p = new Dracodeum\Kit\Managers\PropertiesV2($a);
+
+$p->initialize(['foobar', 'percentage' => 95.0]);
+
+var_dump($p);
+
+die();
+
+
+$t = Dracodeum\Kit\Components\Type::build('array')->addMutator('non_empty');
+$v = [123];
+$e = $t->process($v);
+
+var_dump($v);
+echo 
+	"\n\n", 
+	(string)$e?->getText(), 
+	"\n\n\n",
+	$e?->getText()->toString(['info_level' => 1]),
+	"\n\n\n",
+	$e?->getText()->toString(['info_level' => 2]),
+	"\n\n"
+;
+die();
 
 
 class Foo extends Dracodeum\Kit\Entity

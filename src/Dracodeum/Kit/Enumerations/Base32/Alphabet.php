@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @author Cláudio "Feralidragon" Luís <claudio.luis@aptoide.com>
+ * @author Cláudio "Feralidragon" Luís <claudioluis8@gmail.com>
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
@@ -19,12 +19,12 @@ use Dracodeum\Kit\Enumeration;
 class Alphabet extends Enumeration
 {
 	//Public constants
-	/** RFC 4648 alphabet. */
+	/** RFC 4648. */
 	public const RFC4648 = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';
 	
-	/** z-base-32 alphabet. */
+	/** z-base-32. */
 	public const ZBASE32 = 'ybndrfg8ejkmcpqxot1uwisza345h769';
 	
-	/** Geohash alphabet. */
+	/** Geohash. */
 	public const GEOHASH = '0123456789bcdefghjkmnpqrstuvwxyz';
 }

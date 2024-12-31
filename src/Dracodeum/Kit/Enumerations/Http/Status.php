@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @author Cláudio "Feralidragon" Luís <claudio.luis@aptoide.com>
+ * @author Cláudio "Feralidragon" Luís <claudioluis8@gmail.com>
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
@@ -19,187 +19,187 @@ use Dracodeum\Kit\Options\Text as TextOptions;
 class Status extends Enumeration
 {
 	//Public constants
-	/** Informational "Continue" HTTP status code. */
+	/** Informational "Continue". */
 	public const CONTINUE = 100;
 	
-	/** Informational "Switching Protocols" HTTP status code. */
+	/** Informational "Switching Protocols". */
 	public const SWITCHING_PROTOCOLS = 101;
 	
-	/** Informational "Processing" HTTP status code. */
+	/** Informational "Processing". */
 	public const PROCESSING = 102;
 	
-	/** Success "OK" HTTP status code. */
+	/** Success "OK". */
 	public const OK = 200;
 	
-	/** Success "Created" HTTP status code. */
+	/** Success "Created". */
 	public const CREATED = 201;
 	
-	/** Success "Accepted" HTTP status code. */
+	/** Success "Accepted". */
 	public const ACCEPTED = 202;
 	
-	/** Success "Non-Authoritative Information" HTTP status code. */
+	/** Success "Non-Authoritative Information". */
 	public const NON_AUTHORITATIVE_INFORMATION = 203;
 	
-	/** Success "No Content" HTTP status code. */
+	/** Success "No Content". */
 	public const NO_CONTENT = 204;
 	
-	/** Success "Reset Content" HTTP status code. */
+	/** Success "Reset Content". */
 	public const RESET_CONTENT = 205;
 	
-	/** Success "Partial Content" HTTP status code. */
+	/** Success "Partial Content". */
 	public const PARTIAL_CONTENT = 206;
 	
-	/** Success "Multi-Status" HTTP status code. */
+	/** Success "Multi-Status". */
 	public const MULTI_STATUS = 207;
 	
-	/** Success "Already Reported" HTTP status code. */
+	/** Success "Already Reported". */
 	public const ALREADY_REPORTED = 208;
 	
-	/** Success "IM Used" HTTP status code. */
+	/** Success "IM Used". */
 	public const IM_USED = 226;
 	
-	/** Redirection "Multiple Choices" HTTP status code. */
+	/** Redirection "Multiple Choices". */
 	public const MULTIPLE_CHOICES = 300;
 	
-	/** Redirection "Moved Permanently" HTTP status code. */
+	/** Redirection "Moved Permanently". */
 	public const MOVED_PERMANENTLY = 301;
 	
-	/** Redirection "Found" HTTP status code. */
+	/** Redirection "Found". */
 	public const FOUND = 302;
 	
-	/** Redirection "See Other" HTTP status code. */
+	/** Redirection "See Other". */
 	public const SEE_OTHER = 303;
 	
-	/** Redirection "Not Modified" HTTP status code. */
+	/** Redirection "Not Modified". */
 	public const NOT_MODIFIED = 304;
 	
-	/** Redirection "Use Proxy" HTTP status code. */
+	/** Redirection "Use Proxy". */
 	public const USE_PROXY = 305;
 	
-	/** Redirection "Switch Proxy" HTTP status code. */
+	/** Redirection "Switch Proxy". */
 	public const SWITCH_PROXY = 306;
 	
-	/** Redirection "Temporary Redirect" HTTP status code. */
+	/** Redirection "Temporary Redirect". */
 	public const TEMPORARY_REDIRECT = 307;
 	
-	/** Redirection "Permanent Redirect" HTTP status code. */
+	/** Redirection "Permanent Redirect". */
 	public const PERMANENT_REDIRECT = 308;
 	
-	/** Client error "Bad Request" HTTP status code. */
+	/** Client error "Bad Request". */
 	public const BAD_REQUEST = 400;
 	
-	/** Client error "Unauthorized" HTTP status code. */
+	/** Client error "Unauthorized". */
 	public const UNAUTHORIZED = 401;
 	
-	/** Client error "Payment Required" HTTP status code. */
+	/** Client error "Payment Required". */
 	public const PAYMENT_REQUIRED = 402;
 	
-	/** Client error "Forbidden" HTTP status code. */
+	/** Client error "Forbidden". */
 	public const FORBIDDEN = 403;
 	
-	/** Client error "Not Found" HTTP status code. */
+	/** Client error "Not Found". */
 	public const NOT_FOUND = 404;
 	
-	/** Client error "Method Not Allowed" HTTP status code. */
+	/** Client error "Method Not Allowed". */
 	public const METHOD_NOT_ALLOWED = 405;
 	
-	/** Client error "Not Acceptable" HTTP status code. */
+	/** Client error "Not Acceptable". */
 	public const NOT_ACCEPTABLE = 406;
 	
-	/** Client error "Proxy Authentication Required" HTTP status code. */
+	/** Client error "Proxy Authentication Required". */
 	public const PROXY_AUTHENTICATION_REQUIRED = 407;
 	
-	/** Client error "Request Timeout" HTTP status code. */
+	/** Client error "Request Timeout". */
 	public const REQUEST_TIMEOUT = 408;
 	
-	/** Client error "Conflict" HTTP status code. */
+	/** Client error "Conflict". */
 	public const CONFLICT = 409;
 	
-	/** Client error "Gone" HTTP status code. */
+	/** Client error "Gone". */
 	public const GONE = 410;
 	
-	/** Client error "Length Required" HTTP status code. */
+	/** Client error "Length Required". */
 	public const LENGTH_REQUIRED = 411;
 	
-	/** Client error "Precondition Failed" HTTP status code. */
+	/** Client error "Precondition Failed". */
 	public const PRECONDITION_FAILED = 412;
 	
-	/** Client error "Payload Too Large" HTTP status code. */
+	/** Client error "Payload Too Large". */
 	public const PAYLOAD_TOO_LARGE = 413;
 	
-	/** Client error "URI Too Long" HTTP status code. */
+	/** Client error "URI Too Long". */
 	public const URI_TOO_LONG = 414;
 	
-	/** Client error "Unsupported Media Type" HTTP status code. */
+	/** Client error "Unsupported Media Type". */
 	public const UNSUPPORTED_MEDIA_TYPE = 415;
 	
-	/** Client error "Range Not Satisfiable" HTTP status code. */
+	/** Client error "Range Not Satisfiable". */
 	public const RANGE_NOT_SATISFIABLE = 416;
 	
-	/** Client error "Expectation Failed" HTTP status code. */
+	/** Client error "Expectation Failed". */
 	public const EXPECTATION_FAILED = 417;
 	
-	/** Client error "I'm a teapot" HTTP status code. */
+	/** Client error "I'm a teapot". */
 	public const IM_A_TEAPOT = 418;
 	
-	/** Client error "Misdirected Request" HTTP status code. */
+	/** Client error "Misdirected Request". */
 	public const MISDIRECTED_REQUEST = 421;
 	
-	/** Client error "Unprocessable Entity" HTTP status code. */
+	/** Client error "Unprocessable Entity". */
 	public const UNPROCESSABLE_ENTITY = 422;
 	
-	/** Client error "Locked" HTTP status code. */
+	/** Client error "Locked". */
 	public const LOCKED = 423;
 	
-	/** Client error "Failed Dependency" HTTP status code. */
+	/** Client error "Failed Dependency". */
 	public const FAILED_DEPENDENCY = 424;
 	
-	/** Client error "Upgrade Required" HTTP status code. */
+	/** Client error "Upgrade Required". */
 	public const UPGRADE_REQUIRED = 426;
 	
-	/** Client error "Precondition Required" HTTP status code. */
+	/** Client error "Precondition Required". */
 	public const PRECONDITION_REQUIRED = 428;
 	
-	/** Client error "Too Many Requests" HTTP status code. */
+	/** Client error "Too Many Requests". */
 	public const TOO_MANY_REQUESTS = 429;
 	
-	/** Client error "Request Header Fields Too Large" HTTP status code. */
+	/** Client error "Request Header Fields Too Large". */
 	public const REQUEST_HEADER_FIELDS_TOO_LARGE = 431;
 	
-	/** Client error "Unavailable For Legal Reasons" HTTP status code. */
+	/** Client error "Unavailable For Legal Reasons". */
 	public const UNAVAILABLE_FOR_LEGAL_REASONS = 451;
 	
-	/** Server error "Internal Server Error" HTTP status code. */
+	/** Server error "Internal Server Error". */
 	public const INTERNAL_SERVER_ERROR = 500;
 	
-	/** Server error "Not Implemented" HTTP status code. */
+	/** Server error "Not Implemented". */
 	public const NOT_IMPLEMENTED = 501;
 	
-	/** Server error "Bad Gateway" HTTP status code. */
+	/** Server error "Bad Gateway". */
 	public const BAD_GATEWAY = 502;
 	
-	/** Server error "Service Unavailable" HTTP status code. */
+	/** Server error "Service Unavailable". */
 	public const SERVICE_UNAVAILABLE = 503;
 	
-	/** Server error "Gateway Timeout" HTTP status code. */
+	/** Server error "Gateway Timeout". */
 	public const GATEWAY_TIMEOUT = 504;
 	
-	/** Server error "HTTP Version Not Supported" HTTP status code. */
+	/** Server error "HTTP Version Not Supported". */
 	public const HTTP_VERSION_NOT_SUPPORTED = 505;
 	
-	/** Server error "Variant Also Negotiates" HTTP status code. */
+	/** Server error "Variant Also Negotiates". */
 	public const VARIANT_ALSO_NEGOTIATES = 506;
 	
-	/** Server error "Insufficient Storage" HTTP status code. */
+	/** Server error "Insufficient Storage". */
 	public const INSUFFICIENT_STORAGE = 507;
 	
-	/** Server error "Loop Detected" HTTP status code. */
+	/** Server error "Loop Detected". */
 	public const LOOP_DETECTED = 508;
 	
-	/** Server error "Not Extended" HTTP status code. */
+	/** Server error "Not Extended". */
 	public const NOT_EXTENDED = 510;
 	
-	/** Server error "Network Authentication Required" HTTP status code. */
+	/** Server error "Network Authentication Required". */
 	public const NETWORK_AUTHENTICATION_REQUIRED = 511;
 	
 	

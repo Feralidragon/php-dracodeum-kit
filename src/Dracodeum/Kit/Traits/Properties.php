@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @author Cláudio "Feralidragon" Luís <claudio.luis@aptoide.com>
+ * @author Cláudio "Feralidragon" Luís <claudioluis8@gmail.com>
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
@@ -42,7 +42,7 @@ trait Properties
 	 * @return mixed
 	 * <p>The value from the property with the given name.</p>
 	 */
-	final public function __get(string $name)
+	final public function __get(string $name): mixed
 	{
 		return $this->getPropertiesManager()->get($name, false, UCall::stackPreviousObject());
 	}
@@ -67,9 +67,8 @@ trait Properties
 	 * <p>The name to set with.</p>
 	 * @param mixed $value
 	 * <p>The value to set.</p>
-	 * @return void
 	 */
-	final public function __set(string $name, $value): void
+	final public function __set(string $name, mixed $value): void
 	{
 		$this->getPropertiesManager()->set($name, $value, false, UCall::stackPreviousObject());
 	}
@@ -79,7 +78,6 @@ trait Properties
 	 * 
 	 * @param string $name
 	 * <p>The name to unset with.</p>
-	 * @return void
 	 */
 	final public function __unset(string $name): void
 	{

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @author Cláudio "Feralidragon" Luís <claudio.luis@aptoide.com>
+ * @author Cláudio "Feralidragon" Luís <claudioluis8@gmail.com>
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
@@ -38,49 +38,22 @@ use Dracodeum\Kit\Utilities\{
  * 
  * @property-write bool $nullable [writeonce] [transient] [default = false]
  * <p>Allow a <code>null</code> value to be set.</p>
- * @property-write \Dracodeum\Kit\Components\Input\Components\Modifiers\Constraint[]|\Dracodeum\Kit\Components\Input\Prototypes\Modifiers\Constraint[]|string[] $constraints [writeonce] [transient] [default = []]
+ * @property-write (\Dracodeum\Kit\Components\Input\Components\Modifiers\Constraint|\Dracodeum\Kit\Components\Input\Prototypes\Modifiers\Constraint|string)[] $constraints [writeonce] [transient] [default = []]
  * <p>The constraints to add, as any combination of the following:<br>
  * &nbsp; &#8226; &nbsp; instances, classes or names;<br>
  * &nbsp; &#8226; &nbsp; <samp>class => properties</samp> or <samp>name => properties</samp> pairs, 
  * with the properties being given as a set of <samp>name => value</samp> pairs.</p>
- * @property-write \Dracodeum\Kit\Components\Input\Components\Modifiers\Filter[]|\Dracodeum\Kit\Components\Input\Prototypes\Modifiers\Filter[]|string[] $filters [writeonce] [transient] [default = []]
+ * @property-write (\Dracodeum\Kit\Components\Input\Components\Modifiers\Filter|\Dracodeum\Kit\Components\Input\Prototypes\Modifiers\Filter|string)[] $filters [writeonce] [transient] [default = []]
  * <p>The filters to add, as any combination of the following:<br>
  * &nbsp; &#8226; &nbsp; instances, classes or names;<br>
  * &nbsp; &#8226; &nbsp; <samp>class => properties</samp> or <samp>name => properties</samp> pairs, 
  * with the properties being given as a set of <samp>name => value</samp> pairs.</p>
- * @property-write \Dracodeum\Kit\Components\Input\Components\Modifier[]|string[] $modifiers [writeonce] [transient] [default = []]
+ * @property-write (\Dracodeum\Kit\Components\Input\Components\Modifier|string)[] $modifiers [writeonce] [transient] [default = []]
  * <p>The modifiers to add, as any combination of the following:<br>
  * &nbsp; &#8226; &nbsp; instances, classes or names;<br>
  * &nbsp; &#8226; &nbsp; <samp>class => properties</samp> or <samp>name => properties</samp> pairs, 
  * with the properties being given as a set of <samp>name => value</samp> pairs.</p>
  * @see \Dracodeum\Kit\Prototypes\Input
- * @see \Dracodeum\Kit\Prototypes\Inputs\Boolean
- * [prototype, name = 'boolean' or 'bool']
- * @see \Dracodeum\Kit\Prototypes\Inputs\Number
- * [prototype, name = 'number']
- * @see \Dracodeum\Kit\Prototypes\Inputs\Numbers\Float64
- * [prototype, name = 'float64' or 'float' or 'double']
- * @see \Dracodeum\Kit\Prototypes\Inputs\Numbers\Integer
- * [prototype, name = 'integer' or 'int' or 'uint' or 'int64' or 'uint63' or 'int32' or 'uint32' or 'uint31' or 
- * 'int16' or 'uint16' or 'uint15' or 'int8' or 'uint8' or 'uint7']
- * @see \Dracodeum\Kit\Prototypes\Inputs\Numbers\Size
- * [prototype, name = 'size']
- * @see \Dracodeum\Kit\Prototypes\Inputs\Enumeration
- * [prototype, name = 'enumeration' or 'enum']
- * @see \Dracodeum\Kit\Prototypes\Inputs\Text
- * [prototype, name = 'text' or 'string']
- * @see \Dracodeum\Kit\Prototypes\Inputs\Hash
- * [prototype, name = 'hash' or 'crc32' or 'md5' or 'sha1' or 'sha256' or 'sha512']
- * @see \Dracodeum\Kit\Prototypes\Inputs\Date
- * [prototype, name = 'date']
- * @see \Dracodeum\Kit\Prototypes\Inputs\Time
- * [prototype, name = 'time']
- * @see \Dracodeum\Kit\Prototypes\Inputs\DateTime
- * [prototype, name = 'datetime' or 'timestamp']
- * @see \Dracodeum\Kit\Prototypes\Inputs\Vector
- * [prototype, name = 'vector' or 'array' or 'list']
- * @see \Dracodeum\Kit\Prototypes\Inputs\Dictionary
- * [prototype, name = 'dictionary' or 'dict']
  */
 class Input extends Component
 {
@@ -631,7 +604,7 @@ class Input extends Component
 			'nullable' => $this->nullable,
 			'data' => $prototype instanceof PrototypeInterfaces\SchemaData ? $prototype->getSchemaData() : null,
 			'modifiers' => $this->getModifierSchemas()
-		])->setAsReadonly(true);
+		])->setAsReadonly();
 	}
 	
 	

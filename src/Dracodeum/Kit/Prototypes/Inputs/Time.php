@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @author Cláudio "Feralidragon" Luís <claudio.luis@aptoide.com>
+ * @author Cláudio "Feralidragon" Luís <claudioluis8@gmail.com>
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
@@ -36,16 +36,6 @@ use Dracodeum\Kit\Utilities\{
  * @see https://en.wikipedia.org/wiki/Timestamp
  * @see https://php.net/manual/en/function.strtotime.php
  * @see https://php.net/manual/en/class.datetimeinterface.php
- * @see \Dracodeum\Kit\Prototypes\Inputs\Time\Constraints\Values
- * [constraint, name = 'values' or 'non_values']
- * @see \Dracodeum\Kit\Prototypes\Inputs\Time\Constraints\Minimum
- * [constraint, name = 'minimum']
- * @see \Dracodeum\Kit\Prototypes\Inputs\Time\Constraints\Maximum
- * [constraint, name = 'maximum']
- * @see \Dracodeum\Kit\Prototypes\Inputs\Time\Constraints\Range
- * [constraint, name = 'range' or 'non_range']
- * @see \Dracodeum\Kit\Components\Input\Prototypes\Modifiers\Filters\Timestamp\Format
- * [filter, name = 'format']
  */
 class Time extends Input implements IInformation, IValueStringifier, IConstraintProducer, IFilterProducer
 {

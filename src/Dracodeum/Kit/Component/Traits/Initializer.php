@@ -1,20 +1,15 @@
 <?php
 
 /**
- * @author Cláudio "Feralidragon" Luís <claudio.luis@aptoide.com>
+ * @author Cláudio "Feralidragon" Luís <claudioluis8@gmail.com>
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
 namespace Dracodeum\Kit\Component\Traits;
 
-/** This trait defines a method to initialize a component. */
 trait Initializer
 {
 	//Protected methods
-	/**
-	 * Initialize.
-	 * 
-	 * @return void
-	 */
+	/** Initialize. */
 	protected function initialize(): void {}
 }

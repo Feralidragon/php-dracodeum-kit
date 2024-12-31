@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @author Cláudio "Feralidragon" Luís <claudio.luis@aptoide.com>
+ * @author Cláudio "Feralidragon" Luís <claudioluis8@gmail.com>
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
@@ -16,12 +16,12 @@ use Dracodeum\Kit\Enumeration;
 class DumpVerbosityLevel extends Enumeration
 {
 	//Public constants
-	/** Low verbosity level, with the output of relevant properties only. */
+	/** Output of relevant properties only. */
 	public const LOW = 1;
 	
-	/** Medium verbosity level, with the output of relevant properties only, but with extended information. */
+	/** Output of relevant properties only, but with extended information. */
 	public const MEDIUM = 2;
 	
-	/** High verbosity level, with the full output of all internal properties. */
+	/** Full output of all internal properties. */
 	public const HIGH = 3;
 }

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @author Cláudio "Feralidragon" Luís <claudio.luis@aptoide.com>
+ * @author Cláudio "Feralidragon" Luís <claudioluis8@gmail.com>
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
@@ -13,7 +13,7 @@ use Dracodeum\Kit\Interfaces\{
 	Arrayable as IArrayable
 };
 use Dracodeum\Kit\Traits\DebugInfo\Interfaces\DebugInfoProcessor as IDebugInfoProcessor;
-use Dracodeum\Kit\Traits as KitTraits;
+use Dracodeum\Kit\Traits as KTraits;
 use Dracodeum\Kit\Exception\{
 	Options,
 	Traits
@@ -33,10 +33,10 @@ use Dracodeum\Kit\Utilities\Text as UText;
 abstract class Exception extends \Exception implements IDebugInfo, IDebugInfoProcessor, IProperties, IArrayable
 {
 	//Traits
-	use KitTraits\DebugInfo;
-	use KitTraits\DebugInfo\PropertiesDumpProcessor;
-	use KitTraits\Properties;
-	use KitTraits\Properties\Arrayable;
+	use KTraits\DebugInfo;
+	use KTraits\DebugInfo\PropertiesDumpProcessor;
+	use KTraits\Properties;
+	use KTraits\Properties\Arrayable;
 	use Traits\PropertiesInitializer;
 	use Traits\PropertiesLoader;
 	
@@ -83,7 +83,7 @@ abstract class Exception extends \Exception implements IDebugInfo, IDebugInfoPro
 		}
 		
 		//parent
-		parent::__construct($message, $options->code, $options->previous);
+		parent::__construct($message, $options->code ?? 0, $options->previous);
 	}
 	
 	
@@ -127,7 +127,7 @@ abstract class Exception extends \Exception implements IDebugInfo, IDebugInfoPro
 	protected function getPlaceholderValueString(string $placeholder, $value): string
 	{
 		return UText::stringify($value, null, [
-			'quote_strings' => true, 'prepend_type' => is_bool($value), 'non_stringifiable' => true
+			'quote_strings' => true, 'prepend_type' => is_bool($value), 'non_stringable' => true
 		]);
 	}
 }

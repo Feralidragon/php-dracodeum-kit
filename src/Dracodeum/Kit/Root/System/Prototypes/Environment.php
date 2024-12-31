@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @author Cláudio "Feralidragon" Luís <claudio.luis@aptoide.com>
+ * @author Cláudio "Feralidragon" Luís <claudioluis8@gmail.com>
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
@@ -45,10 +45,6 @@ abstract class Environment extends Prototype
 	 */
 	abstract public function getDumpVerbosityLevel(): int;
 	
-	/**
-	 * Apply.
-	 * 
-	 * @return void
-	 */
+	/** Apply.  */
 	abstract public function apply(): void;
 }

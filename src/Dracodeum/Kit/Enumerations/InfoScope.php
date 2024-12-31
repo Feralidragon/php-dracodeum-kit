@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @author Cláudio "Feralidragon" Luís <claudio.luis@aptoide.com>
+ * @author Cláudio "Feralidragon" Luís <claudioluis8@gmail.com>
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
@@ -16,12 +16,12 @@ use Dracodeum\Kit\Enumeration;
 class InfoScope extends Enumeration
 {
 	//Public constants
-	/** Internal info scope, for internal application messages and logging. */
+	/** Internal messages and logging. */
 	public const INTERNAL = 0;
 	
-	/** Technical info scope, for the developer using the application. */
+	/** Technical messages and information for external developers. */
 	public const TECHNICAL = 1;
 	
-	/** End-user info scope, for the user interacting with the application. */
+	/** Non-technical messages and information for end-users. */
 	public const ENDUSER = 2;
 }

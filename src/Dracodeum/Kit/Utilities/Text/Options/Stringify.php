@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @author Cláudio "Feralidragon" Luís <claudio.luis@aptoide.com>
+ * @author Cláudio "Feralidragon" Luís <claudioluis8@gmail.com>
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
@@ -27,9 +27,9 @@ use Dracodeum\Kit\Utilities\Text as UText;
  * quotation marks may still be added anyway.</p>
  * @property bool $associative [default = false]
  * <p>If the given value is an array, stringify it as an associative array.</p>
- * @property bool $non_stringifiable [default = false]
+ * @property bool $non_stringable [default = false]
  * <p>If the given value is an object which implements either the <code>__toString</code> method or 
- * the <code>Dracodeum\Kit\Interfaces\Stringifiable</code> interface, 
+ * the <code>Dracodeum\Kit\Interfaces\Stringable</code> interface, 
  * then do not attempt to stringify it through any of them.</p>
  * @property string|null $non_assoc_mode [default = null]
  * <p>The text utility <code>Dracodeum\Kit\Utilities\Text</code> class non-associative array 
@@ -52,7 +52,7 @@ use Dracodeum\Kit\Utilities\Text as UText;
  * @property bool $no_throw [default = false]
  * <p>Do not throw an exception.</p>
  * @see https://php.net/manual/en/language.oop5.magic.php#object.tostring
- * @see \Dracodeum\Kit\Interfaces\Stringifiable
+ * @see \Dracodeum\Kit\Interfaces\Stringable
  */
 class Stringify extends Options
 {
@@ -67,7 +67,7 @@ class Stringify extends Options
 				//no break
 			case 'associative':
 				//no break
-			case 'non_stringifiable':
+			case 'non_stringable':
 				return $this->createProperty()->setAsBoolean()->setDefaultValue(false);
 			case 'non_assoc_mode':
 				return $this->createProperty()

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @author Cláudio "Feralidragon" Luís <claudio.luis@aptoide.com>
+ * @author Cláudio "Feralidragon" Luís <claudioluis8@gmail.com>
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
@@ -44,7 +44,7 @@ class Length extends Constraint implements ISubtype, IPriority, IInformation, IS
 	/** {@inheritdoc} */
 	public function checkValue($value): bool
 	{
-		return is_object($value) && $value instanceof Primitive ? $value->count() === $this->value : false;
+		return $value instanceof Primitive ? $value->count() === $this->value : false;
 	}
 	
 	

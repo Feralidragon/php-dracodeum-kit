@@ -1,7 +1,9 @@
 /.buildpath
 /.project
-/.settings/
-/vendor/
+/.settings
+/.idea
+/.vscode
+/vendor
 /composer.phar
 /composer.lock
 /phpunit.phar

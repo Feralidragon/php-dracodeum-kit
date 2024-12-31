@@ -1,13 +1,12 @@
 <?php
 
 /**
- * @author Cláudio "Feralidragon" Luís <claudio.luis@aptoide.com>
+ * @author Cláudio "Feralidragon" Luís <claudioluis8@gmail.com>
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
 namespace Dracodeum\Kit\Traits;
 
-use Dracodeum\Kit\Interfaces\DebugInfo as IDebugInfo;
 use Dracodeum\Kit\Traits\DebugInfo\{
 	Info,
 	Interfaces
@@ -35,10 +34,10 @@ trait DebugInfo
 	/**
 	 * Get debug info.
 	 * 
-	 * @return array
-	 * <p>The debug info.</p>
+	 * @return array|null
+	 * <p>The debug info or <code>null</code> if none is set.</p>
 	 */
-	final public function __debugInfo(): array
+	final public function __debugInfo(): ?array
 	{
 		return $this->getDebugInfo();
 	}
@@ -47,13 +46,12 @@ trait DebugInfo
 	
 	//Implemented final public methods (Dracodeum\Kit\Interfaces\DebugInfo)
 	/** {@inheritdoc} */
-	final public function getDebugInfo(bool $recursive = false): array
+	final public function getDebugInfo(): array
 	{
-		//process
 		$debug_info = [];
 		if (System::getDumpVerbosityLevel() < EDumpVerbosityLevel::HIGH) {
 			//info
-			$info = new Info();
+			$info = new Info;
 			if ($this instanceof Interfaces\DebugInfoProcessor) {
 				$this->processDebugInfo($info);
 			}
@@ -78,21 +76,10 @@ trait DebugInfo
 					}
 				}
 			}
+			
 		} else {
 			$debug_info = (array)$this;
 		}
-		
-		//recursive
-		if ($recursive) {
-			foreach ($debug_info as &$value) {
-				if (is_object($value) && $value instanceof IDebugInfo) {
-					$value = $value->getDebugInfo($recursive);
-				}
-			}
-			unset($value);
-		}
-		
-		//return
 		return $debug_info;
 	}
 }

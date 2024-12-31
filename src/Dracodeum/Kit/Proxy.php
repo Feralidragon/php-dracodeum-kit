@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @author Cláudio "Feralidragon" Luís <claudio.luis@aptoide.com>
+ * @author Cláudio "Feralidragon" Luís <claudioluis8@gmail.com>
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
@@ -13,7 +13,7 @@ use Dracodeum\Kit\Interfaces\{
 };
 use Dracodeum\Kit\Traits\DebugInfo\Interfaces\DebugInfoProcessor as IDebugInfoProcessor;
 use Dracodeum\Kit\Proxy\Traits;
-use Dracodeum\Kit\Traits as KitTraits;
+use Dracodeum\Kit\Traits as KTraits;
 use Dracodeum\Kit\Traits\DebugInfo\Info as DebugInfo;
 use Dracodeum\Kit\Utilities\{
 	Call as UCall,
@@ -30,8 +30,8 @@ use Dracodeum\Kit\Utilities\{
 abstract class Proxy implements IDebugInfo, IDebugInfoProcessor, IUncloneable
 {
 	//Traits
-	use KitTraits\DebugInfo;
-	use KitTraits\Uncloneable;
+	use KTraits\DebugInfo;
+	use KTraits\Uncloneable;
 	use Traits\Initializer;
 	
 	

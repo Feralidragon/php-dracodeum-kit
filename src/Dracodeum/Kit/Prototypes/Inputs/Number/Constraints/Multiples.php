@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @author Cláudio "Feralidragon" Luís <claudio.luis@aptoide.com>
+ * @author Cláudio "Feralidragon" Luís <claudioluis8@gmail.com>
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
@@ -24,7 +24,7 @@ use Dracodeum\Kit\Utilities\{
 /**
  * This constraint prototype restricts a given number input value to a set of allowed multiples.
  * 
- * @property-write int[]|float[] $values [writeonce] [transient]
+ * @property-write (int|float)[] $values [writeonce] [transient]
  * <p>The allowed multiple values to restrict a given number input value to.</p>
  * @property-write bool $negate [writeonce] [transient] [default = false]
  * <p>Negate the restriction condition, so the given allowed multiple values behave as disallowed multiple values 
@@ -33,7 +33,7 @@ use Dracodeum\Kit\Utilities\{
 class Multiples extends Constraint implements ISubtype, IInformation, IStringification, ISchemaData
 {
 	//Protected properties
-	/** @var int[]|float[] */
+	/** @var (int|float)[] */
 	protected $values;
 	
 	/** @var bool */

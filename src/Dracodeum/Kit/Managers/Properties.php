@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @author Cláudio "Feralidragon" Luís <claudio.luis@aptoide.com>
+ * @author Cláudio "Feralidragon" Luís <claudioluis8@gmail.com>
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
@@ -687,7 +687,6 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 			
 			//remainder (properties)
 			if ($remainder !== null) {
-				//process
 				foreach ($properties as $name => $value) {
 					if (is_int($name)) {
 						$remainder[$name - $required_count] = $value;
@@ -696,12 +695,6 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 						$remainder[$name] = $value;
 						unset($properties[$name]);
 					}
-				}
-				
-				//remainderer
-				if ($this->remainderer !== null) {
-					($this->remainderer)($remainder);
-					$this->remainderer = null;
 				}
 			}
 			
@@ -759,6 +752,12 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 			//persistence
 			if ($persisted) {
 				$this->reloadPersistedValues();
+			}
+			
+			//remainderer
+			if ($this->remainderer !== null && $remainder !== null) {
+				($this->remainderer)($remainder);
+				$this->remainderer = null;
 			}
 			
 		} finally {
@@ -1423,9 +1422,7 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 		foreach ($this->properties as $name => $property) {
 			if ($property->isGettable() && !$property->isVolatile()) {
 				$value = $property->getValue();
-				$values[$name] = is_object($value) && UType::persistable($value) && $value instanceof IUid
-					? $value->getUid()
-					: $value;
+				$values[$name] = $value instanceof IUid && UType::persistable($value) ? $value->getUid() : $value;
 				unset($value);
 			}
 		}
@@ -1652,7 +1649,6 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 	 * 
 	 * @param string $name [reference]
 	 * <p>The property name to process.</p>
-	 * @return void
 	 */
 	final protected function processPropertyNameAlias(string &$name): void
 	{
@@ -1666,7 +1662,6 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 	 * 
 	 * @param array $values [reference]
 	 * <p>The property values to process, as a set of <samp>name => value</samp> pairs.</p>
-	 * @return void
 	 */
 	final protected function processPropertyValuesAliases(array &$values): void
 	{
@@ -1682,8 +1677,6 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 	
 	/**
 	 * Guard the current function or method in the stack so it may only be called if this instance is not initialized.
-	 * 
-	 * @return void
 	 */
 	final protected function guardNonInitializedCall(): void
 	{
@@ -1697,11 +1690,7 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 		}
 	}
 	
-	/**
-	 * Guard the current function or method in the stack so it may only be called if this instance is initialized.
-	 * 
-	 * @return void
-	 */
+	/** Guard the current function or method in the stack so it may only be called if this instance is initialized. */
 	final protected function guardInitializedCall(): void
 	{
 		if (!$this->isInitialized()) {
@@ -1806,7 +1795,6 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 	 * 
 	 * @param array $values
 	 * <p>The property values to set, as a set of <samp>name => value</samp> pairs.</p>
-	 * @return void
 	 */
 	private function setPersistedPropertyValues(array $values): void
 	{
@@ -1819,11 +1807,7 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 		}
 	}
 	
-	/**
-	 * Reload persisted property values.
-	 * 
-	 * @return void
-	 */
+	/** Reload persisted property values. */
 	private function reloadPersistedValues(): void
 	{
 		$this->clearPersistedValues();
@@ -1836,11 +1820,7 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 		}
 	}
 	
-	/**
-	 * Clear persisted property values.
-	 * 
-	 * @return void
-	 */
+	/** Clear persisted property values. */
 	private function clearPersistedValues(): void
 	{
 		$this->persisted_values = $this->persisted_keys = [];

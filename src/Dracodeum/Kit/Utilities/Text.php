@@ -1,14 +1,17 @@
 <?php
 
 /**
- * @author Cláudio "Feralidragon" Luís <claudio.luis@aptoide.com>
+ * @author Cláudio "Feralidragon" Luís <claudioluis8@gmail.com>
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
 namespace Dracodeum\Kit\Utilities;
 
 use Dracodeum\Kit\Utility;
-use Dracodeum\Kit\Interfaces\Properties as IProperties;
+use Dracodeum\Kit\Interfaces\{
+	Properties as IProperties,
+	Stringable as IStringable
+};
 use Dracodeum\Kit\Options\Text as TextOptions;
 use Dracodeum\Kit\Enumerations\InfoScope as EInfoScope;
 use Dracodeum\Kit\Utilities\Text\{
@@ -91,15 +94,17 @@ final class Text extends Utility
 	 * &nbsp; &#8226; &nbsp; carriage return (<code>"\r"</code>);<br>
 	 * &nbsp; &#8226; &nbsp; NUL-byte (<code>"\0"</code>);<br>
 	 * &nbsp; &#8226; &nbsp; vertical tab (<code>"\x0B"</code>).</p>
+	 * @param bool $unicode [default = false]
+	 * <p>Check as a Unicode string.</p>
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the given string is empty.</p>
 	 */
-	final public static function empty(?string $string, bool $ignore_whitespace = false): bool
+	final public static function empty(?string $string, bool $ignore_whitespace = false, bool $unicode = false): bool
 	{
-		if (!isset($string)) {
+		if ($string === null) {
 			return true;
 		} elseif ($ignore_whitespace) {
-			$string = trim($string);
+			return preg_match('/^\s*$/s' . ($unicode ? 'u' : ''), $string);
 		}
 		return $string === '';
 	}
@@ -110,9 +115,9 @@ final class Text extends Utility
 	 * The returning string is the first one from the given set of strings which is not empty 
 	 * (not <code>null</code> nor <code>''</code>).
 	 * 
-	 * @param string[]|null[] $strings
+	 * @param (string|null)[] $strings
 	 * <p>The strings to coalesce from.</p>
-	 * @param int[]|string[] $keys [default = []]
+	 * @param (int|string)[] $keys [default = []]
 	 * <p>The keys to coalesce by.<br>
 	 * If empty, then all strings from the given set are used to coalesce by, 
 	 * otherwise only the strings in the matching keys are used.<br>
@@ -151,14 +156,14 @@ final class Text extends Utility
 	 * The returning string represents the given value in order to be shown or printed out in messages.<br>
 	 * <br>
 	 * Scalar values retain their full representation, while objects are represented only by their class names or ids, 
-	 * resources by their ids, and arrays as lists or structures depending on whether or not they are associative.<br>
+	 * resources by their ids, and arrays as lists or structures depending on whether they are associative.<br>
 	 * <br>
-	 * Objects implementing either the <code>Dracodeum\Kit\Interfaces\Stringifiable</code> interface or 
+	 * Objects implementing either the <code>Dracodeum\Kit\Interfaces\Stringable</code> interface or 
 	 * the <code>__toString</code> method are stringified through one of them, whichever one is implemented first, 
 	 * with the former preferred over the latter.
 	 * 
 	 * @see https://php.net/manual/en/language.oop5.magic.php#object.tostring
-	 * @see \Dracodeum\Kit\Interfaces\Stringifiable
+	 * @see \Dracodeum\Kit\Interfaces\Stringable
 	 * @param mixed $value
 	 * <p>The value to generate from.</p>
 	 * @param \Dracodeum\Kit\Options\Text|array|null $text_options [default = null]
@@ -238,8 +243,8 @@ final class Text extends Utility
 			$id = spl_object_id($value);
 			$class = get_class($value);
 			
-			//stringifiable
-			if (!$options->non_stringifiable) {
+			//stringable
+			if (!$options->non_stringable) {
 				if ($prepend_type && Data::evaluate($value)) {
 					//initialize
 					$k_options = $options->clone();
@@ -271,6 +276,9 @@ final class Text extends Utility
 					return "(object){$class}#{$id} " . 
 						(empty($strings) ? '{}' : "{\n" . self::indentate(implode("\n", $strings), 3, ' ') . "\n}");
 					
+				} elseif ($value instanceof IStringable) {
+					$string = $value->toString($text_options);
+					return $prepend_type ? "(object){$class}#{$id} {$string}" : $string;
 				} elseif (Type::evaluateString($value)) {
 					return $prepend_type ? "(object){$class}#{$id} {$value}" : $value;
 				}
@@ -295,7 +303,7 @@ final class Text extends Utility
 		}
 		
 		//resource
-		if (is_resource($value)) {
+		if (is_resource($value) || gettype($value) === 'resource (closed)') {
 			$id = (int)$value;
 			if ($is_enduser) {
 				/**
@@ -768,7 +776,7 @@ final class Text extends Utility
 		
 		//tokenize
 		$f_string = '';
-		foreach (preg_split('/\{{2}(.*)\}{2}/Us', $string, null, PREG_SPLIT_DELIM_CAPTURE) as $i => $token) {
+		foreach (preg_split('/\{{2}([^{}]*)\}{2}/Us', $string, flags: PREG_SPLIT_DELIM_CAPTURE) as $i => $token) {
 			//string
 			if ($i % 2 === 0) {
 				$f_string .= $token;
@@ -782,82 +790,106 @@ final class Text extends Utility
 			}
 			
 			//pointer
-			$pointer = $parameters;
-			foreach (explode('.', $token) as $identifier) {
-				//guard
-				Call::guardParameter('string', $string, is_array($pointer) || is_object($pointer), [
-					'error_message' => "Invalid identifier {{identifier}} in placeholder {{placeholder}} " . 
-						"for {{pointer}}.",
-					'hint_message' => "The corresponding parameter must be an array or object.",
-					'parameters' => [
-						'identifier' => $identifier, 'placeholder' => $token, 'pointer' => $pointer
-					]
-				]);
-				
+			$pointers = [$parameters, $options->object];
+			$pointer = $pointers[0];
+			foreach (explode('.', $token) as $j => $identifier) {
 				//method
 				if ($identifier[-1] === ')') {
+					//initialize
 					$identifier = substr($identifier, 0, -2);
-					Call::guardParameter('string', $string, is_object($pointer), [
-						'error_message' => "Invalid method identifier {{identifier}} " . 
-							"in placeholder {{placeholder}} for {{pointer}}.",
-						'hint_message' => "The corresponding parameter must be an object.",
-						'parameters' => [
-							'identifier' => "{$identifier}()", 'placeholder' => $token, 'pointer' => $pointer
-						]
-					]);
-					Call::guardParameter('string', $string, method_exists($pointer, $identifier), [
-						'error_message' => "Method identifier {{identifier}} in placeholder {{placeholder}} " . 
-							"not found in {{pointer}}.",
-						'parameters' => [
-							'identifier' => "{$identifier}()", 'placeholder' => $token, 'pointer' => $pointer
-						]
-					]);
+					if ($j === 0) {
+						foreach ($pointers as $p) {
+							if (is_object($p) && method_exists($p, $identifier)) {
+								$pointer = $p;
+								break;
+							}
+						}
+					}
+					
+					//check
+					if (!is_object($pointer)) {
+						Call::haltParameter('string', $string, [
+							'error_message' => "Invalid method identifier {{identifier}} " . 
+								"in placeholder {{placeholder}} for {{pointer}}.",
+							'hint_message' => "The corresponding pointer must be an object.",
+							'parameters' => [
+								'identifier' => "{$identifier}()", 'placeholder' => $token, 'pointer' => $pointer
+							]
+						]);
+					} elseif (!method_exists($pointer, $identifier)) {
+						Call::haltParameter('string', $string, [
+							'error_message' => "Method identifier {{identifier}} in placeholder {{placeholder}} " . 
+								"not found in {{pointer}}.",
+							'parameters' => [
+								'identifier' => "{$identifier}()", 'placeholder' => $token, 'pointer' => $pointer
+							]
+						]);
+					}
+					
+					//finalize
 					$pointer = $pointer->$identifier();
 					
-				//object
-				} elseif (is_object($pointer)) {
-					$has_properties = $pointer instanceof IProperties;
-					Call::guardParameter('string', $string,
-						$has_properties ? $pointer->has($identifier) : property_exists($pointer, $identifier), [
-							'error_message' => "Property identifier {{identifier}} in placeholder {{placeholder}} " . 
-								"not found in {{pointer}}.",
+				//property or key
+				} else {
+					//initialize
+					if ($j === 0) {
+						foreach ($pointers as $p) {
+							if (
+								(is_object($p) && property_exists($p, $identifier)) || 
+								(is_array($p) && array_key_exists($identifier, $p))
+							) {
+								$pointer = $p;
+								break;
+							}
+						}
+					}
+					
+					//property
+					if (is_object($pointer)) {
+						if (!property_exists($pointer, $identifier)) {
+							Call::haltParameter('string', $string, [
+								'error_message' => "Property identifier {{identifier}} " . 
+									"in placeholder {{placeholder}} not found in {{pointer}}.",
+								'parameters' => [
+									'identifier' => $identifier, 'placeholder' => $token, 'pointer' => $pointer
+								]
+							]);
+						}
+						$pointer = $pointer->$identifier;
+						
+					//key
+					} elseif (is_array($pointer)) {
+						if (!array_key_exists($identifier, $pointer)) {
+							Call::haltParameter('string', $string, [
+								'error_message' => "Key identifier {{identifier}} in placeholder {{placeholder}} " . 
+									"not found in {{pointer}}.",
+								'parameters' => [
+									'identifier' => $identifier, 'placeholder' => $token, 'pointer' => $pointer
+								]
+							]);
+						}
+						$pointer = $pointer[$identifier];
+						
+					//halt
+					} else {
+						Call::haltParameter('string', $string, [
+							'error_message' => "Invalid identifier {{identifier}} in placeholder {{placeholder}} " . 
+								"for {{pointer}}.",
+							'hint_message' => "The corresponding pointer must be an object or array.",
 							'parameters' => [
 								'identifier' => $identifier, 'placeholder' => $token, 'pointer' => $pointer
 							]
-						]
-					);
-					$pointer = $has_properties ? $pointer->get($identifier) : $pointer->$identifier;
-					
-				//array
-				} elseif (is_array($pointer)) {
-					Call::guardParameter('string', $string, array_key_exists($identifier, $pointer), [
-						'error_message' => "Key identifier {{identifier}} in placeholder {{placeholder}} " . 
-							"not found in {{pointer}}.",
-						'parameters' => [
-							'identifier' => $identifier, 'placeholder' => $token, 'pointer' => $pointer
-						]
-					]);
-					$pointer = $pointer[$identifier];
+						]);
+					}
 				}
-			}
-			
-			//evaluate
-			if (isset($options->evaluator)) {
-				$value = $pointer;
-				Call::guardParameter('parameters', $parameters, ($options->evaluator)($token, $value), [
-					'error_message' => "Invalid value {{value}} for placeholder {{placeholder}} in string {{string}}.",
-					'parameters' => ['value' => $pointer, 'placeholder' => $token, 'string' => $string]
-				]);
-				$pointer = $value;
-				unset($value);
 			}
 			
 			//stringify
 			$pointer_string = null;
-			if (isset($options->stringifier)) {
+			if ($options->stringifier !== null) {
 				$pointer_string = ($options->stringifier)($token, $pointer);
 			}
-			if (!isset($pointer_string)) {
+			if ($pointer_string === null) {
 				$pointer_string = self::stringify($pointer, $text_options, $options->string_options) ?? '';
 			}
 			
@@ -1104,7 +1136,7 @@ final class Text extends Utility
 		//pattern
 		$map = [];
 		$pattern = '';
-		foreach (preg_split('/\{{2}(.*)\}{2}/Us', $mask, null, PREG_SPLIT_DELIM_CAPTURE) as $i => $token) {
+		foreach (preg_split('/\{{2}(.*)\}{2}/Us', $mask, flags: PREG_SPLIT_DELIM_CAPTURE) as $i => $token) {
 			if ($i % 2 === 0) {
 				$pattern .= preg_quote($token, $pattern_delimiter);
 			} else {
@@ -1179,7 +1211,7 @@ final class Text extends Utility
 	final public static function parse(string $string, array $fields_patterns, $options = null): ?array
 	{
 		//initialize
-		$options = Options\Mparse::coerce(Options\Parse::coerce($options), false);
+		$options = Options\Mparse::coerce(Options\Parse::coerce($options), true);
 		$no_throw = $options->no_throw;
 		$options->no_throw = true;
 		$options->keep_nulls = true;
@@ -1605,7 +1637,7 @@ final class Text extends Utility
 			$t_length = 0;
 			$t_string = '';
 			$words_pattern = $unicode ? '/([\pL\pN_]+(?:-[\pL\pN_]+)*)/u' : '/(\w+(?:-\w+)*)/';
-			foreach (preg_split($words_pattern, $string, null, PREG_SPLIT_DELIM_CAPTURE) as $part) {
+			foreach (preg_split($words_pattern, $string, flags: PREG_SPLIT_DELIM_CAPTURE) as $part) {
 				$part_length = self::length($part, $unicode);
 				if ($t_length + $part_length > $length) {
 					break;

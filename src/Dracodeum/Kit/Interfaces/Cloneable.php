@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @author Cláudio "Feralidragon" Luís <claudio.luis@aptoide.com>
+ * @author Cláudio "Feralidragon" Luís <claudioluis8@gmail.com>
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
@@ -14,10 +14,8 @@ interface Cloneable
 	/**
 	 * Clone into a new instance.
 	 * 
-	 * @param bool $recursive [default = false]
-	 * <p>Clone all the possible referenced subobjects into new instances recursively (if applicable).</p>
 	 * @return static
 	 * <p>The new cloned instance from this one.</p>
 	 */
-	public function clone(bool $recursive = false): object;
+	public function clone(): object;
 }

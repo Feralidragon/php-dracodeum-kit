@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @author Cláudio "Feralidragon" Luís <claudio.luis@aptoide.com>
+ * @author Cláudio "Feralidragon" Luís <claudioluis8@gmail.com>
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
@@ -19,7 +19,6 @@ abstract class Logger extends Prototype
 	 * 
 	 * @param \Dracodeum\Kit\Structures\Log\Event $event
 	 * <p>The event instance to add.</p>
-	 * @return void
 	 */
 	abstract public function addEvent(Event $event): void;
 }

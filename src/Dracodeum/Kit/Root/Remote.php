@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @author Cláudio "Feralidragon" Luís <claudio.luis@aptoide.com>
+ * @author Cláudio "Feralidragon" Luís <claudioluis8@gmail.com>
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
@@ -65,7 +65,7 @@ final class Remote implements IUninstantiable
 		if ($no_throw) {
 			return null;
 		}
-		throw new Exceptions\IpAddressNotSet();
+		throw new Exceptions\IpAddressNotSet;
 	}
 	
 	/**
@@ -79,7 +79,6 @@ final class Remote implements IUninstantiable
 	 * <br>
 	 * Return: <code><b>string|null</b></code><br>
 	 * The IP address or <code>null</code> if none is set.</p>
-	 * @return void
 	 */
 	final public static function addIpAddressGetter(callable $getter): void
 	{
@@ -117,7 +116,7 @@ final class Remote implements IUninstantiable
 		if ($no_throw) {
 			return null;
 		}
-		throw new Exceptions\AgentNotSet();
+		throw new Exceptions\AgentNotSet;
 	}
 	
 	/**
@@ -131,7 +130,6 @@ final class Remote implements IUninstantiable
 	 * <br>
 	 * Return: <code><b>string|null</b></code><br>
 	 * The agent or <code>null</code> if none is set.</p>
-	 * @return void
 	 */
 	final public static function addAgentGetter(callable $getter): void
 	{

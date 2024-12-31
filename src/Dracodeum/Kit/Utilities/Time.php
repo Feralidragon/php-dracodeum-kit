@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @author Cláudio "Feralidragon" Luís <claudio.luis@aptoide.com>
+ * @author Cláudio "Feralidragon" Luís <claudioluis8@gmail.com>
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
@@ -149,7 +149,7 @@ final class Time extends Utility
 				}
 				return $t;
 			}
-		} elseif (is_object($timestamp) && $timestamp instanceof \DateTimeInterface) {
+		} elseif ($timestamp instanceof \DateTimeInterface) {
 			$t = $timestamp->getTimestamp();
 			if ($microseconds) {
 				$t += (float)$timestamp->format('u') / 1e6;

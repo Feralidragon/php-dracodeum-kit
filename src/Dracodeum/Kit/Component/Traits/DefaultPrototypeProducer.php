@@ -1,29 +1,28 @@
 <?php
 
 /**
- * @author Cláudio "Feralidragon" Luís <claudio.luis@aptoide.com>
+ * @author Cláudio "Feralidragon" Luís <claudioluis8@gmail.com>
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
 namespace Dracodeum\Kit\Component\Traits;
 
-/** This trait defines a method to produce the default prototype in a component. */
 trait DefaultPrototypeProducer
 {
 	//Protected methods
 	/**
-	 * Produce default prototype with a given set of properties.
+	 * Produce default prototype.
 	 * 
-	 * The returning prototype is used if none is given during instantiation.<br>
+	 * The returning prototype is used if none is given during instantiation.  
 	 * If none is produced, then the base prototype class is used instead.
 	 * 
 	 * @param array $properties
-	 * <p>The properties to produce with, as a set of <samp>name => value</samp> pairs.<br>
-	 * Required properties may also be given as an array of values (<samp>[value1, value2, ...]</samp>), 
-	 * in the same order as how these properties were first declared.</p>
+	 * The properties to produce with, as a set of `name => value` pairs.  
+	 * Required properties may also be given as an array of values (`[value1, value2, ...]`), 
+	 * in the same order as how these properties were first declared.
+	 * 
 	 * @return \Dracodeum\Kit\Prototype|string|null
-	 * <p>The produced default prototype instance or class with the given set of properties 
-	 * or <code>null</code> if none was produced.</p>
+	 * The produced prototype instance or class, or `null` if none was produced.
 	 */
 	protected function produceDefaultPrototype(array $properties)
 	{

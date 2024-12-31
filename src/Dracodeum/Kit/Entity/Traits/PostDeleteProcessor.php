@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @author Cláudio "Feralidragon" Luís <claudio.luis@aptoide.com>
+ * @author Cláudio "Feralidragon" Luís <claudioluis8@gmail.com>
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
@@ -11,10 +11,6 @@ namespace Dracodeum\Kit\Entity\Traits;
 trait PostDeleteProcessor
 {
 	//Protected methods
-	/**
-	 * Perform processing after a delete.
-	 * 
-	 * @return void
-	 */
+	/** Perform processing after a delete. */
 	protected function processPostDelete(): void {}
 }

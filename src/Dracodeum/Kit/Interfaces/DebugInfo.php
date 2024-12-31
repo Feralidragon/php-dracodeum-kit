@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @author Cláudio "Feralidragon" Luís <claudio.luis@aptoide.com>
+ * @author Cláudio "Feralidragon" Luís <claudioluis8@gmail.com>
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
@@ -18,10 +18,8 @@ interface DebugInfo
 	/**
 	 * Get debug info.
 	 * 
-	 * @param bool $recursive [default = false]
-	 * <p>Get debug info from all the possible referenced subobjects recursively (if applicable).</p>
 	 * @return array
 	 * <p>The debug info.</p>
 	 */
-	public function getDebugInfo(bool $recursive = false): array;
+	public function getDebugInfo(): array;
 }

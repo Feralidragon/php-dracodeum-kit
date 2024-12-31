@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @author Cláudio "Feralidragon" Luís <claudio.luis@aptoide.com>
+ * @author Cláudio "Feralidragon" Luís <claudioluis8@gmail.com>
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
@@ -26,9 +26,9 @@ use Dracodeum\Kit\Utilities\Text as UText;
  * This component represents a store which performs persistent CRUD operations of resources, namely create (insert), 
  * read (exists and select), update and delete.
  * 
+ * @method \Dracodeum\Kit\Prototypes\Store getPrototype() [protected]
+ * 
  * @see \Dracodeum\Kit\Prototypes\Store
- * @see \Dracodeum\Kit\Prototypes\Stores\Memory
- * [prototype, name = 'memory' or 'mem']
  */
 class Store extends Component
 {
@@ -79,11 +79,13 @@ class Store extends Component
 	 * Get string for a given UID scope placeholder from a given ID.
 	 * 
 	 * @param string $placeholder
-	 * <p>The placeholder to get for.</p>
+	 * The placeholder to get for.
+	 * 
 	 * @param int|string $id
-	 * <p>The ID to get from.</p>
+	 * The ID to get from.
+	 * 
 	 * @return string|null
-	 * <p>The string for the given UID scope placeholder from the given ID or <code>null</code> if none is set.</p>
+	 * The string, or `null` if none is set.
 	 */
 	protected function getUidScopePlaceholderIdString(string $placeholder, $id): ?string
 	{
@@ -99,20 +101,18 @@ class Store extends Component
 	/**
 	 * Coerce a given UID into an instance.
 	 * 
-	 * @param \Dracodeum\Kit\Structures\Uid|array|string|int|null $uid
-	 * <p>The UID to coerce, as an instance, a set of <samp>name => value</samp> pairs, a string, an integer 
-	 * or <code>null</code>.</p>
-	 * @param bool|null $clone_recursive [default = null]
-	 * <p>Clone the given UID recursively.<br>
-	 * If set to boolean <code>false</code> and an instance is given, then clone it into a new one with the same 
-	 * properties, but not recursively.<br>
-	 * If not set, then the given UID is not cloned.</p>
+	 * @param coercible<\Dracodeum\Kit\Structures\Uid> $uid
+	 * The UID to coerce.
+	 * 
+	 * @param bool $clone
+	 * If an instance is given, then clone it into a new one with the same properties.
+	 * 
 	 * @return \Dracodeum\Kit\Structures\Uid
-	 * <p>The given UID coerced into an instance.</p>
+	 * The given UID coerced into an instance.
 	 */
-	final public function coerceUid($uid, ?bool $clone_recursive = null): Uid
+	final public function coerceUid($uid, bool $clone = false): Uid
 	{
-		$uid = Uid::coerce($uid, $clone_recursive);
+		$uid = Uid::coerce($uid, $clone);
 		if ($uid->defaulted('scope') && $uid->base_scope !== null) {
 			$uid->scope = $this->getUidScope($uid->base_scope, $uid->scope_ids);
 		}
@@ -120,27 +120,28 @@ class Store extends Component
 	}
 	
 	/**
-	 * Get UID scope from a given base scope with a given set of scope IDs.
+	 * Get UID scope.
 	 * 
 	 * @param string $base_scope
-	 * <p>The base scope to get from, optionally set with placeholders as <samp>{{placeholder}}</samp>, 
-	 * corresponding directly to given scope IDs.<br>
-	 * <br>
-	 * If set, then placeholders must be exclusively composed of identifiers, 
-	 * which are defined as words which must start with a letter (<samp>a-z</samp> and <samp>A-Z</samp>) 
-	 * or underscore (<samp>_</samp>), and may only contain letters (<samp>a-z</samp> and <samp>A-Z</samp>), 
-	 * digits (<samp>0-9</samp>) and underscores (<samp>_</samp>).<br>
-	 * <br>
-	 * They may also be used with pointers to specific object properties or associative array values, 
-	 * by using a dot between identifiers, such as <samp>{{object.property}}</samp>, 
-	 * with no limit on the number of chained pointers.<br>
-	 * <br>
-	 * If suffixed with opening and closing parenthesis, such as <samp>{{object.method()}}</samp>, 
-	 * then the identifiers are interpreted as getter method calls, but they cannot be given any arguments.</p>
-	 * @param int[]|string[] $scope_ids
-	 * <p>The scope IDs to get with, as a set of <samp>name => id</samp> pairs.</p>
+	 * The base scope to get from.
+	 * 
+	 * Placeholders may optionally be set in the given base scope as `{{placeholder}}` to be replaced by a 
+	 * corresponding set of parameters, and they must be exclusively composed of identifiers, which are defined as 
+	 * words which must start with a letter (`a-z` or `A-Z`) or underscore (`_`), and may only contain letters (`a-z` 
+	 * or `A-Z`), digits (`0-9`) and underscores (`_`).
+	 * 
+	 * They may also contain pointers to specific object properties or associative array values from the given set of 
+	 * parameters by using a dot between identifiers, such as `{{object.property}}`, with no limit on the number of 
+	 * pointers chained.
+	 * 
+	 * If suffixed with opening and closing parenthesis, such as `{{object.method()}}`, then the given pointers are 
+	 * interpreted as getter method calls, but they cannot be given any arguments.
+	 * 
+	 * @param (int|string)[] $scope_ids
+	 * The scope IDs to get with, as a set of `name => id` pairs.
+	 * 
 	 * @return string
-	 * <p>The UID scope from the given base scope with the given set of scope IDs.</p>
+	 * The scope.
 	 */
 	final public function getUidScope(string $base_scope, array $scope_ids): string
 	{
@@ -152,13 +153,13 @@ class Store extends Component
 	}
 	
 	/**
-	 * Check if a resource with a given UID exists.
+	 * Check if a resource exists.
 	 * 
-	 * @param \Dracodeum\Kit\Structures\Uid|array|string|int|null $uid
-	 * <p>The UID to check with, as an instance, a set of <samp>name => value</samp> pairs, a string, an integer 
-	 * or <code>null</code>.</p>
+	 * @param coercible<\Dracodeum\Kit\Structures\Uid> $uid
+	 * The UID to check with.
+	 * 
 	 * @return bool
-	 * <p>Boolean <code>true</code> if the resource with the given UID exists.</p>
+	 * Boolean `true` if the resource exists.
 	 */
 	final public function exists($uid): bool
 	{
@@ -178,18 +179,19 @@ class Store extends Component
 	}
 	
 	/**
-	 * Select a resource with a given UID.
+	 * Select a resource.
 	 * 
-	 * @param \Dracodeum\Kit\Structures\Uid|array|string|int|null $uid
-	 * <p>The UID to select with, as an instance, a set of <samp>name => value</samp> pairs, a string, an integer 
-	 * or <code>null</code>.</p>
-	 * @param bool $no_throw [default = false]
-	 * <p>Do not throw an exception.</p>
+	 * @param coercible<\Dracodeum\Kit\Structures\Uid> $uid
+	 * The UID to select with.
+	 * 
+	 * @param bool $no_throw
+	 * Do not throw an exception.
+	 * 
 	 * @throws \Dracodeum\Kit\Components\Store\Exceptions\NotFound
+	 * 
 	 * @return array|null
-	 * <p>The selected resource with the given UID, as a set of <samp>name => value</samp> pairs.<br>
-	 * If <var>$no_throw</var> is set to boolean <code>true</code>, 
-	 * then <code>null</code> is returned if it was not found.</p>
+	 * The selected resource, as a set of `name => value` pairs.  
+	 * If `$no_throw` is set to boolean `true`, then `null` is returned if it was not found.
 	 */
 	final public function select($uid, bool $no_throw = false): ?array
 	{
@@ -225,24 +227,25 @@ class Store extends Component
 	}
 	
 	/**
-	 * Insert a resource with a given UID with a given set of values.
+	 * Insert a resource.
 	 * 
-	 * @param \Dracodeum\Kit\Structures\Uid|array|string|int|null $uid [reference]
-	 * <p>The UID to insert with, as an instance, a set of <samp>name => value</samp> pairs, a string, an integer 
-	 * or <code>null</code>.<br>
-	 * It is coerced into an instance, and may be modified during insertion, 
-	 * such as when any of its properties are automatically generated.</p>
+	 * @param coercible<\Dracodeum\Kit\Structures\Uid> $uid
+	 * The UID to insert with.  
+	 * It is coerced into an instance, and may be modified during insertion, such as when any of its properties are 
+	 * automatically generated.
+	 * 
 	 * @param array $values
-	 * <p>The values to insert with, as a set of <samp>name => value</samp> pairs.</p>
-	 * @param bool $no_throw [default = false]
-	 * <p>Do not throw an exception.</p>
+	 * The values to insert with, as a set of `name => value` pairs.
+	 * 
+	 * @param bool $no_throw
+	 * Do not throw an exception.
+	 * 
 	 * @throws \Dracodeum\Kit\Components\Store\Exceptions\ScopeNotFound
 	 * @throws \Dracodeum\Kit\Components\Store\Exceptions\Conflict
+	 * 
 	 * @return array|null
-	 * <p>The full or partial set of inserted values of the resource with the given UID, 
-	 * as a set of <samp>name => value</samp> pairs.<br>
-	 * If <var>$no_throw</var> is set to boolean <code>true</code>, 
-	 * then <code>null</code> is returned if the resource already exists.</p>
+	 * The full or partial set of the inserted resource values, as a set of `name => value` pairs.  
+	 * If `$no_throw` is set to boolean `true`, then `null` is returned if the resource already exists.
 	 */
 	final public function insert(&$uid, array $values, bool $no_throw = false): ?array
 	{
@@ -279,21 +282,22 @@ class Store extends Component
 	}
 	
 	/**
-	 * Update a resource with a given UID with a given set of values.
+	 * Update a resource.
 	 * 
-	 * @param \Dracodeum\Kit\Structures\Uid|array|string|int|null $uid
-	 * <p>The UID to update with, as an instance, a set of <samp>name => value</samp> pairs, a string, an integer 
-	 * or <code>null</code>.</p>
+	 * @param coercible<\Dracodeum\Kit\Structures\Uid> $uid
+	 * The UID to update with.
+	 * 
 	 * @param array $values
-	 * <p>The values to update with, as a set of <samp>name => value</samp> pairs.</p>
-	 * @param bool $no_throw [default = false]
-	 * <p>Do not throw an exception.</p>
+	 * The values to update with, as a set of `name => value` pairs.
+	 * 
+	 * @param bool $no_throw
+	 * Do not throw an exception.
+	 * 
 	 * @throws \Dracodeum\Kit\Components\Store\Exceptions\NotFound
+	 * 
 	 * @return array|null
-	 * <p>The full or partial set of updated values of the resource with the given UID, 
-	 * as a set of <samp>name => value</samp> pairs.<br>
-	 * If <var>$no_throw</var> is set to boolean <code>true</code>, 
-	 * then <code>null</code> is returned if the resource was not found.</p>
+	 * The full or partial set of the updated resource values, as a set of `name => value` pairs.  
+	 * If `$no_throw` is set to boolean `true`, then `null` is returned if the resource was not found.
 	 */
 	final public function update($uid, array $values, bool $no_throw = false): ?array
 	{
@@ -329,18 +333,19 @@ class Store extends Component
 	}
 	
 	/**
-	 * Delete a resource with a given UID.
+	 * Delete a resource.
 	 * 
-	 * @param \Dracodeum\Kit\Structures\Uid|array|string|int|null $uid
-	 * <p>The UID to delete with, as an instance, a set of <samp>name => value</samp> pairs, a string, an integer 
-	 * or <code>null</code>.</p>
-	 * @param bool $no_throw [default = false]
-	 * <p>Do not throw an exception.</p>
+	 * @param coercible<\Dracodeum\Kit\Structures\Uid> $uid
+	 * The UID to delete with.
+	 * 
+	 * @param bool $no_throw
+	 * Do not throw an exception.
+	 * 
 	 * @throws \Dracodeum\Kit\Components\Store\Exceptions\NotFound
+	 * 
 	 * @return void|bool
-	 * <p>If <var>$no_throw</var> is set to boolean <code>true</code>, 
-	 * then boolean <code>true</code> is returned if the resource with the given UID was found and deleted, 
-	 * or boolean <code>false</code> if otherwise.</p>
+	 * If `$no_throw` is set to boolean `true`, then boolean `true` is returned if the resource was found and deleted, 
+	 * or boolean `false` if otherwise.
 	 */
 	final public function delete($uid, bool $no_throw = false)
 	{
@@ -378,19 +383,18 @@ class Store extends Component
 	
 	//Protected methods
 	/**
-	 * Halt the current function or method call in the stack with a given UID instance and type.
+	 * Halt the current function or method call in the stack.
 	 * 
-	 * @see \Dracodeum\Kit\Components\Store\Enumerations\Halt\Type
 	 * @param \Dracodeum\Kit\Structures\Uid $uid
-	 * <p>The UID instance to halt with.</p>
-	 * @param string $type
-	 * <p>The type to halt with,
-	 * as a name or value from the <code>Dracodeum\Kit\Components\Store\Enumerations\Halt\Type</code> enumeration.</p>
+	 * The UID instance to halt with.
+	 * 
+	 * @param coercible<enum<\Dracodeum\Kit\Components\Store\Enumerations\Halt\Type>> $type
+	 * The type to halt with.
+	 * 
 	 * @throws \Dracodeum\Kit\Components\Store\Exceptions\Halted
 	 * @throws \Dracodeum\Kit\Components\Store\Exceptions\NotFound
 	 * @throws \Dracodeum\Kit\Components\Store\Exceptions\ScopeNotFound
 	 * @throws \Dracodeum\Kit\Components\Store\Exceptions\Conflict
-	 * @return void
 	 */
 	protected function halt(Uid $uid, string $type): void
 	{

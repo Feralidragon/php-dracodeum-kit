@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @author Cláudio "Feralidragon" Luís <claudio.luis@aptoide.com>
+ * @author Cláudio "Feralidragon" Luís <claudioluis8@gmail.com>
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
@@ -11,15 +11,15 @@ use PHPUnit\Framework\TestCase;
 use Dracodeum\Kit\Utilities\Byte as UByte;
 use Dracodeum\Kit\Utilities\Byte\Exceptions;
 
-/** @see \Dracodeum\Kit\Utilities\Byte */
+/** @covers \Dracodeum\Kit\Utilities\Byte */
 class ByteTest extends TestCase
 {
 	//Public methods
 	/**
 	 * Test <code>hvalue</code> method.
 	 * 
-	 * @dataProvider provideHvalueMethodData
 	 * @testdox Byte::hvalue($value, $options) === '$expected'
+	 * @dataProvider provideHvalueData
 	 * 
 	 * @param int $value
 	 * <p>The method <var>$value</var> parameter to test with.</p>
@@ -27,20 +27,629 @@ class ByteTest extends TestCase
 	 * <p>The method <var>$options</var> parameter to test with.</p>
 	 * @param string $expected
 	 * <p>The expected method return value.</p>
-	 * @return void
 	 */
-	public function testHvalueMethod(int $value, $options, string $expected): void
+	public function testHvalue(int $value, $options, string $expected): void
 	{
 		$this->assertSame($expected, UByte::hvalue($value, $options));
 	}
 	
+	/**
+	 * Test <code>mvalue</code> method.
+	 * 
+	 * @testdox Byte::mvalue('$value') === $expected
+	 * @dataProvider provideMvalueData
+	 * 
+	 * @param string $value
+	 * <p>The method <var>$value</var> parameter to test with.</p>
+	 * @param int $expected
+	 * <p>The expected method return value.</p>
+	 */
+	public function testMvalue(string $value, int $expected): void
+	{
+		foreach ([false, true] as $no_throw) {
+			$this->assertSame($expected, UByte::mvalue($value, $no_throw));
+		}
+	}
+	
+	/**
+	 * Test <code>mvalue</code> method expecting an <code>InvalidValue</code> exception to be thrown.
+	 * 
+	 * @testdox Byte::mvalue('$value') --> InvalidValue exception
+	 * @dataProvider provideMvalueData_Exception_InvalidValue
+	 * 
+	 * @param string $value
+	 * <p>The method <var>$value</var> parameter to test with.</p>
+	 */
+	public function testMvalue_Exception_InvalidValue(string $value): void
+	{
+		$this->expectException(Exceptions\Mvalue\InvalidValue::class);
+		try {
+			UByte::mvalue($value);
+		} catch (Exceptions\Mvalue\InvalidValue $exception) {
+			$this->assertSame($value, $exception->value);
+			throw $exception;
+		}
+	}
+	
+	/**
+	 * Test <code>mvalue</code> method with <var>$no_throw</var> set to boolean <code>true</code>, 
+	 * expecting <code>null</code> to be returned.
+	 * 
+	 * @testdox Byte::mvalue('$value', true) === null
+	 * @dataProvider provideMvalueData_Exception_InvalidValue
+	 * 
+	 * @param string $value
+	 * <p>The method <var>$value</var> parameter to test with.</p>
+	 */
+	public function testMvalue_NoThrow_Null(string $value): void
+	{
+		$this->assertNull(UByte::mvalue($value, true));
+	}
+	
+	/**
+	 * Test <code>evaluateSize</code> method.
+	 * 
+	 * @testdox Byte::evaluateSize(&{$value} --> &{$expected_value}) === true
+	 * @dataProvider provideSizeCoercionData
+	 * 
+	 * @param mixed $value
+	 * <p>The method <var>$value</var> parameter to test with.</p>
+	 * @param int $expected_value
+	 * <p>The expected value derived from the given <var>$value</var> parameter.</p>
+	 */
+	public function testEvaluateSize($value, int $expected_value): void
+	{
+		foreach ([false, true] as $nullable) {
+			$v = $value;
+			$this->assertTrue(UByte::evaluateSize($v, $nullable));
+			$this->assertSame($expected_value, $v);
+		}
+	}
+	
+	/**
+	 * Test <code>coerceSize</code> method.
+	 * 
+	 * @testdox Byte::coerceSize({$value}) === $expected
+	 * @dataProvider provideSizeCoercionData
+	 * 
+	 * @param mixed $value
+	 * <p>The method <var>$value</var> parameter to test with.</p>
+	 * @param int|null $expected
+	 * <p>The expected method return value.</p>
+	 */
+	public function testCoerceSize($value, ?int $expected): void
+	{
+		foreach ([false, true] as $nullable) {
+			$this->assertSame($expected, UByte::coerceSize($value, $nullable));
+		}
+	}
+	
+	/**
+	 * Test <code>processSizeCoercion</code> method.
+	 * 
+	 * @testdox Byte::processSizeCoercion(&{$value} --> &{$expected_value}) === true
+	 * @dataProvider provideSizeCoercionData
+	 * 
+	 * @param mixed $value
+	 * <p>The method <var>$value</var> parameter to test with.</p>
+	 * @param int $expected_value
+	 * <p>The expected value derived from the given <var>$value</var> parameter.</p>
+	 */
+	public function testProcessSizeCoercion($value, int $expected_value): void
+	{
+		foreach ([false, true] as $nullable) {
+			foreach ([false, true] as $no_throw) {
+				$v = $value;
+				$this->assertTrue(UByte::processSizeCoercion($v, $nullable, $no_throw));
+				$this->assertSame($expected_value, $v);
+			}
+		}
+	}
+	
+	/**
+	 * Test <code>evaluateSize</code> method with a <code>null</code> value.
+	 * 
+	 * @testdox Byte::evaluateSize(&{null} --> &{null}, true) === true
+	 */
+	public function testEvaluateSize_Null(): void
+	{
+		$value = null;
+		$this->assertTrue(UByte::evaluateSize($value, true));
+		$this->assertNull($value);
+	}
+	
+	/**
+	 * Test <code>coerceSize</code> method with a <code>null</code> value.
+	 * 
+	 * @testdox Byte::coerceSize({null}, true) === null
+	 */
+	public function testCoerceSize_Null(): void
+	{
+		$this->assertNull(UByte::coerceSize(null, true));
+	}
+	
+	/**
+	 * Test <code>processSizeCoercion</code> method with a <code>null</code> value.
+	 * 
+	 * @testdox Byte::processSizeCoercion(&{null} --> &{null}, true) === true
+	 */
+	public function testProcessSizeCoercion_Null(): void
+	{
+		foreach ([false, true] as $no_throw) {
+			$value = null;
+			$this->assertTrue(UByte::processSizeCoercion($value, true, $no_throw));
+			$this->assertNull($value);
+		}
+	}
+	
+	/**
+	 * Test <code>evaluateSize</code> method expecting boolean <code>false</code> to be returned.
+	 * 
+	 * @testdox Byte::evaluateSize(&{$value}) === false
+	 * @dataProvider provideSizeCoercionData_Exception_SizeCoercionFailed
+	 * 
+	 * @param mixed $value
+	 * <p>The method <var>$value</var> parameter to test with.</p>
+	 */
+	public function testEvaluateSize_False($value): void
+	{
+		foreach ([false, true] as $nullable) {
+			$v = $value;
+			$this->assertFalse(UByte::evaluateSize($v, $nullable));
+			$this->assertSame($value, $v);
+		}
+	}
+	
+	/**
+	 * Test <code>coerceSize</code> method expecting a <code>SizeCoercionFailed</code> exception to be thrown.
+	 * 
+	 * @testdox Byte::coerceSize({$value}) --> SizeCoercionFailed exception
+	 * @dataProvider provideSizeCoercionData_Exception_SizeCoercionFailed
+	 * 
+	 * @param mixed $value
+	 * <p>The method <var>$value</var> parameter to test with.</p>
+	 */
+	public function testCoerceSize_Exception_SizeCoercionFailed($value): void
+	{
+		$this->expectException(Exceptions\SizeCoercionFailed::class);
+		try {
+			UByte::coerceSize($value);
+		} catch (Exceptions\SizeCoercionFailed $exception) {
+			$this->assertSame($value, $exception->getValue());
+			throw $exception;
+		}
+	}
+	
+	/**
+	 * Test <code>processSizeCoercion</code> method expecting a <code>SizeCoercionFailed</code> exception to be thrown.
+	 * 
+	 * @testdox Byte::processSizeCoercion(&{$value}) --> SizeCoercionFailed exception
+	 * @dataProvider provideSizeCoercionData_Exception_SizeCoercionFailed
+	 * 
+	 * @param mixed $value
+	 * <p>The method <var>$value</var> parameter to test with.</p>
+	 */
+	public function testProcessSizeCoercion_Exception_SizeCoercionFailed($value): void
+	{
+		$v = $value;
+		$this->expectException(Exceptions\SizeCoercionFailed::class);
+		try {
+			UByte::processSizeCoercion($v);
+		} catch (Exceptions\SizeCoercionFailed $exception) {
+			$this->assertSame($value, $v);
+			$this->assertSame($value, $exception->getValue());
+			throw $exception;
+		}
+	}
+	
+	/**
+	 * Test <code>processSizeCoercion</code> method with <var>$no_throw</var> set to boolean <code>true</code>, 
+	 * expecting boolean <code>false</code> to be returned.
+	 * 
+	 * @testdox Byte::processSizeCoercion(&{$value}, false|true, true) === false
+	 * @dataProvider provideSizeCoercionData_Exception_SizeCoercionFailed
+	 * 
+	 * @param mixed $value
+	 * <p>The method <var>$value</var> parameter to test with.</p>
+	 */
+	public function testProcessSizeCoercion_NoThrow_False($value): void
+	{
+		foreach ([false, true] as $nullable) {
+			$v = $value;
+			$this->assertFalse(UByte::processSizeCoercion($v, $nullable, true));
+			$this->assertSame($value, $v);
+		}
+	}
+	
+	/**
+	 * Test <code>evaluateSize</code> method with a <code>null</code> value, 
+	 * expecting boolean <code>false</code> to be returned.
+	 * 
+	 * @testdox Byte::evaluateSize(&{null} --> &{null}) === false
+	 */
+	public function testEvaluateSize_Null_False(): void
+	{
+		$value = null;
+		$this->assertFalse(UByte::evaluateSize($value));
+		$this->assertNull($value);
+	}
+	
+	/**
+	 * Test <code>coerceSize</code> method with a <code>null</code> value, 
+	 * expecting a <code>SizeCoercionFailed</code> exception to be thrown.
+	 * 
+	 * @testdox Byte::coerceSize({null}) --> SizeCoercionFailed exception
+	 */
+	public function testCoerceSize_Null_Exception_SizeCoercionFailed(): void
+	{
+		$this->expectException(Exceptions\SizeCoercionFailed::class);
+		try {
+			UByte::coerceSize(null);
+		} catch (Exceptions\SizeCoercionFailed $exception) {
+			$this->assertNull($exception->getValue());
+			throw $exception;
+		}
+	}
+	
+	/**
+	 * Test <code>processSizeCoercion</code> method with a <code>null</code> value, 
+	 * expecting a <code>SizeCoercionFailed</code> exception to be thrown.
+	 * 
+	 * @testdox Byte::processSizeCoercion(&{null}) --> SizeCoercionFailed exception
+	 */
+	public function testProcessSizeCoercion_Null_Exception_SizeCoercionFailed(): void
+	{
+		$value = null;
+		$this->expectException(Exceptions\SizeCoercionFailed::class);
+		try {
+			UByte::processSizeCoercion($value);
+		} catch (Exceptions\SizeCoercionFailed $exception) {
+			$this->assertNull($value);
+			$this->assertNull($exception->getValue());
+			throw $exception;
+		}
+	}
+	
+	/**
+	 * Test <code>processSizeCoercion</code> method with a <code>null</code> value, 
+	 * with <var>$no_throw</var> set to boolean <code>true</code>, expecting boolean <code>false</code> to be returned.
+	 * 
+	 * @testdox Byte::processSizeCoercion(&{null}, false, true) === false
+	 */
+	public function testProcessSizeCoercion_Null_NoThrow_False(): void
+	{
+		$value = null;
+		$this->assertFalse(UByte::processSizeCoercion($value, false, true));
+		$this->assertNull($value);
+	}
+	
+	/**
+	 * Test <code>evaluateMultiple</code> method.
+	 * 
+	 * @testdox Byte::evaluateMultiple(&{$value} --> &{$expected_value}) === true
+	 * @dataProvider provideMultipleCoercionData
+	 * 
+	 * @param mixed $value
+	 * <p>The method <var>$value</var> parameter to test with.</p>
+	 * @param int $expected_value
+	 * <p>The expected value derived from the given <var>$value</var> parameter.</p>
+	 */
+	public function testEvaluateMultiple($value, int $expected_value): void
+	{
+		foreach ([false, true] as $nullable) {
+			$v = $value;
+			$this->assertTrue(UByte::evaluateMultiple($v, $nullable));
+			$this->assertSame($expected_value, $v);
+		}
+	}
+	
+	/**
+	 * Test <code>coerceMultiple</code> method.
+	 * 
+	 * @testdox Byte::coerceMultiple({$value}) === $expected
+	 * @dataProvider provideMultipleCoercionData
+	 * 
+	 * @param mixed $value
+	 * <p>The method <var>$value</var> parameter to test with.</p>
+	 * @param int|null $expected
+	 * <p>The expected method return value.</p>
+	 */
+	public function testCoerceMultiple($value, ?int $expected): void
+	{
+		foreach ([false, true] as $nullable) {
+			$this->assertSame($expected, UByte::coerceMultiple($value, $nullable));
+		}
+	}
+	
+	/**
+	 * Test <code>processMultipleCoercion</code> method.
+	 * 
+	 * @testdox Byte::processMultipleCoercion(&{$value} --> &{$expected_value}) === true
+	 * @dataProvider provideMultipleCoercionData
+	 * 
+	 * @param mixed $value
+	 * <p>The method <var>$value</var> parameter to test with.</p>
+	 * @param int $expected_value
+	 * <p>The expected value derived from the given <var>$value</var> parameter.</p>
+	 */
+	public function testProcessMultipleCoercion($value, int $expected_value): void
+	{
+		foreach ([false, true] as $nullable) {
+			foreach ([false, true] as $no_throw) {
+				$v = $value;
+				$this->assertTrue(UByte::processMultipleCoercion($v, $nullable, $no_throw));
+				$this->assertSame($expected_value, $v);
+			}
+		}
+	}
+	
+	/**
+	 * Test <code>evaluateMultiple</code> method with a <code>null</code> value.
+	 * 
+	 * @testdox Byte::evaluateMultiple(&{null} --> &{null}, true) === true
+	 */
+	public function testEvaluateMultiple_Null(): void
+	{
+		$value = null;
+		$this->assertTrue(UByte::evaluateMultiple($value, true));
+		$this->assertNull($value);
+	}
+	
+	/**
+	 * Test <code>coerceMultiple</code> method with a <code>null</code> value.
+	 * 
+	 * @testdox Byte::coerceMultiple({null}, true) === null
+	 */
+	public function testCoerceMultiple_Null(): void
+	{
+		$this->assertNull(UByte::coerceMultiple(null, true));
+	}
+	
+	/**
+	 * Test <code>processMultipleCoercion</code> method with a <code>null</code> value.
+	 * 
+	 * @testdox Byte::processMultipleCoercion(&{null} --> &{null}, true) === true
+	 */
+	public function testProcessMultipleCoercion_Null(): void
+	{
+		foreach ([false, true] as $no_throw) {
+			$value = null;
+			$this->assertTrue(UByte::processMultipleCoercion($value, true, $no_throw));
+			$this->assertNull($value);
+		}
+	}
+	
+	/**
+	 * Test <code>evaluateMultiple</code> method expecting boolean <code>false</code> to be returned.
+	 * 
+	 * @testdox Byte::evaluateMultiple(&{$value}) === false
+	 * @dataProvider provideMultipleCoercionData_Exception_MultipleCoercionFailed
+	 * 
+	 * @param mixed $value
+	 * <p>The method <var>$value</var> parameter to test with.</p>
+	 */
+	public function testEvaluateMultiple_False($value): void
+	{
+		foreach ([false, true] as $nullable) {
+			$v = $value;
+			$this->assertFalse(UByte::evaluateMultiple($v, $nullable));
+			$this->assertSame($value, $v);
+		}
+	}
+	
+	/**
+	 * Test <code>coerceMultiple</code> method expecting a <code>MultipleCoercionFailed</code> exception to be thrown.
+	 * 
+	 * @testdox Byte::coerceMultiple({$value}) --> MultipleCoercionFailed exception
+	 * @dataProvider provideMultipleCoercionData_Exception_MultipleCoercionFailed
+	 * 
+	 * @param mixed $value
+	 * <p>The method <var>$value</var> parameter to test with.</p>
+	 */
+	public function testCoerceMultiple_Exception_MultipleCoercionFailed($value): void
+	{
+		$this->expectException(Exceptions\MultipleCoercionFailed::class);
+		try {
+			UByte::coerceMultiple($value);
+		} catch (Exceptions\MultipleCoercionFailed $exception) {
+			$this->assertSame($value, $exception->getValue());
+			throw $exception;
+		}
+	}
+	
+	/**
+	 * Test <code>processMultipleCoercion</code> method expecting a <code>MultipleCoercionFailed</code> exception to be 
+	 * thrown.
+	 * 
+	 * @testdox Byte::processMultipleCoercion(&{$value}) --> MultipleCoercionFailed exception
+	 * @dataProvider provideMultipleCoercionData_Exception_MultipleCoercionFailed
+	 * 
+	 * @param mixed $value
+	 * <p>The method <var>$value</var> parameter to test with.</p>
+	 */
+	public function testProcessMultipleCoercion_Exception_MultipleCoercionFailed($value): void
+	{
+		$v = $value;
+		$this->expectException(Exceptions\MultipleCoercionFailed::class);
+		try {
+			UByte::processMultipleCoercion($v);
+		} catch (Exceptions\MultipleCoercionFailed $exception) {
+			$this->assertSame($value, $v);
+			$this->assertSame($value, $exception->getValue());
+			throw $exception;
+		}
+	}
+	
+	/**
+	 * Test <code>processMultipleCoercion</code> method with <var>$no_throw</var> set to boolean <code>true</code>, 
+	 * expecting boolean <code>false</code> to be returned.
+	 * 
+	 * @testdox Byte::processMultipleCoercion(&{$value}, false|true, true) === false
+	 * @dataProvider provideMultipleCoercionData_Exception_MultipleCoercionFailed
+	 * 
+	 * @param mixed $value
+	 * <p>The method <var>$value</var> parameter to test with.</p>
+	 */
+	public function testProcessMultipleCoercion_NoThrow_False($value): void
+	{
+		foreach ([false, true] as $nullable) {
+			$v = $value;
+			$this->assertFalse(UByte::processMultipleCoercion($v, $nullable, true));
+			$this->assertSame($value, $v);
+		}
+	}
+	
+	/**
+	 * Test <code>evaluateMultiple</code> method with a <code>null</code> value, 
+	 * expecting boolean <code>false</code> to be returned.
+	 * 
+	 * @testdox Byte::evaluateMultiple(&{null} --> &{null}) === false
+	 */
+	public function testEvaluateMultiple_Null_False(): void
+	{
+		$value = null;
+		$this->assertFalse(UByte::evaluateMultiple($value));
+		$this->assertNull($value);
+	}
+	
+	/**
+	 * Test <code>coerceMultiple</code> method with a <code>null</code> value, 
+	 * expecting a <code>MultipleCoercionFailed</code> exception to be thrown.
+	 * 
+	 * @testdox Byte::coerceMultiple({null}) --> MultipleCoercionFailed exception
+	 */
+	public function testCoerceMultiple_Null_Exception_MultipleCoercionFailed(): void
+	{
+		$this->expectException(Exceptions\MultipleCoercionFailed::class);
+		try {
+			UByte::coerceMultiple(null);
+		} catch (Exceptions\MultipleCoercionFailed $exception) {
+			$this->assertNull($exception->getValue());
+			throw $exception;
+		}
+	}
+	
+	/**
+	 * Test <code>processMultipleCoercion</code> method with a <code>null</code> value, 
+	 * expecting a <code>MultipleCoercionFailed</code> exception to be thrown.
+	 * 
+	 * @testdox Byte::processMultipleCoercion(&{null}) --> MultipleCoercionFailed exception
+	 */
+	public function testProcessMultipleCoercion_Null_Exception_MultipleCoercionFailed(): void
+	{
+		$value = null;
+		$this->expectException(Exceptions\MultipleCoercionFailed::class);
+		try {
+			UByte::processMultipleCoercion($value);
+		} catch (Exceptions\MultipleCoercionFailed $exception) {
+			$this->assertNull($value);
+			$this->assertNull($exception->getValue());
+			throw $exception;
+		}
+	}
+	
+	/**
+	 * Test <code>processMultipleCoercion</code> method with a <code>null</code> value, 
+	 * with <var>$no_throw</var> set to boolean <code>true</code>, expecting boolean <code>false</code> to be returned.
+	 * 
+	 * @testdox Byte::processMultipleCoercion(&{null}, false, true) === false
+	 */
+	public function testProcessMultipleCoercion_Null_NoThrow_False(): void
+	{
+		$value = null;
+		$this->assertFalse(UByte::processMultipleCoercion($value, false, true));
+		$this->assertNull($value);
+	}
+	
+	/**
+	 * Test flag methods.
+	 * 
+	 * @testdox Flags
+	 */
+	public function testFlags(): void
+	{
+		//initialize
+		$value = 0x0;
+		$flag1 = 0x1;
+		$flag2 = 0x2;
+		$flag3 = 0x4;
+		
+		//assert
+		$this->assertFalse(UByte::hasFlag($value, $flag1));
+		$this->assertFalse(UByte::hasFlag($value, $flag2));
+		$this->assertFalse(UByte::hasFlag($value, $flag3));
+		
+		//set (1)
+		UByte::setFlag($value, $flag1);
+		$this->assertTrue(UByte::hasFlag($value, $flag1));
+		$this->assertFalse(UByte::hasFlag($value, $flag2));
+		$this->assertFalse(UByte::hasFlag($value, $flag3));
+		
+		//set (2)
+		UByte::setFlag($value, $flag3);
+		$this->assertTrue(UByte::hasFlag($value, $flag1));
+		$this->assertFalse(UByte::hasFlag($value, $flag2));
+		$this->assertTrue(UByte::hasFlag($value, $flag3));
+		
+		//set (3)
+		UByte::setFlag($value, $flag2);
+		$this->assertTrue(UByte::hasFlag($value, $flag1));
+		$this->assertTrue(UByte::hasFlag($value, $flag2));
+		$this->assertTrue(UByte::hasFlag($value, $flag3));
+		
+		//unset (1)
+		UByte::unsetFlag($value, $flag1);
+		$this->assertFalse(UByte::hasFlag($value, $flag1));
+		$this->assertTrue(UByte::hasFlag($value, $flag2));
+		$this->assertTrue(UByte::hasFlag($value, $flag3));
+		
+		//unset (2)
+		UByte::unsetFlag($value, $flag3);
+		$this->assertFalse(UByte::hasFlag($value, $flag1));
+		$this->assertTrue(UByte::hasFlag($value, $flag2));
+		$this->assertFalse(UByte::hasFlag($value, $flag3));
+		
+		//unset (3)
+		UByte::unsetFlag($value, $flag2);
+		$this->assertFalse(UByte::hasFlag($value, $flag1));
+		$this->assertFalse(UByte::hasFlag($value, $flag2));
+		$this->assertFalse(UByte::hasFlag($value, $flag3));
+		
+		//update (1)
+		UByte::updateFlag($value, $flag1, true);
+		$this->assertTrue(UByte::hasFlag($value, $flag1));
+		$this->assertFalse(UByte::hasFlag($value, $flag2));
+		$this->assertFalse(UByte::hasFlag($value, $flag3));
+		
+		//update (2)
+		UByte::updateFlag($value, $flag3, true);
+		$this->assertTrue(UByte::hasFlag($value, $flag1));
+		$this->assertFalse(UByte::hasFlag($value, $flag2));
+		$this->assertTrue(UByte::hasFlag($value, $flag3));
+		
+		//update (3)
+		UByte::updateFlag($value, $flag1, false);
+		$this->assertFalse(UByte::hasFlag($value, $flag1));
+		$this->assertFalse(UByte::hasFlag($value, $flag2));
+		$this->assertTrue(UByte::hasFlag($value, $flag3));
+		
+		//update (4)
+		UByte::updateFlag($value, $flag3, false);
+		$this->assertFalse(UByte::hasFlag($value, $flag1));
+		$this->assertFalse(UByte::hasFlag($value, $flag2));
+		$this->assertFalse(UByte::hasFlag($value, $flag3));
+	}
+	
+	
+	
+	//Public static methods
 	/**
 	 * Provide <code>hvalue</code> method data.
 	 * 
 	 * @return array
 	 * <p>The provided <code>hvalue</code> method data.</p>
 	 */
-	public function provideHvalueMethodData(): array
+	public static function provideHvalueData(): array
 	{
 		return [
 			[0, null, '0 B'],
@@ -97,31 +706,12 @@ class ByteTest extends TestCase
 	}
 	
 	/**
-	 * Test <code>mvalue</code> method.
-	 * 
-	 * @dataProvider provideMvalueMethodData
-	 * @testdox Byte::mvalue('$value') === $expected
-	 * 
-	 * @param string $value
-	 * <p>The method <var>$value</var> parameter to test with.</p>
-	 * @param int $expected
-	 * <p>The expected method return value.</p>
-	 * @return void
-	 */
-	public function testMvalueMethod(string $value, int $expected): void
-	{
-		foreach ([false, true] as $no_throw) {
-			$this->assertSame($expected, UByte::mvalue($value, $no_throw));
-		}
-	}
-	
-	/**
 	 * Provide <code>mvalue</code> method data.
 	 * 
 	 * @return array
 	 * <p>The provided <code>mvalue</code> method data.</p>
 	 */
-	public function provideMvalueMethodData(): array
+	public static function provideMvalueData(): array
 	{
 		return [
 			['0', 0],
@@ -188,49 +778,12 @@ class ByteTest extends TestCase
 	}
 	
 	/**
-	 * Test <code>mvalue</code> method expecting an <code>InvalidValue</code> exception to be thrown.
-	 * 
-	 * @dataProvider provideMvalueMethodData_InvalidValueException
-	 * @testdox Byte::mvalue('$value') --> InvalidValue exception
-	 * 
-	 * @param string $value
-	 * <p>The method <var>$value</var> parameter to test with.</p>
-	 * @return void
-	 */
-	public function testMvalueMethod_InvalidValueException(string $value): void
-	{
-		$this->expectException(Exceptions\Mvalue\InvalidValue::class);
-		try {
-			UByte::mvalue($value);
-		} catch (Exceptions\Mvalue\InvalidValue $exception) {
-			$this->assertSame($value, $exception->value);
-			throw $exception;
-		}
-	}
-	
-	/**
-	 * Test <code>mvalue</code> method with <var>$no_throw</var> set to boolean <code>true</code>, 
-	 * expecting <code>null</code> to be returned.
-	 * 
-	 * @dataProvider provideMvalueMethodData_InvalidValueException
-	 * @testdox Byte::mvalue('$value', true) === NULL
-	 * 
-	 * @param string $value
-	 * <p>The method <var>$value</var> parameter to test with.</p>
-	 * @return void
-	 */
-	public function testMvalueMethod_NoThrowNull(string $value): void
-	{
-		$this->assertNull(UByte::mvalue($value, true));
-	}
-	
-	/**
 	 * Provide <code>mvalue</code> method data for an <code>InvalidValue</code> exception to be thrown.
 	 * 
 	 * @return array
 	 * <p>The provided <code>mvalue</code> method data for an <code>InvalidValue</code> exception to be thrown.</p>
 	 */
-	public function provideMvalueMethodData_InvalidValueException(): array
+	public static function provideMvalueData_Exception_InvalidValue(): array
 	{
 		return [
 			[''],
@@ -249,75 +802,12 @@ class ByteTest extends TestCase
 	}
 	
 	/**
-	 * Test <code>evaluateSize</code> method.
-	 * 
-	 * @dataProvider provideSizeCoercionMethodData
-	 * @testdox Byte::evaluateSize(&{$value} --> &{$expected_value}) === true
-	 * 
-	 * @param mixed $value
-	 * <p>The method <var>$value</var> parameter to test with.</p>
-	 * @param int $expected_value
-	 * <p>The expected value derived from the given <var>$value</var> parameter.</p>
-	 * @return void
-	 */
-	public function testEvaluateSizeMethod($value, int $expected_value): void
-	{
-		foreach ([false, true] as $nullable) {
-			$v = $value;
-			$this->assertTrue(UByte::evaluateSize($v, $nullable));
-			$this->assertSame($expected_value, $v);
-		}
-	}
-	
-	/**
-	 * Test <code>coerceSize</code> method.
-	 * 
-	 * @dataProvider provideSizeCoercionMethodData
-	 * @testdox Byte::coerceSize({$value}) === $expected
-	 * 
-	 * @param mixed $value
-	 * <p>The method <var>$value</var> parameter to test with.</p>
-	 * @param int|null $expected
-	 * <p>The expected method return value.</p>
-	 * @return void
-	 */
-	public function testCoerceSizeMethod($value, ?int $expected): void
-	{
-		foreach ([false, true] as $nullable) {
-			$this->assertSame($expected, UByte::coerceSize($value, $nullable));
-		}
-	}
-	
-	/**
-	 * Test <code>processSizeCoercion</code> method.
-	 * 
-	 * @dataProvider provideSizeCoercionMethodData
-	 * @testdox Byte::processSizeCoercion(&{$value} --> &{$expected_value}) === true
-	 * 
-	 * @param mixed $value
-	 * <p>The method <var>$value</var> parameter to test with.</p>
-	 * @param int $expected_value
-	 * <p>The expected value derived from the given <var>$value</var> parameter.</p>
-	 * @return void
-	 */
-	public function testProcessSizeCoercionMethod($value, int $expected_value): void
-	{
-		foreach ([false, true] as $nullable) {
-			foreach ([false, true] as $no_throw) {
-				$v = $value;
-				$this->assertTrue(UByte::processSizeCoercion($v, $nullable, $no_throw));
-				$this->assertSame($expected_value, $v);
-			}
-		}
-	}
-	
-	/**
 	 * Provide size coercion method data.
 	 * 
 	 * @return array
 	 * <p>The provided size coercion method data.</p>
 	 */
-	public function provideSizeCoercionMethodData(): array
+	public static function provideSizeCoercionData(): array
 	{
 		return [
 			[0, 0],
@@ -356,137 +846,12 @@ class ByteTest extends TestCase
 	}
 	
 	/**
-	 * Test <code>evaluateSize</code> method with a <code>null</code> value.
-	 * 
-	 * @testdox Byte::evaluateSize(&{NULL} --> &{NULL}, true) === true
-	 * 
-	 * @return void
-	 */
-	public function testEvaluateSizeMethod_NullValue(): void
-	{
-		$value = null;
-		$this->assertTrue(UByte::evaluateSize($value, true));
-		$this->assertNull($value);
-	}
-	
-	/**
-	 * Test <code>coerceSize</code> method with a <code>null</code> value.
-	 * 
-	 * @testdox Byte::coerceSize({NULL}, true) === NULL
-	 * 
-	 * @return void
-	 */
-	public function testCoerceSizeMethod_NullValue(): void
-	{
-		$this->assertNull(UByte::coerceSize(null, true));
-	}
-	
-	/**
-	 * Test <code>processSizeCoercion</code> method with a <code>null</code> value.
-	 * 
-	 * @testdox Byte::processSizeCoercion(&{NULL} --> &{NULL}, true) === true
-	 * 
-	 * @return void
-	 */
-	public function testProcessSizeCoercionMethod_NullValue(): void
-	{
-		foreach ([false, true] as $no_throw) {
-			$value = null;
-			$this->assertTrue(UByte::processSizeCoercion($value, true, $no_throw));
-			$this->assertNull($value);
-		}
-	}
-	
-	/**
-	 * Test <code>evaluateSize</code> method expecting boolean <code>false</code> to be returned.
-	 * 
-	 * @dataProvider provideSizeCoercionMethodData_SizeCoercionFailedException
-	 * @testdox Byte::evaluateSize(&{$value}) === false
-	 * 
-	 * @param mixed $value
-	 * <p>The method <var>$value</var> parameter to test with.</p>
-	 * @return void
-	 */
-	public function testEvaluateSizeMethod_False($value): void
-	{
-		foreach ([false, true] as $nullable) {
-			$v = $value;
-			$this->assertFalse(UByte::evaluateSize($v, $nullable));
-			$this->assertSame($value, $v);
-		}
-	}
-	
-	/**
-	 * Test <code>coerceSize</code> method expecting a <code>SizeCoercionFailed</code> exception to be thrown.
-	 * 
-	 * @dataProvider provideSizeCoercionMethodData_SizeCoercionFailedException
-	 * @testdox Byte::coerceSize({$value}) --> SizeCoercionFailed exception
-	 * 
-	 * @param mixed $value
-	 * <p>The method <var>$value</var> parameter to test with.</p>
-	 * @return void
-	 */
-	public function testCoerceSizeMethod_SizeCoercionFailedException($value): void
-	{
-		$this->expectException(Exceptions\SizeCoercionFailed::class);
-		try {
-			UByte::coerceSize($value);
-		} catch (Exceptions\SizeCoercionFailed $exception) {
-			$this->assertSame($value, $exception->getValue());
-			throw $exception;
-		}
-	}
-	
-	/**
-	 * Test <code>processSizeCoercion</code> method expecting a <code>SizeCoercionFailed</code> exception to be thrown.
-	 * 
-	 * @dataProvider provideSizeCoercionMethodData_SizeCoercionFailedException
-	 * @testdox Byte::processSizeCoercion(&{$value}) --> SizeCoercionFailed exception
-	 * 
-	 * @param mixed $value
-	 * <p>The method <var>$value</var> parameter to test with.</p>
-	 * @return void
-	 */
-	public function testProcessSizeCoercionMethod_SizeCoercionFailedException($value): void
-	{
-		$v = $value;
-		$this->expectException(Exceptions\SizeCoercionFailed::class);
-		try {
-			UByte::processSizeCoercion($v);
-		} catch (Exceptions\SizeCoercionFailed $exception) {
-			$this->assertSame($value, $v);
-			$this->assertSame($value, $exception->getValue());
-			throw $exception;
-		}
-	}
-	
-	/**
-	 * Test <code>processSizeCoercion</code> method with <var>$no_throw</var> set to boolean <code>true</code>, 
-	 * expecting boolean <code>false</code> to be returned.
-	 * 
-	 * @dataProvider provideSizeCoercionMethodData_SizeCoercionFailedException
-	 * @testdox Byte::processSizeCoercion(&{$value}, false|true, true) === false
-	 * 
-	 * @param mixed $value
-	 * <p>The method <var>$value</var> parameter to test with.</p>
-	 * @return void
-	 */
-	public function testProcessSizeCoercionMethod_NoThrowFalse($value): void
-	{
-		foreach ([false, true] as $nullable) {
-			$v = $value;
-			$this->assertFalse(UByte::processSizeCoercion($v, $nullable, true));
-			$this->assertSame($value, $v);
-		}
-	}
-	
-	/**
 	 * Provide size coercion method data for a <code>SizeCoercionFailed</code> exception to be thrown.
 	 * 
 	 * @return array
 	 * <p>The provided size coercion method data for a <code>SizeCoercionFailed</code> exception to be thrown.</p>
 	 */
-	public function provideSizeCoercionMethodData_SizeCoercionFailedException(): array
+	public static function provideSizeCoercionData_Exception_SizeCoercionFailed(): array
 	{
 		return [
 			[false],
@@ -505,142 +870,9 @@ class ByteTest extends TestCase
 			['5.5 bytes'],
 			['123.4567 kB'],
 			[[]],
-			[new \stdClass()],
+			[new \stdClass],
 			[fopen(__FILE__, 'r')]
 		];
-	}
-	
-	/**
-	 * Test <code>evaluateSize</code> method with a <code>null</code> value, 
-	 * expecting boolean <code>false</code> to be returned.
-	 * 
-	 * @testdox Byte::evaluateSize(&{NULL} --> &{NULL}) === false
-	 * 
-	 * @return void
-	 */
-	public function testEvaluateSizeMethod_NullValue_False(): void
-	{
-		$value = null;
-		$this->assertFalse(UByte::evaluateSize($value));
-		$this->assertNull($value);
-	}
-	
-	/**
-	 * Test <code>coerceSize</code> method with a <code>null</code> value, 
-	 * expecting a <code>SizeCoercionFailed</code> exception to be thrown.
-	 * 
-	 * @testdox Byte::coerceSize({NULL}) --> SizeCoercionFailed exception
-	 * 
-	 * @return void
-	 */
-	public function testCoerceSizeMethod_NullValue_SizeCoercionFailedException(): void
-	{
-		$this->expectException(Exceptions\SizeCoercionFailed::class);
-		try {
-			UByte::coerceSize(null);
-		} catch (Exceptions\SizeCoercionFailed $exception) {
-			$this->assertNull($exception->getValue());
-			throw $exception;
-		}
-	}
-	
-	/**
-	 * Test <code>processSizeCoercion</code> method with a <code>null</code> value, 
-	 * expecting a <code>SizeCoercionFailed</code> exception to be thrown.
-	 * 
-	 * @testdox Byte::processSizeCoercion(&{NULL}) --> SizeCoercionFailed exception
-	 * 
-	 * @return void
-	 */
-	public function testProcessSizeCoercionMethod_NullValue_SizeCoercionFailedException(): void
-	{
-		$value = null;
-		$this->expectException(Exceptions\SizeCoercionFailed::class);
-		try {
-			UByte::processSizeCoercion($value);
-		} catch (Exceptions\SizeCoercionFailed $exception) {
-			$this->assertNull($value);
-			$this->assertNull($exception->getValue());
-			throw $exception;
-		}
-	}
-	
-	/**
-	 * Test <code>processSizeCoercion</code> method with a <code>null</code> value, 
-	 * with <var>$no_throw</var> set to boolean <code>true</code>, expecting boolean <code>false</code> to be returned.
-	 * 
-	 * @testdox Byte::processSizeCoercion(&{NULL}, false, true) === false
-	 * 
-	 * @return void
-	 */
-	public function testProcessSizeCoercionMethod_NullValue_NoThrowFalse(): void
-	{
-		$value = null;
-		$this->assertFalse(UByte::processSizeCoercion($value, false, true));
-		$this->assertNull($value);
-	}
-	
-	/**
-	 * Test <code>evaluateMultiple</code> method.
-	 * 
-	 * @dataProvider provideMultipleCoercionMethodData
-	 * @testdox Byte::evaluateMultiple(&{$value} --> &{$expected_value}) === true
-	 * 
-	 * @param mixed $value
-	 * <p>The method <var>$value</var> parameter to test with.</p>
-	 * @param int $expected_value
-	 * <p>The expected value derived from the given <var>$value</var> parameter.</p>
-	 * @return void
-	 */
-	public function testEvaluateMultipleMethod($value, int $expected_value): void
-	{
-		foreach ([false, true] as $nullable) {
-			$v = $value;
-			$this->assertTrue(UByte::evaluateMultiple($v, $nullable));
-			$this->assertSame($expected_value, $v);
-		}
-	}
-	
-	/**
-	 * Test <code>coerceMultiple</code> method.
-	 * 
-	 * @dataProvider provideMultipleCoercionMethodData
-	 * @testdox Byte::coerceMultiple({$value}) === $expected
-	 * 
-	 * @param mixed $value
-	 * <p>The method <var>$value</var> parameter to test with.</p>
-	 * @param int|null $expected
-	 * <p>The expected method return value.</p>
-	 * @return void
-	 */
-	public function testCoerceMultipleMethod($value, ?int $expected): void
-	{
-		foreach ([false, true] as $nullable) {
-			$this->assertSame($expected, UByte::coerceMultiple($value, $nullable));
-		}
-	}
-	
-	/**
-	 * Test <code>processMultipleCoercion</code> method.
-	 * 
-	 * @dataProvider provideMultipleCoercionMethodData
-	 * @testdox Byte::processMultipleCoercion(&{$value} --> &{$expected_value}) === true
-	 * 
-	 * @param mixed $value
-	 * <p>The method <var>$value</var> parameter to test with.</p>
-	 * @param int $expected_value
-	 * <p>The expected value derived from the given <var>$value</var> parameter.</p>
-	 * @return void
-	 */
-	public function testProcessMultipleCoercionMethod($value, int $expected_value): void
-	{
-		foreach ([false, true] as $nullable) {
-			foreach ([false, true] as $no_throw) {
-				$v = $value;
-				$this->assertTrue(UByte::processMultipleCoercion($v, $nullable, $no_throw));
-				$this->assertSame($expected_value, $v);
-			}
-		}
 	}
 	
 	/**
@@ -649,7 +881,7 @@ class ByteTest extends TestCase
 	 * @return array
 	 * <p>The provided multiple coercion method data.</p>
 	 */
-	public function provideMultipleCoercionMethodData(): array
+	public static function provideMultipleCoercionData(): array
 	{
 		return [
 			[1, 1],
@@ -698,139 +930,13 @@ class ByteTest extends TestCase
 	}
 	
 	/**
-	 * Test <code>evaluateMultiple</code> method with a <code>null</code> value.
-	 * 
-	 * @testdox Byte::evaluateMultiple(&{NULL} --> &{NULL}, true) === true
-	 * 
-	 * @return void
-	 */
-	public function testEvaluateMultipleMethod_NullValue(): void
-	{
-		$value = null;
-		$this->assertTrue(UByte::evaluateMultiple($value, true));
-		$this->assertNull($value);
-	}
-	
-	/**
-	 * Test <code>coerceMultiple</code> method with a <code>null</code> value.
-	 * 
-	 * @testdox Byte::coerceMultiple({NULL}, true) === NULL
-	 * 
-	 * @return void
-	 */
-	public function testCoerceMultipleMethod_NullValue(): void
-	{
-		$this->assertNull(UByte::coerceMultiple(null, true));
-	}
-	
-	/**
-	 * Test <code>processMultipleCoercion</code> method with a <code>null</code> value.
-	 * 
-	 * @testdox Byte::processMultipleCoercion(&{NULL} --> &{NULL}, true) === true
-	 * 
-	 * @return void
-	 */
-	public function testProcessMultipleCoercionMethod_NullValue(): void
-	{
-		foreach ([false, true] as $no_throw) {
-			$value = null;
-			$this->assertTrue(UByte::processMultipleCoercion($value, true, $no_throw));
-			$this->assertNull($value);
-		}
-	}
-	
-	/**
-	 * Test <code>evaluateMultiple</code> method expecting boolean <code>false</code> to be returned.
-	 * 
-	 * @dataProvider provideMultipleCoercionMethodData_MultipleCoercionFailedException
-	 * @testdox Byte::evaluateMultiple(&{$value}) === false
-	 * 
-	 * @param mixed $value
-	 * <p>The method <var>$value</var> parameter to test with.</p>
-	 * @return void
-	 */
-	public function testEvaluateMultipleMethod_False($value): void
-	{
-		foreach ([false, true] as $nullable) {
-			$v = $value;
-			$this->assertFalse(UByte::evaluateMultiple($v, $nullable));
-			$this->assertSame($value, $v);
-		}
-	}
-	
-	/**
-	 * Test <code>coerceMultiple</code> method expecting a <code>MultipleCoercionFailed</code> exception to be thrown.
-	 * 
-	 * @dataProvider provideMultipleCoercionMethodData_MultipleCoercionFailedException
-	 * @testdox Byte::coerceMultiple({$value}) --> MultipleCoercionFailed exception
-	 * 
-	 * @param mixed $value
-	 * <p>The method <var>$value</var> parameter to test with.</p>
-	 * @return void
-	 */
-	public function testCoerceMultipleMethod_MultipleCoercionFailedException($value): void
-	{
-		$this->expectException(Exceptions\MultipleCoercionFailed::class);
-		try {
-			UByte::coerceMultiple($value);
-		} catch (Exceptions\MultipleCoercionFailed $exception) {
-			$this->assertSame($value, $exception->getValue());
-			throw $exception;
-		}
-	}
-	
-	/**
-	 * Test <code>processMultipleCoercion</code> method expecting a <code>MultipleCoercionFailed</code> exception to be 
-	 * thrown.
-	 * 
-	 * @dataProvider provideMultipleCoercionMethodData_MultipleCoercionFailedException
-	 * @testdox Byte::processMultipleCoercion(&{$value}) --> MultipleCoercionFailed exception
-	 * 
-	 * @param mixed $value
-	 * <p>The method <var>$value</var> parameter to test with.</p>
-	 * @return void
-	 */
-	public function testProcessMultipleCoercionMethod_MultipleCoercionFailedException($value): void
-	{
-		$v = $value;
-		$this->expectException(Exceptions\MultipleCoercionFailed::class);
-		try {
-			UByte::processMultipleCoercion($v);
-		} catch (Exceptions\MultipleCoercionFailed $exception) {
-			$this->assertSame($value, $v);
-			$this->assertSame($value, $exception->getValue());
-			throw $exception;
-		}
-	}
-	
-	/**
-	 * Test <code>processMultipleCoercion</code> method with <var>$no_throw</var> set to boolean <code>true</code>, 
-	 * expecting boolean <code>false</code> to be returned.
-	 * 
-	 * @dataProvider provideMultipleCoercionMethodData_MultipleCoercionFailedException
-	 * @testdox Byte::processMultipleCoercion(&{$value}, false|true, true) === false
-	 * 
-	 * @param mixed $value
-	 * <p>The method <var>$value</var> parameter to test with.</p>
-	 * @return void
-	 */
-	public function testProcessMultipleCoercionMethod_NoThrowFalse($value): void
-	{
-		foreach ([false, true] as $nullable) {
-			$v = $value;
-			$this->assertFalse(UByte::processMultipleCoercion($v, $nullable, true));
-			$this->assertSame($value, $v);
-		}
-	}
-	
-	/**
 	 * Provide multiple coercion method data for a <code>MultipleCoercionFailed</code> exception to be thrown.
 	 * 
 	 * @return array
 	 * <p>The provided multiple coercion method data for a <code>MultipleCoercionFailed</code> exception to be 
 	 * thrown.</p>
 	 */
-	public function provideMultipleCoercionMethodData_MultipleCoercionFailedException(): array
+	public static function provideMultipleCoercionData_Exception_MultipleCoercionFailed(): array
 	{
 		return [
 			[false],
@@ -851,78 +957,8 @@ class ByteTest extends TestCase
 			['foobyte'],
 			['Kilobyte'],
 			[[]],
-			[new \stdClass()],
+			[new \stdClass],
 			[fopen(__FILE__, 'r')]
 		];
-	}
-	
-	/**
-	 * Test <code>evaluateMultiple</code> method with a <code>null</code> value, 
-	 * expecting boolean <code>false</code> to be returned.
-	 * 
-	 * @testdox Byte::evaluateMultiple(&{NULL} --> &{NULL}) === false
-	 * 
-	 * @return void
-	 */
-	public function testEvaluateMultipleMethod_NullValue_False(): void
-	{
-		$value = null;
-		$this->assertFalse(UByte::evaluateMultiple($value));
-		$this->assertNull($value);
-	}
-	
-	/**
-	 * Test <code>coerceMultiple</code> method with a <code>null</code> value, 
-	 * expecting a <code>MultipleCoercionFailed</code> exception to be thrown.
-	 * 
-	 * @testdox Byte::coerceMultiple({NULL}) --> MultipleCoercionFailed exception
-	 * 
-	 * @return void
-	 */
-	public function testCoerceMultipleMethod_NullValue_MultipleCoercionFailedException(): void
-	{
-		$this->expectException(Exceptions\MultipleCoercionFailed::class);
-		try {
-			UByte::coerceMultiple(null);
-		} catch (Exceptions\MultipleCoercionFailed $exception) {
-			$this->assertNull($exception->getValue());
-			throw $exception;
-		}
-	}
-	
-	/**
-	 * Test <code>processMultipleCoercion</code> method with a <code>null</code> value, 
-	 * expecting a <code>MultipleCoercionFailed</code> exception to be thrown.
-	 * 
-	 * @testdox Byte::processMultipleCoercion(&{NULL}) --> MultipleCoercionFailed exception
-	 * 
-	 * @return void
-	 */
-	public function testProcessMultipleCoercionMethod_NullValue_MultipleCoercionFailedException(): void
-	{
-		$value = null;
-		$this->expectException(Exceptions\MultipleCoercionFailed::class);
-		try {
-			UByte::processMultipleCoercion($value);
-		} catch (Exceptions\MultipleCoercionFailed $exception) {
-			$this->assertNull($value);
-			$this->assertNull($exception->getValue());
-			throw $exception;
-		}
-	}
-	
-	/**
-	 * Test <code>processMultipleCoercion</code> method with a <code>null</code> value, 
-	 * with <var>$no_throw</var> set to boolean <code>true</code>, expecting boolean <code>false</code> to be returned.
-	 * 
-	 * @testdox Byte::processMultipleCoercion(&{NULL}, false, true) === false
-	 * 
-	 * @return void
-	 */
-	public function testProcessMultipleCoercionMethod_NullValue_NoThrowFalse(): void
-	{
-		$value = null;
-		$this->assertFalse(UByte::processMultipleCoercion($value, false, true));
-		$this->assertNull($value);
 	}
 }

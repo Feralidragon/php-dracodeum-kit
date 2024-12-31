@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @author Cláudio "Feralidragon" Luís <claudio.luis@aptoide.com>
+ * @author Cláudio "Feralidragon" Luís <claudioluis8@gmail.com>
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
@@ -11,12 +11,6 @@ use Dracodeum\Kit\Factory\Builder;
 use Dracodeum\Kit\Root\System\Factories\Component\Builder\Interfaces\Environment as IBuilder;
 use Dracodeum\Kit\Root\System\Components\Environment as Component;
 
-/**
- * This builder is used to build environment instances.
- * 
- * @see \Dracodeum\Kit\Root\System\Components\Environment
- * [object]
- */
 class Environment extends Builder implements IBuilder
 {
 	//Implemented public methods (Dracodeum\Kit\Root\System\Factories\Component\Builder\Interfaces\Environment)

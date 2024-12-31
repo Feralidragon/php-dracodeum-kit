@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @author Cláudio "Feralidragon" Luís <claudio.luis@aptoide.com>
+ * @author Cláudio "Feralidragon" Luís <claudioluis8@gmail.com>
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
@@ -43,16 +43,6 @@ use Dracodeum\Kit\Utilities\{
  * @property-write string|null $label [writeonce] [transient] [default = null]
  * <p>The label to use.</p>
  * @see https://en.wikipedia.org/wiki/Hash_function
- * @see \Dracodeum\Kit\Prototypes\Inputs\Hash\Constraints\Values
- * [constraint, name = 'values' or 'non_values']
- * @see \Dracodeum\Kit\Prototypes\Inputs\Hash\Filters\Base64
- * [filter, name = 'base64']
- * @see \Dracodeum\Kit\Prototypes\Inputs\Hash\Filters\Colonify
- * [filter, name = 'colonify']
- * @see \Dracodeum\Kit\Prototypes\Inputs\Hash\Filters\Raw
- * [filter, name = 'raw']
- * @see \Dracodeum\Kit\Prototypes\Inputs\Hash\Filters\Uppercase
- * [filter, name = 'uppercase']
  */
 class Hash extends Input implements IInformation, ISchemaData, IConstraintProducer, IFilterProducer
 {

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @author Cláudio "Feralidragon" Luís <claudio.luis@aptoide.com>
+ * @author Cláudio "Feralidragon" Luís <claudioluis8@gmail.com>
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
@@ -159,6 +159,9 @@ final class Call extends Utility
 	 * @see https://php.net/manual/en/class.reflectionmethod.php
 	 * @param callable|array|string $function
 	 * <p>The function to get from.</p>
+	 * @param bool $methodify [default = false]
+	 * <p>Coerce into a <code>ReflectionMethod</code> instance, 
+	 * if the given function is a closure which represents a method.</p>
 	 * @param bool $no_throw [default = false]
 	 * <p>Do not throw an exception.</p>
 	 * @throws \Dracodeum\Kit\Utilities\Call\Exceptions\InvalidFunction
@@ -167,7 +170,9 @@ final class Call extends Utility
 	 * If <var>$no_throw</var> is set to boolean <code>true</code>, 
 	 * then <code>null</code> is returned if it could not be retrieved.</p>
 	 */
-	final public static function reflection($function, bool $no_throw = false): ?\ReflectionFunctionAbstract
+	final public static function reflection(
+		$function, bool $methodify = false, bool $no_throw = false
+	): ?\ReflectionFunctionAbstract
 	{
 		//validate
 		$valid = self::validate($function, $no_throw);
@@ -194,7 +199,28 @@ final class Call extends Utility
 		}
 		
 		//function
-		return new \ReflectionFunction($function);
+		$reflection = new \ReflectionFunction($function);
+		
+		//methodify
+		if ($methodify) {
+			//object or class
+			$object_class = $reflection->getClosureThis();
+			if ($object_class === null) {
+				$reflection_scope_class = $reflection->getClosureScopeClass();
+				if ($reflection_scope_class !== null) {
+					$object_class = $reflection_scope_class->getName();
+				}
+			}
+			
+			//finalize
+			$name = $reflection->getName();
+			if ($object_class !== null && !preg_match('/\{closure\}$/', $name)) {
+				$reflection = new \ReflectionMethod($object_class, $name);
+			}
+		}
+		
+		//return
+		return $reflection;
 	}
 	
 	/**
@@ -213,17 +239,11 @@ final class Call extends Utility
 	final public static function hash($function, string $algorithm = 'SHA1', bool $raw = false): string
 	{
 		return self::memoize(function ($function, string $algorithm = 'SHA1', bool $raw = false): string {
-			//initialize
-			$reflection = self::reflection($function);
-			$name = $reflection->getName();
-			
-			//data
-			$data = '';
-			if ($reflection instanceof \ReflectionMethod) {
-				$data = "{$reflection->getDeclaringClass()->getName()}::{$name}";
-			} else {
+			$data = self::name($function, true);
+			if ($data === null) {
 				//initialize
-				$data = $name;
+				$reflection = self::reflection($function);
+				$data = $reflection->getName();
 				
 				//lines
 				$start_line = $reflection->getStartLine();
@@ -238,8 +258,6 @@ final class Call extends Utility
 					$data = "{$reflection_scope_class->getName()}:{$data}";
 				}
 			}
-			
-			//return
 			return hash($algorithm, $data, $raw);
 		});
 	}
@@ -255,8 +273,8 @@ final class Call extends Utility
 	final public static function modifiers($function): array
 	{
 		//reflection
-		$reflection = self::reflection($function);
-		if (!Type::isA($reflection, \ReflectionMethod::class)) {
+		$reflection = self::reflection($function, true);
+		if (!($reflection instanceof \ReflectionMethod)) {
 			return [];
 		}
 		
@@ -302,7 +320,7 @@ final class Call extends Utility
 	{
 		$reflection = self::reflection($function);
 		$name = $reflection->getName();
-		if (preg_match('/^(?:[\w\\\\]+\\\\)?\{closure\}$/', $name)) {
+		if (preg_match('/\{closure\}$/', $name)) {
 			return null;
 		} elseif ($full) {
 			$class = self::class($function, $short);
@@ -349,23 +367,22 @@ final class Call extends Utility
 			$parameters = [];
 			foreach ($reflection->getParameters() as $parameter) {
 				//type
-				$type = ($flags & self::PARAMETERS_NO_MIXED_TYPE) ? '' : 'mixed';
+				$type = 'mixed';
 				$ptype = $parameter->getType();
-				if (isset($ptype)) {
-					$type = (string)$ptype;
-					if ($flags & (self::PARAMETERS_TYPES_SHORT_NAMES | self::PARAMETERS_NAMESPACES_LEADING_SLASH)) {
-						$ptype_class = $parameter->getClass();
-						if (isset($ptype_class)) {
-							if ($flags & self::PARAMETERS_TYPES_SHORT_NAMES) {
-								$type = $ptype_class->getShortName();
-							} elseif ($flags & self::PARAMETERS_NAMESPACES_LEADING_SLASH) {
-								$type = "\\{$type}";
-							}
-						}
+				if ($ptype !== null) {
+					$normal_flags = 0x00;
+					if ($flags & self::PARAMETERS_TYPES_SHORT_NAMES) {
+						$normal_flags |= Type::NORMALIZE_SHORT_NAME;
+					} elseif ($flags & self::PARAMETERS_NAMESPACES_LEADING_SLASH) {
+						$normal_flags |= Type::NORMALIZE_NAMESPACE_LEADING_SLASH;
 					}
-					if ($ptype->allowsNull()) {
-						$type = "?{$type}";
-					}
+					$type = Type::normalize((string)$ptype, $normal_flags);
+					unset($normal_flags);
+				}
+				
+				//mixed
+				if ($type === 'mixed' && ($flags & self::PARAMETERS_NO_MIXED_TYPE)) {
+					$type = '';
 				}
 				
 				//name
@@ -444,26 +461,28 @@ final class Call extends Utility
 	 */
 	final public static function type($function, int $flags = 0x00): string
 	{
-		$type = ($flags & self::TYPE_NO_MIXED) ? '' : 'mixed';
+		//initialize
+		$type = 'mixed';
 		$rtype = self::reflection($function)->getReturnType();
-		if (isset($rtype)) {
-			//type
-			$type = (string)$rtype;
-			
-			//flags
-			if (Type::exists($type)) {
-				if ($flags & self::TYPE_SHORT_NAME) {
-					$type = Type::shortname($type);
-				} elseif ($flags & self::TYPE_NAMESPACE_LEADING_SLASH) {
-					$type = "\\{$type}";
-				}
+		
+		//process
+		if ($rtype !== null) {
+			$normal_flags = 0x00;
+			if ($flags & self::TYPE_SHORT_NAME) {
+				$normal_flags |= Type::NORMALIZE_SHORT_NAME;
+			} elseif ($flags & self::TYPE_NAMESPACE_LEADING_SLASH) {
+				$normal_flags |= Type::NORMALIZE_NAMESPACE_LEADING_SLASH;
 			}
-			
-			//null
-			if ($rtype->allowsNull()) {
-				$type = "?{$type}";
-			}
+			$type = Type::normalize((string)$rtype, $normal_flags);
+			unset($normal_flags);
 		}
+		
+		//mixed
+		if ($type === 'mixed' && ($flags & self::TYPE_NO_MIXED)) {
+			$type = '';
+		}
+		
+		//return
 		return $type;
 	}
 	
@@ -659,14 +678,8 @@ final class Call extends Utility
 			$parameter_types = [];
 			foreach ($reflection->getParameters() as $i => $parameter) {
 				//type
-				$parameter_type = 'mixed';
 				$ptype = $parameter->getType();
-				if (isset($ptype)) {
-					$parameter_type = (string)$ptype;
-					if ($ptype->allowsNull()) {
-						$parameter_type = "?{$parameter_type}";
-					}
-				}
+				$parameter_type = $ptype !== null ? Type::normalize((string)$ptype) :'mixed';
 				if ($parameter->isVariadic()) {
 					$parameter_type = "...{$parameter_type}";
 				}
@@ -689,14 +702,8 @@ final class Call extends Utility
 			unset($parameter_types, $parameter_type);
 			
 			//return type
-			$return_type = 'mixed';
 			$rtype = $reflection->getReturnType();
-			if (isset($rtype)) {
-				$return_type = (string)$rtype;
-				if ($rtype->allowsNull()) {
-					$return_type = "?{$return_type}";
-				}
-			}
+			$return_type = $rtype !== null ? Type::normalize((string)$rtype) : 'mixed';
 			$signature .= ": {$return_type}";
 			
 			//return
@@ -735,14 +742,16 @@ final class Call extends Utility
 			$f_reflection = self::reflection($function);
 			$t_reflection = self::reflection($template);
 			
-			//parameters contravariance
+			//parameters (check)
 			$f_parameters = $f_reflection->getParameters();
 			$t_parameters = $t_reflection->getParameters();
 			if (count($f_parameters) < count($t_parameters)) {
 				return false;
 			}
+			
+			//parameters (contravariance)
 			foreach ($f_parameters as $i => $f_parameter) {
-				//additional function parameter
+				//additional parameter
 				if (!isset($t_parameters[$i])) {
 					if (!$f_parameter->isOptional()) {
 						return false;
@@ -760,45 +769,23 @@ final class Call extends Utility
 					return false;
 				}
 				
-				//parameter type
+				//contravariance
 				$f_type_reflection = $f_parameter->getType();
 				$t_type_reflection = $t_parameter->getType();
-				$f_type = isset($f_type_reflection) ? (string)$f_type_reflection : 'mixed';
-				$t_type = isset($t_type_reflection) ? (string)$t_type_reflection : 'mixed';
-				if ($f_type !== 'mixed') {
-					$f_type_allows_null = isset($f_type_reflection) ? $f_type_reflection->allowsNull() : true;
-					$t_type_allows_null = isset($t_type_reflection) ? $t_type_reflection->allowsNull() : true;
-					if (
-						(!$f_type_allows_null && $t_type_allows_null) || (
-							$f_type !== $t_type && 
-							(!Type::exists($f_type) || !Type::exists($t_type) || !is_a($t_type, $f_type, true)) && 
-							($f_type !== 'object' || !Type::exists($t_type))
-						)
-					) {
-						return false;
-					}
+				$f_type = $f_type_reflection !== null ? (string)$f_type_reflection : 'mixed';
+				$t_type = $t_type_reflection !== null ? (string)$t_type_reflection : 'mixed';
+				if (!Type::contravariant($f_type, $t_type)) {
+					return false;
 				}
 			}
 			
-			//return type covariance
+			//return type (covariance)
 			$f_type_reflection = $f_reflection->getReturnType();
 			$t_type_reflection = $t_reflection->getReturnType();
-			$f_type = isset($f_type_reflection) ? (string)$f_type_reflection : 'mixed';
-			$t_type = isset($t_type_reflection) ? (string)$t_type_reflection : 'mixed';
-			if ($f_type === 'void' && $t_type !== 'void') {
+			$f_type = $f_type_reflection !== null ? (string)$f_type_reflection : 'mixed';
+			$t_type = $t_type_reflection !== null ? (string)$t_type_reflection : 'mixed';
+			if (!Type::covariant($f_type, $t_type)) {
 				return false;
-			} elseif ($t_type !== 'void' && $t_type !== 'mixed') {
-				$f_type_allows_null = isset($f_type_reflection) ? $f_type_reflection->allowsNull() : true;
-				$t_type_allows_null = isset($t_type_reflection) ? $t_type_reflection->allowsNull() : true;
-				if (
-					($f_type_allows_null && !$t_type_allows_null) || (
-						$f_type !== $t_type && 
-						(!Type::exists($f_type) || !Type::exists($t_type) || !is_a($f_type, $t_type, true)) && 
-						(!Type::exists($f_type) || $t_type !== 'object')
-					)
-				) {
-					return false;
-				}
 			}
 			
 			//return
@@ -888,7 +875,7 @@ final class Call extends Utility
 				return get_class($object);
 			}
 			$reflection_class = new \ReflectionClass($object);
-		} elseif (is_object($function) && $function instanceof \Closure) {
+		} elseif ($function instanceof \Closure) {
 			$reflection_class = self::reflection($function)->getClosureScopeClass();
 		} elseif (is_array($function) && is_string($function[0])) {
 			$reflection_class = new \ReflectionClass($function[0]);
@@ -1066,7 +1053,7 @@ final class Call extends Utility
 	 * @param int|null $limit [default = null]
 	 * <p>The limit to use on the number of classes to get.<br>
 	 * If not set, then no limit is applied.</p>
-	 * @return string[]|null[]
+	 * @return (string|null)[]
 	 * <p>The previous classes from the current stack.</p>
 	 */
 	final public static function stackPreviousClasses(int $offset = 0, ?int $limit = null): array
@@ -1111,7 +1098,7 @@ final class Call extends Utility
 	 * @param int|null $limit [default = null]
 	 * <p>The limit to use on the number of objects to get.<br>
 	 * If not set, then no limit is applied.</p>
-	 * @return object[]|null[]
+	 * @return (object|null)[]
 	 * <p>The previous objects from the current stack.</p>
 	 */
 	final public static function stackPreviousObjects(int $offset = 0, ?int $limit = null): array
@@ -1156,7 +1143,7 @@ final class Call extends Utility
 	 * @param int|null $limit [default = null]
 	 * <p>The limit to use on the number of objects and classes to get.<br>
 	 * If not set, then no limit is applied.</p>
-	 * @return object[]|string[]|null[]
+	 * @return (object|string|null)[]
 	 * <p>The previous objects and classes from the current stack.</p>
 	 */
 	final public static function stackPreviousObjectsClasses(int $offset = 0, ?int $limit = null): array
@@ -1219,7 +1206,7 @@ final class Call extends Utility
 	 * @param int|null $limit [default = null]
 	 * <p>The limit to use on the number of names to get.<br>
 	 * If not set, then no limit is applied.</p>
-	 * @return string[]|null[]
+	 * @return (string|null)[]
 	 * <p>The previous function names from the current stack.</p>
 	 */
 	final public static function stackPreviousNames(
@@ -1279,7 +1266,6 @@ final class Call extends Utility
 	 * @param \Dracodeum\Kit\Utilities\Call\Options\Halt|array|null $options [default = null]
 	 * <p>Additional options to use, as an instance or a set of <samp>name => value</samp> pairs.</p>
 	 * @throws \Dracodeum\Kit\Utilities\Call\Exceptions\Halt\NotAllowed
-	 * @return void
 	 */
 	final public static function halt($options = null): void
 	{
@@ -1322,7 +1308,6 @@ final class Call extends Utility
 	 * Return: <code><b>\Dracodeum\Kit\Utilities\Call\Options\Halt|array</b></code><br>
 	 * The halt options, as an instance or a set of <samp>name => value</samp> pairs.</p>
 	 * @throws \Dracodeum\Kit\Utilities\Call\Exceptions\Halt\NotAllowed
-	 * @return void
 	 */
 	final public static function guard(bool $assertion, $halt_options = null): void
 	{
@@ -1332,7 +1317,7 @@ final class Call extends Utility
 			self::assert('halt_options', $halt_options, function () {});
 			$halt_options = $halt_options();
 		}
-		$halt_options = Options\Halt::coerce($halt_options, false);
+		$halt_options = Options\Halt::coerce($halt_options, true);
 		$halt_options->stack_offset++;
 		self::halt($halt_options);
 	}
@@ -1347,7 +1332,6 @@ final class Call extends Utility
 	 * @param \Dracodeum\Kit\Utilities\Call\Options\HaltParameter|array|null $options [default = null]
 	 * <p>Additional options to use, as an instance or a set of <samp>name => value</samp> pairs.</p>
 	 * @throws \Dracodeum\Kit\Utilities\Call\Exceptions\Halt\ParameterNotAllowed
-	 * @return void
 	 */
 	final public static function haltParameter(string $name, $value, $options = null): void
 	{
@@ -1393,7 +1377,6 @@ final class Call extends Utility
 	 * Return: <code><b>\Dracodeum\Kit\Utilities\Call\Options\HaltParameter|array</b></code><br>
 	 * The halt options, as an instance or a set of <samp>name => value</samp> pairs.</p>
 	 * @throws \Dracodeum\Kit\Utilities\Call\Exceptions\Halt\ParameterNotAllowed
-	 * @return void
 	 */
 	final public static function guardParameter(string $name, $value, bool $assertion, $halt_options = null): void
 	{
@@ -1403,7 +1386,7 @@ final class Call extends Utility
 			self::assert('halt_options', $halt_options, function () {});
 			$halt_options = $halt_options();
 		}
-		$halt_options = Options\HaltParameter::coerce($halt_options, false);
+		$halt_options = Options\HaltParameter::coerce($halt_options, true);
 		$halt_options->stack_offset++;
 		self::haltParameter($name, $value, $halt_options);
 	}
@@ -1414,7 +1397,6 @@ final class Call extends Utility
 	 * @param \Dracodeum\Kit\Utilities\Call\Options\HaltInternal|array|null $options [default = null]
 	 * <p>Additional options to use, as an instance or a set of <samp>name => value</samp> pairs.</p>
 	 * @throws \Dracodeum\Kit\Utilities\Call\Exceptions\Halt\InternalError
-	 * @return void
 	 */
 	final public static function haltInternal($options = null): void
 	{
@@ -1454,7 +1436,6 @@ final class Call extends Utility
 	 * Return: <code><b>\Dracodeum\Kit\Utilities\Call\Options\HaltInternal|array</b></code><br>
 	 * The halt options, as an instance or a set of <samp>name => value</samp> pairs.</p>
 	 * @throws \Dracodeum\Kit\Utilities\Call\Exceptions\Halt\InternalError
-	 * @return void
 	 */
 	final public static function guardInternal(bool $assertion, $halt_options = null): void
 	{
@@ -1464,7 +1445,7 @@ final class Call extends Utility
 			self::assert('halt_options', $halt_options, function () {});
 			$halt_options = $halt_options();
 		}
-		$halt_options = Options\HaltInternal::coerce($halt_options, false);
+		$halt_options = Options\HaltInternal::coerce($halt_options, true);
 		$halt_options->stack_offset++;
 		self::haltInternal($halt_options);
 	}
@@ -1478,7 +1459,6 @@ final class Call extends Utility
 	 * <p>Additional options to use, as an instance or a set of <samp>name => value</samp> pairs.</p>
 	 * @throws \Dracodeum\Kit\Utilities\Call\Exceptions\Halt\ReturnError
 	 * @throws \Dracodeum\Kit\Utilities\Call\Exceptions\Halt\ReturnNotAllowed
-	 * @return void
 	 */
 	final public static function haltExecution(callable $function, $options = null): void
 	{
@@ -1610,8 +1590,8 @@ final class Call extends Utility
 				if (!$string_options->loaded('prepend_type')) {
 					$string_options->prepend_type = is_bool($value);
 				}
-				if (!$string_options->loaded('non_stringifiable')) {
-					$string_options->non_stringifiable = true;
+				if (!$string_options->loaded('non_stringable')) {
+					$string_options->non_stringable = true;
 				}
 				return Text::stringify($value, null, $string_options);
 			};

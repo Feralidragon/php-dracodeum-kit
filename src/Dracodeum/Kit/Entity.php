@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @author Cláudio "Feralidragon" Luís <claudio.luis@aptoide.com>
+ * @author Cláudio "Feralidragon" Luís <claudioluis8@gmail.com>
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
@@ -17,7 +17,7 @@ use Dracodeum\Kit\Interfaces\{
 	Persistable as IPersistable,
 	Unpersistable as IUnpersistable,
 	ArrayInstantiable as IArrayInstantiable,
-	Stringifiable as IStringifiable,
+	Stringable as IStringable,
 	Uncloneable as IUncloneable
 };
 use Dracodeum\Kit\Interfaces\Log\Event\Tag as ILogEventTag;
@@ -27,7 +27,7 @@ use Dracodeum\Kit\Entity\{
 	Options,
 	Exceptions
 };
-use Dracodeum\Kit\Traits as KitTraits;
+use Dracodeum\Kit\Traits as KTraits;
 use Dracodeum\Kit\Traits\DebugInfo\Info as DebugInfo;
 use Dracodeum\Kit\Components\Store;
 use Dracodeum\Kit\Components\Store\{
@@ -37,7 +37,6 @@ use Dracodeum\Kit\Components\Store\{
 use Dracodeum\Kit\Structures\Uid;
 use Dracodeum\Kit\Structures\Uid\Exceptions as UidExceptions;
 use Dracodeum\Kit\Enumerations\Log\Level as ELogLevel;
-use Dracodeum\Kit\Options\Text as TextOptions;
 use Dracodeum\Kit\Utilities\{
 	Call as UCall,
 	Data as UData,
@@ -83,17 +82,17 @@ use Dracodeum\Kit\Root\Log;
  */
 abstract class Entity
 implements IUid, IDebugInfo, IDebugInfoProcessor, IProperties, \ArrayAccess, IArrayable, IKeyable, \JsonSerializable,
-IReadonlyable, IPersistable, IUnpersistable, ILogEventTag, IArrayInstantiable, IStringifiable, IUncloneable
+IReadonlyable, IPersistable, IUnpersistable, ILogEventTag, IArrayInstantiable, IStringable, IUncloneable
 {
 	//Traits
-	use KitTraits\DebugInfo;
-	use KitTraits\Properties;
-	use KitTraits\Properties\Arrayable;
-	use KitTraits\Properties\ArrayAccess;
-	use KitTraits\Properties\Keyable;
-	use KitTraits\Readonly;
-	use KitTraits\Stringifiable;
-	use KitTraits\Uncloneable;
+	use KTraits\DebugInfo;
+	use KTraits\Properties;
+	use KTraits\Properties\Arrayable;
+	use KTraits\Properties\ArrayAccess;
+	use KTraits\Properties\Keyable;
+	use KTraits\TReadonly;
+	use KTraits\Stringable;
+	use KTraits\Uncloneable;
 	use Traits\DefaultBuilder;
 	use Traits\Initializer;
 	use Traits\PropertiesInitializer;
@@ -150,14 +149,8 @@ IReadonlyable, IPersistable, IUnpersistable, ILogEventTag, IArrayInstantiable, I
 		);
 		
 		//read-only
-		$this->addReadonlyCallback(function (bool $recursive): void {
-			//properties
+		$this->addReadonlyCallback(function (): void {
 			$this->setPropertiesAsReadonly();
-			
-			//recursive
-			if ($recursive) {
-				UType::setValueAsReadonly($this->getAll(true), $recursive);
-			}
 		});
 		
 		//initialize
@@ -180,11 +173,7 @@ IReadonlyable, IPersistable, IUnpersistable, ILogEventTag, IArrayInstantiable, I
 	
 	
 	//Abstract protected methods	
-	/**
-	 * Load properties.
-	 * 
-	 * @return void
-	 */
+	/** Load properties. */
 	abstract protected function loadProperties(): void;
 	
 	
@@ -210,7 +199,7 @@ IReadonlyable, IPersistable, IUnpersistable, ILogEventTag, IArrayInstantiable, I
 				'name' => $this->getName(),
 				'base_scope' => $this->getBaseScope(),
 				'scope_ids' => $this->getScopeIds()
-			])->setAsReadonly(true);
+			])->setAsReadonly();
 		}
 		return $this->uid;
 	}
@@ -219,7 +208,7 @@ IReadonlyable, IPersistable, IUnpersistable, ILogEventTag, IArrayInstantiable, I
 	
 	//Implemented final public methods (JsonSerializable)
 	/** {@inheritdoc} */
-	final public function jsonSerialize()
+	final public function jsonSerialize(): mixed
 	{
 		return $this->getAll();
 	}
@@ -235,9 +224,9 @@ IReadonlyable, IPersistable, IUnpersistable, ILogEventTag, IArrayInstantiable, I
 	
 	
 	
-	//Implemented public methods (Dracodeum\Kit\Interfaces\Stringifiable)
+	//Implemented public methods (Dracodeum\Kit\Interfaces\Stringable)
 	/** {@inheritdoc} */
-	public function toString(?TextOptions $text_options = null): string
+	public function toString($text_options = null): string
 	{
 		return UText::stringify($this->getAll(), $text_options);
 	}
@@ -427,7 +416,7 @@ IReadonlyable, IPersistable, IUnpersistable, ILogEventTag, IArrayInstantiable, I
 	/**
 	 * Get scope IDs.
 	 * 
-	 * @return int[]|string[]
+	 * @return (int|string)[]
 	 * <p>The scope IDs, as a set of <samp>name => id</samp> pairs.</p>
 	 */
 	final public function getScopeIds(): array
@@ -524,7 +513,7 @@ IReadonlyable, IPersistable, IUnpersistable, ILogEventTag, IArrayInstantiable, I
 	/**
 	 * Get static scope.
 	 * 
-	 * @param int[]|string[] $ids [default = []]
+	 * @param (int|string)[] $ids [default = []]
 	 * <p>The IDs to get with, as a set of <samp>name => id</samp> pairs.</p>
 	 * @return string|null
 	 * <p>The static scope or <code>null</code> if none is set.</p>
@@ -541,7 +530,7 @@ IReadonlyable, IPersistable, IUnpersistable, ILogEventTag, IArrayInstantiable, I
 	 * 
 	 * @param int|string|null $id [default = null]
 	 * <p>The ID to check with.</p>
-	 * @param int[]|string[] $scope_ids [default = []]
+	 * @param (int|string)[] $scope_ids [default = []]
 	 * <p>The scope IDs to check with, as a set of <samp>name => id</samp> pairs.</p>
 	 * @return bool
 	 * <p>Boolean <code>true</code> if an instance exists.</p>
@@ -561,7 +550,7 @@ IReadonlyable, IPersistable, IUnpersistable, ILogEventTag, IArrayInstantiable, I
 	 * 
 	 * @param int|string|null $id [default = null]
 	 * <p>The ID to load with.</p>
-	 * @param int[]|string[] $scope_ids [default = []]
+	 * @param (int|string)[] $scope_ids [default = []]
 	 * <p>The scope IDs to load with, as a set of <samp>name => id</samp> pairs.</p>
 	 * @param bool $no_throw [default = false]
 	 * <p>Do not throw an exception.</p>
@@ -587,7 +576,7 @@ IReadonlyable, IPersistable, IUnpersistable, ILogEventTag, IArrayInstantiable, I
 	 * 
 	 * @param int|string|null $id [default = null]
 	 * <p>The ID to delete with.</p>
-	 * @param int[]|string[] $scope_ids [default = []]
+	 * @param (int|string)[] $scope_ids [default = []]
 	 * <p>The scope IDs to delete with, as a set of <samp>name => id</samp> pairs.</p>
 	 * @param bool $no_throw [default = false]
 	 * <p>Do not throw an exception.</p>
@@ -636,11 +625,11 @@ IReadonlyable, IPersistable, IUnpersistable, ILogEventTag, IArrayInstantiable, I
 	 * to be loaded from;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>__toString</code> method, 
 	 * given as an ID to be loaded from;<br>
-	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Stringifiable</code> interface, 
+	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Stringable</code> interface, 
 	 * given as an ID to be loaded from.
 	 * 
 	 * @see \Dracodeum\Kit\Interfaces\Arrayable
-	 * @see \Dracodeum\Kit\Interfaces\Stringifiable
+	 * @see \Dracodeum\Kit\Interfaces\Stringable
 	 * @see \Dracodeum\Kit\Structures\Uid
 	 * @param mixed $value [reference]
 	 * <p>The value to evaluate (validate and sanitize).</p>
@@ -687,11 +676,11 @@ IReadonlyable, IPersistable, IUnpersistable, ILogEventTag, IArrayInstantiable, I
 	 * to be loaded from;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>__toString</code> method, 
 	 * given as an ID to be loaded from;<br>
-	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Stringifiable</code> interface, 
+	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Stringable</code> interface, 
 	 * given as an ID to be loaded from.
 	 * 
 	 * @see \Dracodeum\Kit\Interfaces\Arrayable
-	 * @see \Dracodeum\Kit\Interfaces\Stringifiable
+	 * @see \Dracodeum\Kit\Interfaces\Stringable
 	 * @see \Dracodeum\Kit\Structures\Uid
 	 * @param mixed $value
 	 * <p>The value to coerce (validate and sanitize).</p>
@@ -741,11 +730,11 @@ IReadonlyable, IPersistable, IUnpersistable, ILogEventTag, IArrayInstantiable, I
 	 * to be loaded from;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>__toString</code> method, 
 	 * given as an ID to be loaded from;<br>
-	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Stringifiable</code> interface, 
+	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Stringable</code> interface, 
 	 * given as an ID to be loaded from.
 	 * 
 	 * @see \Dracodeum\Kit\Interfaces\Arrayable
-	 * @see \Dracodeum\Kit\Interfaces\Stringifiable
+	 * @see \Dracodeum\Kit\Interfaces\Stringable
 	 * @see \Dracodeum\Kit\Structures\Uid
 	 * @param mixed $value [reference]
 	 * <p>The value to process (validate and sanitize).</p>
@@ -845,7 +834,7 @@ IReadonlyable, IPersistable, IUnpersistable, ILogEventTag, IArrayInstantiable, I
 				" - an object implementing the \"Dracodeum\\Kit\\Interfaces\\Arrayable\" interface;\n" . 
 				" - an instance of \"Dracodeum\\Kit\\Components\\Store\\Structures\\Uid\", to be loaded from;\n" . 
 				" - an object implementing the \"__toString\" method, given as an ID to be loaded from;\n" . 
-				" - an object implementing the \"Dracodeum\\Kit\\Interfaces\\Stringifiable\" interface, " . 
+				" - an object implementing the \"Dracodeum\\Kit\\Interfaces\\Stringable\" interface, " . 
 				"given as an ID to be loaded from."
 		]);
 	}
@@ -856,9 +845,9 @@ IReadonlyable, IPersistable, IUnpersistable, ILogEventTag, IArrayInstantiable, I
 	 * Only the following types and formats can be evaluated into an ID:<br>
 	 * &nbsp; &#8226; &nbsp; an integer or string;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>__toString</code> method;<br>
-	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Stringifiable</code> interface.
+	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Stringable</code> interface.
 	 * 
-	 * @see \Dracodeum\Kit\Interfaces\Stringifiable
+	 * @see \Dracodeum\Kit\Interfaces\Stringable
 	 * @param mixed $value [reference]
 	 * <p>The value to evaluate (validate and sanitize).</p>
 	 * @param bool $nullable [default = false]
@@ -877,9 +866,9 @@ IReadonlyable, IPersistable, IUnpersistable, ILogEventTag, IArrayInstantiable, I
 	 * Only the following types and formats can be coerced into an ID:<br>
 	 * &nbsp; &#8226; &nbsp; an integer or string;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>__toString</code> method;<br>
-	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Stringifiable</code> interface.
+	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Stringable</code> interface.
 	 * 
-	 * @see \Dracodeum\Kit\Interfaces\Stringifiable
+	 * @see \Dracodeum\Kit\Interfaces\Stringable
 	 * @param mixed $value
 	 * <p>The value to coerce (validate and sanitize).</p>
 	 * @param bool $nullable [default = false]
@@ -901,9 +890,9 @@ IReadonlyable, IPersistable, IUnpersistable, ILogEventTag, IArrayInstantiable, I
 	 * Only the following types and formats can be coerced into an ID:<br>
 	 * &nbsp; &#8226; &nbsp; an integer or string;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>__toString</code> method;<br>
-	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Stringifiable</code> interface.
+	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Stringable</code> interface.
 	 * 
-	 * @see \Dracodeum\Kit\Interfaces\Stringifiable
+	 * @see \Dracodeum\Kit\Interfaces\Stringable
 	 * @param mixed $value [reference]
 	 * <p>The value to process (validate and sanitize).</p>
 	 * @param bool $nullable [default = false]
@@ -955,9 +944,9 @@ IReadonlyable, IPersistable, IUnpersistable, ILogEventTag, IArrayInstantiable, I
 	 * Only the following types and formats can be evaluated into a scope ID:<br>
 	 * &nbsp; &#8226; &nbsp; an integer or string;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>__toString</code> method;<br>
-	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Stringifiable</code> interface.
+	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Stringable</code> interface.
 	 * 
-	 * @see \Dracodeum\Kit\Interfaces\Stringifiable
+	 * @see \Dracodeum\Kit\Interfaces\Stringable
 	 * @param string $name
 	 * <p>The name to evaluate with.</p>
 	 * @param mixed $value [reference]
@@ -979,9 +968,9 @@ IReadonlyable, IPersistable, IUnpersistable, ILogEventTag, IArrayInstantiable, I
 	 * Only the following types and formats can be coerced into a scope ID:<br>
 	 * &nbsp; &#8226; &nbsp; an integer or string;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>__toString</code> method;<br>
-	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Stringifiable</code> interface.
+	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Stringable</code> interface.
 	 * 
-	 * @see \Dracodeum\Kit\Interfaces\Stringifiable
+	 * @see \Dracodeum\Kit\Interfaces\Stringable
 	 * @param string $name
 	 * <p>The name to coerce with.</p>
 	 * @param mixed $value
@@ -1005,9 +994,9 @@ IReadonlyable, IPersistable, IUnpersistable, ILogEventTag, IArrayInstantiable, I
 	 * Only the following types and formats can be coerced into a scope ID:<br>
 	 * &nbsp; &#8226; &nbsp; an integer or string;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>__toString</code> method;<br>
-	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Stringifiable</code> interface.
+	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Stringable</code> interface.
 	 * 
-	 * @see \Dracodeum\Kit\Interfaces\Stringifiable
+	 * @see \Dracodeum\Kit\Interfaces\Stringable
 	 * @param string $name
 	 * <p>The name to process with.</p>
 	 * @param mixed $value [reference]
@@ -1077,10 +1066,10 @@ IReadonlyable, IPersistable, IUnpersistable, ILogEventTag, IArrayInstantiable, I
 	 * Only the following types and formats can be evaluated into scope IDs:<br>
 	 * &nbsp; &#8226; &nbsp; an array of integers or strings;<br>
 	 * &nbsp; &#8226; &nbsp; an array of objects implementing the <code>__toString</code> method;<br>
-	 * &nbsp; &#8226; &nbsp; an array of objects implementing the <code>Dracodeum\Kit\Interfaces\Stringifiable</code> 
+	 * &nbsp; &#8226; &nbsp; an array of objects implementing the <code>Dracodeum\Kit\Interfaces\Stringable</code> 
 	 * interface.
 	 * 
-	 * @see \Dracodeum\Kit\Interfaces\Stringifiable
+	 * @see \Dracodeum\Kit\Interfaces\Stringable
 	 * @param array $values [reference]
 	 * <p>The set of values to evaluate (validate and sanitize).</p>
 	 * @return bool
@@ -1097,14 +1086,14 @@ IReadonlyable, IPersistable, IUnpersistable, ILogEventTag, IArrayInstantiable, I
 	 * Only the following types and formats can be coerced into scope IDs:<br>
 	 * &nbsp; &#8226; &nbsp; an array of integers or strings;<br>
 	 * &nbsp; &#8226; &nbsp; an array of objects implementing the <code>__toString</code> method;<br>
-	 * &nbsp; &#8226; &nbsp; an array of objects implementing the <code>Dracodeum\Kit\Interfaces\Stringifiable</code> 
+	 * &nbsp; &#8226; &nbsp; an array of objects implementing the <code>Dracodeum\Kit\Interfaces\Stringable</code> 
 	 * interface.
 	 * 
-	 * @see \Dracodeum\Kit\Interfaces\Stringifiable
+	 * @see \Dracodeum\Kit\Interfaces\Stringable
 	 * @param array $values
 	 * <p>The set of values to coerce (validate and sanitize).</p>
 	 * @throws \Dracodeum\Kit\Entity\Exceptions\ScopeIdsCoercionFailed
-	 * @return int[]|string[]
+	 * @return (int|string)[]
 	 * <p>The given set of values coerced into a set of scope IDs.</p>
 	 */
 	final public static function coerceScopeIds(array $values): array
@@ -1119,7 +1108,7 @@ IReadonlyable, IPersistable, IUnpersistable, ILogEventTag, IArrayInstantiable, I
 	 * Only the following types and formats can be coerced into scope IDs:<br>
 	 * &nbsp; &#8226; &nbsp; an array of integers or strings;<br>
 	 * &nbsp; &#8226; &nbsp; an array of objects implementing the <code>__toString</code> method;<br>
-	 * &nbsp; &#8226; &nbsp; an array of objects implementing the <code>Dracodeum\Kit\Interfaces\Stringifiable</code> 
+	 * &nbsp; &#8226; &nbsp; an array of objects implementing the <code>Dracodeum\Kit\Interfaces\Stringable</code> 
 	 * interface.
 	 * 
 	 * @param array $values [reference]
@@ -1215,7 +1204,7 @@ IReadonlyable, IPersistable, IUnpersistable, ILogEventTag, IArrayInstantiable, I
 	 * 
 	 * @param int|string|null $id [default = null]
 	 * <p>The ID to get with.</p>
-	 * @param int[]|string[] $scope_ids [default = []]
+	 * @param (int|string)[] $scope_ids [default = []]
 	 * <p>The scope IDs to get with, as a set of <samp>name => id</samp> pairs.</p>
 	 * @return string
 	 * <p>The static log event tag.</p>
@@ -1267,12 +1256,11 @@ IReadonlyable, IPersistable, IUnpersistable, ILogEventTag, IArrayInstantiable, I
 	 * then the identifiers are interpreted as getter method calls, but they cannot be given any arguments.</p>
 	 * @param \Dracodeum\Kit\Entity\Options\LogEvent|array|null $options [default = null]
 	 * <p>Additional options to use, as an instance or a set of <samp>name => value</samp> pairs.</p>
-	 * @return void
 	 */
 	final protected function logEvent($level, string $message, $options = null): void
 	{
 		//initialize
-		$options = Options\LogEvent::coerce($options, false);
+		$options = Options\LogEvent::coerce($options, true);
 		$options->stack_offset++;
 		
 		//event
@@ -1326,14 +1314,13 @@ IReadonlyable, IPersistable, IUnpersistable, ILogEventTag, IArrayInstantiable, I
 	 * <p>The placeholder to fill with the given number in the final message.</p>
 	 * @param \Dracodeum\Kit\Entity\Options\PlogEvent|array|null $options [default = null]
 	 * <p>Additional options to use, as an instance or a set of <samp>name => value</samp> pairs.</p>
-	 * @return void
 	 */
 	final protected function plogEvent(
 		$level, string $message1, string $message2, float $number, ?string $number_placeholder = null, $options = null
 	): void
 	{
 		//initialize
-		$options = Options\PlogEvent::coerce($options, false);
+		$options = Options\PlogEvent::coerce($options, true);
 		$options->stack_offset++;
 		
 		//event
@@ -1355,12 +1342,11 @@ IReadonlyable, IPersistable, IUnpersistable, ILogEventTag, IArrayInstantiable, I
 	 * <p>The throwable instance to log with.</p>
 	 * @param \Dracodeum\Kit\Entity\Options\LogThrowableEvent|array|null $options [default = null]
 	 * <p>Additional options to use, as an instance or a set of <samp>name => value</samp> pairs.</p>
-	 * @return void
 	 */
 	final protected function logThrowableEvent($level, \Throwable $throwable, $options = null): void
 	{
 		//initialize
-		$options = Options\LogThrowableEvent::coerce($options, false);
+		$options = Options\LogThrowableEvent::coerce($options, true);
 		$options->stack_offset++;
 		
 		//event
@@ -1376,7 +1362,6 @@ IReadonlyable, IPersistable, IUnpersistable, ILogEventTag, IArrayInstantiable, I
 	 * 
 	 * @param \Throwable $throwable
 	 * <p>The throwable instance to throw.</p>
-	 * @return void
 	 */
 	final protected function throw(\Throwable $throwable): void
 	{
@@ -1534,7 +1519,6 @@ IReadonlyable, IPersistable, IUnpersistable, ILogEventTag, IArrayInstantiable, I
 	 * <p>The output UID instance to use.</p>
 	 * @param array|null $old_values [reference] [default = null]
 	 * <p>The old values to process with, as a set of <samp>name => value</samp> pairs.</p>
-	 * @return void
 	 */
 	private function processPrePersistence(array &$new_values, ?Uid &$uid, ?array &$old_values = null): void
 	{
@@ -1640,7 +1624,6 @@ IReadonlyable, IPersistable, IUnpersistable, ILogEventTag, IArrayInstantiable, I
 	 * <p>The values to process with, as a set of <samp>name => value</samp> pairs.</p>
 	 * @param \Dracodeum\Kit\Structures\Uid $uid
 	 * <p>The UID instance to use.</p>
-	 * @return void
 	 */
 	private function processPostPersistence(array &$values, Uid $uid): void
 	{
@@ -1682,7 +1665,7 @@ IReadonlyable, IPersistable, IUnpersistable, ILogEventTag, IArrayInstantiable, I
 	 * 
 	 * @param int|string|null $id [default = null]
 	 * <p>The ID to load with.</p>
-	 * @param int[]|string[] $scope_ids [default = []]
+	 * @param (int|string)[] $scope_ids [default = []]
 	 * <p>The scope IDs to load with, as a set of <samp>name => id</samp> pairs.</p>
 	 * @param bool $no_throw [default = false]
 	 * <p>Do not throw an exception.</p>

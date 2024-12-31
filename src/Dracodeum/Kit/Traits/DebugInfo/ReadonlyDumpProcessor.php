@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @author Cláudio "Feralidragon" Luís <claudio.luis@aptoide.com>
+ * @author Cláudio "Feralidragon" Luís <claudioluis8@gmail.com>
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
@@ -10,10 +10,10 @@ namespace Dracodeum\Kit\Traits\DebugInfo;
 /**
  * This trait implements the <code>Dracodeum\Kit\Traits\DebugInfo\Interfaces\DebugInfoProcessor</code> interface, 
  * with the dump of object properties enabled, 
- * when the debug info and the <code>Dracodeum\Kit\Traits\Readonly</code> traits are used.
+ * when the debug info and the <code>Dracodeum\Kit\Traits\TReadonly</code> traits are used.
  * 
  * @see \Dracodeum\Kit\Traits\DebugInfo\Interfaces\DebugInfoProcessor
- * @see \Dracodeum\Kit\Traits\Readonly
+ * @see \Dracodeum\Kit\Traits\TReadonly
  */
 trait ReadonlyDumpProcessor
 {

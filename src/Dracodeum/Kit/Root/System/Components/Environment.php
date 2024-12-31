@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @author Cláudio "Feralidragon" Luís <claudio.luis@aptoide.com>
+ * @author Cláudio "Feralidragon" Luís <claudioluis8@gmail.com>
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
@@ -22,14 +22,6 @@ use Dracodeum\Kit\Utilities\Call as UCall;
  * and how the code should run (debugging or production).
  * 
  * @see \Dracodeum\Kit\Root\System\Prototypes\Environment
- * @see \Dracodeum\Kit\Root\System\Prototypes\Environments\Debug
- * [prototype, name = 'debug']
- * @see \Dracodeum\Kit\Root\System\Prototypes\Environments\Development
- * [prototype, name = 'development']
- * @see \Dracodeum\Kit\Root\System\Prototypes\Environments\Staging
- * [prototype, name = 'staging']
- * @see \Dracodeum\Kit\Root\System\Prototypes\Environments\Production
- * [prototype, name = 'production']
  */
 class Environment extends Component
 {
@@ -120,8 +112,6 @@ class Environment extends Component
 	 * 
 	 * This method may only be called from within the <code>setEnvironment</code> method 
 	 * from the <code>Dracodeum\Kit\Root\System</code> class.
-	 * 
-	 * @return void
 	 */
 	final public function apply(): void
 	{

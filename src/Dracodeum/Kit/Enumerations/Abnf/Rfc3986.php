@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @author Cláudio "Feralidragon" Luís <claudio.luis@aptoide.com>
+ * @author Cláudio "Feralidragon" Luís <claudioluis8@gmail.com>
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
@@ -17,41 +17,41 @@ use Dracodeum\Kit\Enumeration;
 class Rfc3986 extends Enumeration
 {
 	//Public constants
-	/** <samp>absolute-URI</samp> ABNF regular expression. */
+	/** <samp>absolute-URI</samp> */
 	public const ABSOLUTE_URI = '(?:' . self::SCHEME . '\:' . self::HIER_PART . '(?:\?' . self::QUERY . ')?)';
 	
-	/** <samp>authority</samp> ABNF regular expression. */
+	/** <samp>authority</samp> */
 	public const AUTHORITY = '(?:(?:' . self::USERINFO . '\@)?' . self::HOST . '(?:\:' . self::PORT . ')?)';
 	
-	/** <samp>dec-octet</samp> ABNF regular expression. */
+	/** <samp>dec-octet</samp> */
 	public const DEC_OCTET = '(?:' . 
 		Rfc5234::DIGIT . '|[1-9]' . Rfc5234::DIGIT . '|1' . Rfc5234::DIGIT . '{2}|' . 
 		'2[0-4]' . Rfc5234::DIGIT . '|25[0-5]' . 
 		')';
 	
-	/** <samp>fragment</samp> ABNF regular expression. */
+	/** <samp>fragment</samp> */
 	public const FRAGMENT = '(?:(?:' . self::PCHAR . '|[\/\?])*)';
 	
-	/** <samp>gen-delims</samp> ABNF regular expression. */
+	/** <samp>gen-delims</samp> */
 	public const GEN_DELIMS = '[\:\/\?\#\[\]\@]';
 	
-	/** <samp>h16</samp> ABNF regular expression. */
+	/** <samp>h16</samp> */
 	public const H16 = '(?:' . Rfc5234::HEXDIG . '{1,4})';
 	
-	/** <samp>hier-part</samp> ABNF regular expression. */
+	/** <samp>hier-part</samp> */
 	public const HIER_PART = '(?:\/{2}' . self::AUTHORITY . self::PATH_ABEMPTY . '|' . self::PATH_ABSOLUTE . '|' . 
 		self::PATH_ROOTLESS . '|' . self::PATH_EMPTY . ')';
 	
-	/** <samp>host</samp> ABNF regular expression. */
+	/** <samp>host</samp> */
 	public const HOST = '(?:' . self::IP_LITERAL . '|' . self::IPV4_ADDRESS . '|' . self::REG_NAME . ')';
 	
-	/** <samp>IP-literal</samp> ABNF regular expression. */
+	/** <samp>IP-literal</samp> */
 	public const IP_LITERAL = '(?:\[(?:' . self::IPV6_ADDRESS . '|' . self::IPVFUTURE . ')\])';
 	
-	/** <samp>IPv4address</samp> ABNF regular expression. */
+	/** <samp>IPv4address</samp> */
 	public const IPV4_ADDRESS = '(?:' . self::DEC_OCTET . '(?:\.' . self::DEC_OCTET . '){3})';
 	
-	/** <samp>IPv6address</samp> ABNF regular expression. */
+	/** <samp>IPv6address</samp> */
 	public const IPV6_ADDRESS = '(?:' . 
 		'(?:' . self::H16 . '\:){6}' . self::LS32 . '|' . 
 		'\:\:(?:' . self::H16 . '\:){5}' . self::LS32 . '|' . 
@@ -64,85 +64,85 @@ class Rfc3986 extends Enumeration
 		'(?:(?:' . self::H16 . '\:){0,6}' . self::H16 . ')?\:\:' . 
 		')';
 	
-	/** <samp>IPvFuture</samp> ABNF regular expression. */
+	/** <samp>IPvFuture</samp> */
 	public const IPVFUTURE = '(?:v' . Rfc5234::HEXDIG . '+\.' . 
 		'(?:' . self::UNRESERVED . '|' . self::SUB_DELIMS . '|\:)+)';
 	
-	/** <samp>ls32</samp> ABNF regular expression. */
+	/** <samp>ls32</samp> */
 	public const LS32 = '(?:' . self::H16 . '\:' . self::H16 . '|' . self::IPV4_ADDRESS . ')';
 	
-	/** <samp>path</samp> ABNF regular expression. */
+	/** <samp>path</samp> */
 	public const PATH = '(?:' . self::PATH_ABEMPTY . '|' . self::PATH_ABSOLUTE . '|' . self::PATH_NOSCHEME . '|' . 
 		self::PATH_ROOTLESS . '|' . self::PATH_EMPTY . ')';
 	
-	/** <samp>path-abempty</samp> ABNF regular expression. */
+	/** <samp>path-abempty</samp> */
 	public const PATH_ABEMPTY = '(?:(?:\/' . self::SEGMENT . ')*)';
 	
-	/** <samp>path-absolute</samp> ABNF regular expression. */
+	/** <samp>path-absolute</samp> */
 	public const PATH_ABSOLUTE = '(?:\/(?:' . self::SEGMENT_NZ . '(?:\/' . self::SEGMENT . ')*)?)';
 	
-	/** <samp>path-empty</samp> ABNF regular expression. */
+	/** <samp>path-empty</samp> */
 	public const PATH_EMPTY = '(?:)';
 	
-	/** <samp>path-noscheme</samp> ABNF regular expression. */
+	/** <samp>path-noscheme</samp> */
 	public const PATH_NOSCHEME = '(?:' . self::SEGMENT_NZ_NC . '(?:\/' . self::SEGMENT . ')*)';
 	
-	/** <samp>path-rootless</samp> ABNF regular expression. */
+	/** <samp>path-rootless</samp> */
 	public const PATH_ROOTLESS = '(?:' . self::SEGMENT_NZ . '(?:\/' . self::SEGMENT . ')*)';
 	
-	/** <samp>pchar</samp> ABNF regular expression. */
+	/** <samp>pchar</samp> */
 	public const PCHAR = '(?:' . self::UNRESERVED . '|' . self::PCT_ENCODED . '|' . self::SUB_DELIMS . '|[\:\@])';
 	
-	/** <samp>pct-encoded</samp> ABNF regular expression. */
+	/** <samp>pct-encoded</samp> */
 	public const PCT_ENCODED = '(?:\%' . Rfc5234::HEXDIG . '{2})';
 	
-	/** <samp>port</samp> ABNF regular expression. */
+	/** <samp>port</samp> */
 	public const PORT = '(?:' . Rfc5234::DIGIT . '*)';
 	
-	/** <samp>query</samp> ABNF regular expression. */
+	/** <samp>query</samp> */
 	public const QUERY = '(?:(?:' . self::PCHAR . '|[\/\?])*)';
 	
-	/** <samp>reg-name</samp> ABNF regular expression. */
+	/** <samp>reg-name</samp> */
 	public const REG_NAME = '(?:(?:' . self::UNRESERVED . '|' . self::PCT_ENCODED . '|' . self::SUB_DELIMS . ')*)';
 	
-	/** <samp>relative-part</samp> ABNF regular expression. */
+	/** <samp>relative-part</samp> */
 	public const RELATIVE_PART = '(?:\/{2}' . self::AUTHORITY . self::PATH_ABEMPTY . '|' . self::PATH_ABSOLUTE . '|' . 
 		self::PATH_NOSCHEME . '|' . self::PATH_EMPTY . ')';
 	
-	/** <samp>relative-ref</samp> ABNF regular expression. */
+	/** <samp>relative-ref</samp> */
 	public const RELATIVE_REF = '(?:' . self::RELATIVE_PART . 
 		'(?:\?' . self::QUERY . ')?(?:\#' . self::FRAGMENT . ')?)';
 	
-	/** <samp>reserved</samp> ABNF regular expression. */
+	/** <samp>reserved</samp> */
 	public const RESERVED = '(?:' . self::GEN_DELIMS . '|' . self::SUB_DELIMS . ')';
 	
-	/** <samp>scheme</samp> ABNF regular expression. */
+	/** <samp>scheme</samp> */
 	public const SCHEME = '(?:' . Rfc5234::ALPHA . '(?:' . Rfc5234::ALPHA . '|' . Rfc5234::DIGIT . '|[\+\-\.])*)';
 	
-	/** <samp>segment</samp> ABNF regular expression. */
+	/** <samp>segment</samp> */
 	public const SEGMENT = '(?:' . self::PCHAR . '*)';
 	
-	/** <samp>segment-nz</samp> ABNF regular expression. */
+	/** <samp>segment-nz</samp> */
 	public const SEGMENT_NZ = '(?:' . self::PCHAR . '+)';
 	
-	/** <samp>segment-nz-nc</samp> ABNF regular expression. */
+	/** <samp>segment-nz-nc</samp> */
 	public const SEGMENT_NZ_NC = '(?:' . 
 		'(?:' . self::UNRESERVED . '|' . self::PCT_ENCODED . '|' . self::SUB_DELIMS . '|\@)+' . 
 		')';
 	
-	/** <samp>sub-delims</samp> ABNF regular expression. */
+	/** <samp>sub-delims</samp> */
 	public const SUB_DELIMS = '[\!\$\&\'\(\)\*\+\,\;\=]';
 	
-	/** <samp>unreserved</samp> ABNF regular expression. */
+	/** <samp>unreserved</samp> */
 	public const UNRESERVED = '(?:' . Rfc5234::ALPHA . '|' . Rfc5234::DIGIT . '|[\-\.\_\~])';
 	
-	/** <samp>URI</samp> ABNF regular expression. */
+	/** <samp>URI</samp> */
 	public const URI = '(?:' . self::SCHEME . '\:' . self::HIER_PART . 
 		'(?:\?' . self::QUERY . ')?(?:\#' . self::FRAGMENT . ')?)';
 	
-	/** <samp>URI-reference</samp> ABNF regular expression. */
+	/** <samp>URI-reference</samp> */
 	public const URI_REFERENCE = '(?:' . self::URI . '|' . self::RELATIVE_REF . ')';
 	
-	/** <samp>userinfo</samp> ABNF regular expression. */
+	/** <samp>userinfo</samp> */
 	public const USERINFO = '(?:(?:' . self::UNRESERVED . '|' . self::PCT_ENCODED . '|' . self::SUB_DELIMS . '|\:)*)';
 }

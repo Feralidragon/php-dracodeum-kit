@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @author Cláudio "Feralidragon" Luís <claudio.luis@aptoide.com>
+ * @author Cláudio "Feralidragon" Luís <claudioluis8@gmail.com>
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
@@ -18,7 +18,6 @@ trait LogEventProcessor
 	 * 
 	 * @param \Dracodeum\Kit\Structures\Log\Event $event
 	 * <p>The log event instance to process.</p>
-	 * @return void
 	 */
 	protected function processLogEvent(LogEvent $event): void {}
 }

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @author Cláudio "Feralidragon" Luís <claudio.luis@aptoide.com>
+ * @author Cláudio "Feralidragon" Luís <claudioluis8@gmail.com>
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
@@ -12,7 +12,7 @@ use Dracodeum\Kit\Structures\Uid;
 
 /**
  * @property-read \Dracodeum\Kit\Structures\Uid $uid
- * <p>The UID instance.</p>
+ * The UID instance.
  */
 class ScopeNotFound extends Exception
 {

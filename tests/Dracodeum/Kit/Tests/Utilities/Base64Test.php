@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @author Cláudio "Feralidragon" Luís <claudio.luis@aptoide.com>
+ * @author Cláudio "Feralidragon" Luís <claudioluis8@gmail.com>
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
@@ -11,15 +11,15 @@ use PHPUnit\Framework\TestCase;
 use Dracodeum\Kit\Utilities\Base64 as UBase64;
 use Dracodeum\Kit\Utilities\Base64\Exceptions;
 
-/** @see \Dracodeum\Kit\Utilities\Base64 */
+/** @covers \Dracodeum\Kit\Utilities\Base64 */
 class Base64Test extends TestCase
 {
 	//Public methods
 	/**
 	 * Test <code>encoded</code> method.
 	 * 
-	 * @dataProvider provideEncodedMethodData
 	 * @testdox Base64::encoded('$string', $url_safe) === $expected
+	 * @dataProvider provideEncodedData
 	 * 
 	 * @param string $string
 	 * <p>The method <var>$string</var> parameter to test with.</p>
@@ -27,20 +27,153 @@ class Base64Test extends TestCase
 	 * <p>The method <var>$url_safe</var> parameter to test with.</p>
 	 * @param bool $expected
 	 * <p>The expected method return value.</p>
-	 * @return void
 	 */
-	public function testEncodedMethod(string $string, ?bool $url_safe, bool $expected): void
+	public function testEncoded(string $string, ?bool $url_safe, bool $expected): void
 	{
 		$this->assertSame($expected, UBase64::encoded($string, $url_safe));
 	}
 	
+	/**
+	 * Test <code>encode</code> method.
+	 * 
+	 * @testdox Base64::encode('$string', $url_safe) === '$expected'
+	 * @dataProvider provideEncodeData
+	 * 
+	 * @param string $string
+	 * <p>The method <var>$string</var> parameter to test with.</p>
+	 * @param bool $url_safe
+	 * <p>The method <var>$url_safe</var> parameter to test with.</p>
+	 * @param string $expected
+	 * <p>The expected method return value.</p>
+	 */
+	public function testEncode(string $string, bool $url_safe, string $expected): void
+	{
+		$this->assertSame($expected, UBase64::encode($string, $url_safe));
+	}
+	
+	/**
+	 * Test <code>decode</code> method.
+	 * 
+	 * @testdox Base64::decode('$string', $url_safe, false|true) === '$expected'
+	 * @dataProvider provideDecodeData
+	 * 
+	 * @param string $string
+	 * <p>The method <var>$string</var> parameter to test with.</p>
+	 * @param bool|null $url_safe
+	 * <p>The method <var>$url_safe</var> parameter to test with.</p>
+	 * @param string $expected
+	 * <p>The expected method return value.</p>
+	 */
+	public function testDecode(string $string, ?bool $url_safe, string $expected): void
+	{
+		foreach ([false, true] as $no_throw) {
+			$this->assertSame($expected, UBase64::decode($string, $url_safe, $no_throw));
+		}
+	}
+	
+	/**
+	 * Test <code>decode</code> method expecting an <code>InvalidString</code> exception to be thrown.
+	 * 
+	 * @testdox Base64::decode('$string', $url_safe) --> InvalidString exception
+	 * @dataProvider provideDecodeData_Exception_InvalidString
+	 * 
+	 * @param string $string
+	 * <p>The method <var>$string</var> parameter to test with.</p>
+	 * @param bool|null $url_safe
+	 * <p>The method <var>$url_safe</var> parameter to test with.</p>
+	 */
+	public function testDecode_Exception_InvalidString(string $string, ?bool $url_safe): void
+	{
+		$this->expectException(Exceptions\Decode\InvalidString::class);
+		try {
+			UBase64::decode($string, $url_safe);
+		} catch (Exceptions\Decode\InvalidString $exception) {
+			$this->assertSame($string, $exception->string);
+			$this->assertSame($url_safe ?? false, $exception->url_safe);
+			throw $exception;
+		}
+	}
+	
+	/**
+	 * Test <code>decode</code> method with <var>$no_throw</var> set to boolean <code>true</code>, 
+	 * expecting <code>null</code> to be returned.
+	 * 
+	 * @testdox Base64::decode('$string', $url_safe, true) === null
+	 * @dataProvider provideDecodeData_Exception_InvalidString
+	 * 
+	 * @param string $string
+	 * <p>The method <var>$string</var> parameter to test with.</p>
+	 * @param bool|null $url_safe
+	 * <p>The method <var>$url_safe</var> parameter to test with.</p>
+	 */
+	public function testDecode_NoThrow_Null(string $string, ?bool $url_safe): void
+	{
+		$this->assertNull(UBase64::decode($string, $url_safe, true));
+	}
+	
+	/**
+	 * Test <code>normalize</code> method.
+	 * 
+	 * @testdox Base64::normalize('$string', false|true) === '$expected'
+	 * @dataProvider provideNormalizeData
+	 * 
+	 * @param string $string
+	 * <p>The method <var>$string</var> parameter to test with.</p>
+	 * @param string $expected
+	 * <p>The expected method return value.</p>
+	 */
+	public function testNormalize(string $string, string $expected): void
+	{
+		foreach ([false, true] as $no_throw) {
+			$this->assertSame($expected, UBase64::normalize($string, $no_throw));
+		}
+	}
+	
+	/**
+	 * Test <code>normalize</code> method expecting an <code>InvalidString</code> exception to be thrown.
+	 * 
+	 * @testdox Base64::normalize('$string') --> InvalidString exception
+	 * @dataProvider provideNormalizeData_Exception_InvalidString
+	 * 
+	 * @param string $string
+	 * <p>The method <var>$string</var> parameter to test with.</p>
+	 */
+	public function testNormalize_Exception_InvalidString(string $string): void
+	{
+		$this->expectException(Exceptions\Normalize\InvalidString::class);
+		try {
+			UBase64::normalize($string);
+		} catch (Exceptions\Normalize\InvalidString $exception) {
+			$this->assertSame($string, $exception->string);
+			throw $exception;
+		}
+	}
+	
+	/**
+	 * Test <code>normalize</code> method with <var>$no_throw</var> set to boolean <code>true</code>, 
+	 * expecting <code>null</code> to be returned.
+	 * 
+	 * @testdox Base64::normalize('$string', true) === null
+	 * @dataProvider provideNormalizeData_Exception_InvalidString
+	 * 
+	 * @param string $string
+	 * <p>The method <var>$string</var> parameter to test with.</p>
+	 */
+	public function testNormalize_NoThrow_Null(string $string): void
+	{
+		$this->assertNull(UBase64::normalize($string, true));
+	}
+	
+	
+	
+	//Public static methods
 	/**
 	 * Provide <code>encoded</code> method data.
 	 * 
 	 * @return array
 	 * <p>The provided <code>encoded</code> method data.</p>
 	 */
-	public function provideEncodedMethodData(): array
+	public static function provideEncodedData(): array
 	{
 		return [
 			['', null, false],
@@ -98,31 +231,12 @@ class Base64Test extends TestCase
 	}
 	
 	/**
-	 * Test <code>encode</code> method.
-	 * 
-	 * @dataProvider provideEncodeMethodData
-	 * @testdox Base64::encode('$string', $url_safe) === '$expected'
-	 * 
-	 * @param string $string
-	 * <p>The method <var>$string</var> parameter to test with.</p>
-	 * @param bool $url_safe
-	 * <p>The method <var>$url_safe</var> parameter to test with.</p>
-	 * @param string $expected
-	 * <p>The expected method return value.</p>
-	 * @return void
-	 */
-	public function testEncodeMethod(string $string, bool $url_safe, string $expected): void
-	{
-		$this->assertSame($expected, UBase64::encode($string, $url_safe));
-	}
-	
-	/**
 	 * Provide <code>encode</code> method data.
 	 * 
 	 * @return array
 	 * <p>The provided <code>encode</code> method data.</p>
 	 */
-	public function provideEncodeMethodData(): array
+	public static function provideEncodeData(): array
 	{
 		return [
 			['', false, ''],
@@ -143,33 +257,12 @@ class Base64Test extends TestCase
 	}
 	
 	/**
-	 * Test <code>decode</code> method.
-	 * 
-	 * @dataProvider provideDecodeMethodData
-	 * @testdox Base64::decode('$string', $url_safe, false|true) === '$expected'
-	 * 
-	 * @param string $string
-	 * <p>The method <var>$string</var> parameter to test with.</p>
-	 * @param bool|null $url_safe
-	 * <p>The method <var>$url_safe</var> parameter to test with.</p>
-	 * @param string $expected
-	 * <p>The expected method return value.</p>
-	 * @return void
-	 */
-	public function testDecodeMethod(string $string, ?bool $url_safe, string $expected): void
-	{
-		foreach ([false, true] as $no_throw) {
-			$this->assertSame($expected, UBase64::decode($string, $url_safe, $no_throw));
-		}
-	}
-	
-	/**
 	 * Provide <code>decode</code> method data.
 	 * 
 	 * @return array
 	 * <p>The provided <code>decode</code> method data.</p>
 	 */
-	public function provideDecodeMethodData(): array
+	public static function provideDecodeData(): array
 	{
 		return [
 			['YQ==', null, 'a'],
@@ -199,54 +292,12 @@ class Base64Test extends TestCase
 	}
 	
 	/**
-	 * Test <code>decode</code> method expecting an <code>InvalidString</code> exception to be thrown.
-	 * 
-	 * @dataProvider provideDecodeMethodData_InvalidStringException
-	 * @testdox Base64::decode('$string', $url_safe) --> InvalidString exception
-	 * 
-	 * @param string $string
-	 * <p>The method <var>$string</var> parameter to test with.</p>
-	 * @param bool|null $url_safe
-	 * <p>The method <var>$url_safe</var> parameter to test with.</p>
-	 * @return void
-	 */
-	public function testDecodeMethod_InvalidStringException(string $string, ?bool $url_safe): void
-	{
-		$this->expectException(Exceptions\Decode\InvalidString::class);
-		try {
-			UBase64::decode($string, $url_safe);
-		} catch (Exceptions\Decode\InvalidString $exception) {
-			$this->assertSame($string, $exception->string);
-			$this->assertSame($url_safe ?? false, $exception->url_safe);
-			throw $exception;
-		}
-	}
-	
-	/**
-	 * Test <code>decode</code> method with <var>$no_throw</var> set to boolean <code>true</code>, 
-	 * expecting <code>null</code> to be returned.
-	 * 
-	 * @dataProvider provideDecodeMethodData_InvalidStringException
-	 * @testdox Base64::decode('$string', $url_safe, true) === NULL
-	 * 
-	 * @param string $string
-	 * <p>The method <var>$string</var> parameter to test with.</p>
-	 * @param bool|null $url_safe
-	 * <p>The method <var>$url_safe</var> parameter to test with.</p>
-	 * @return void
-	 */
-	public function testDecodeMethod_NoThrowNull(string $string, ?bool $url_safe): void
-	{
-		$this->assertNull(UBase64::decode($string, $url_safe, true));
-	}
-	
-	/**
 	 * Provide <code>decode</code> method data for an <code>InvalidString</code> exception to be thrown.
 	 * 
 	 * @return array
 	 * <p>The provided <code>decode</code> method data for an <code>InvalidString</code> exception to be thrown.</p>
 	 */
-	public function provideDecodeMethodData_InvalidStringException(): array
+	public static function provideDecodeData_Exception_InvalidString(): array
 	{
 		return [
 			['', null],
@@ -281,31 +332,12 @@ class Base64Test extends TestCase
 	}
 	
 	/**
-	 * Test <code>normalize</code> method.
-	 * 
-	 * @dataProvider provideNormalizeMethodData
-	 * @testdox Base64::normalize('$string', false|true) === '$expected'
-	 * 
-	 * @param string $string
-	 * <p>The method <var>$string</var> parameter to test with.</p>
-	 * @param string $expected
-	 * <p>The expected method return value.</p>
-	 * @return void
-	 */
-	public function testNormalizeMethod(string $string, string $expected): void
-	{
-		foreach ([false, true] as $no_throw) {
-			$this->assertSame($expected, UBase64::normalize($string, $no_throw));
-		}
-	}
-	
-	/**
 	 * Provide <code>normalize</code> method data.
 	 * 
 	 * @return array
 	 * <p>The provided <code>normalize</code> method data.</p>
 	 */
-	public function provideNormalizeMethodData(): array
+	public static function provideNormalizeData(): array
 	{
 		return [
 			['YQ==', 'YQ=='],
@@ -323,49 +355,12 @@ class Base64Test extends TestCase
 	}
 	
 	/**
-	 * Test <code>normalize</code> method expecting an <code>InvalidString</code> exception to be thrown.
-	 * 
-	 * @dataProvider provideNormalizeMethodData_InvalidStringException
-	 * @testdox Base64::normalize('$string') --> InvalidString exception
-	 * 
-	 * @param string $string
-	 * <p>The method <var>$string</var> parameter to test with.</p>
-	 * @return void
-	 */
-	public function testNormalizeMethod_InvalidStringException(string $string): void
-	{
-		$this->expectException(Exceptions\Normalize\InvalidString::class);
-		try {
-			UBase64::normalize($string);
-		} catch (Exceptions\Normalize\InvalidString $exception) {
-			$this->assertSame($string, $exception->string);
-			throw $exception;
-		}
-	}
-	
-	/**
-	 * Test <code>normalize</code> method with <var>$no_throw</var> set to boolean <code>true</code>, 
-	 * expecting <code>null</code> to be returned.
-	 * 
-	 * @dataProvider provideNormalizeMethodData_InvalidStringException
-	 * @testdox Base64::normalize('$string', true) === NULL
-	 * 
-	 * @param string $string
-	 * <p>The method <var>$string</var> parameter to test with.</p>
-	 * @return void
-	 */
-	public function testNormalizeMethod_NoThrowNull(string $string): void
-	{
-		$this->assertNull(UBase64::normalize($string, true));
-	}
-	
-	/**
 	 * Provide <code>normalize</code> method data for an <code>InvalidString</code> exception to be thrown.
 	 * 
 	 * @return array
 	 * <p>The provided <code>normalize</code> method data for an <code>InvalidString</code> exception to be thrown.</p>
 	 */
-	public function provideNormalizeMethodData_InvalidStringException(): array
+	public static function provideNormalizeData_Exception_InvalidString(): array
 	{
 		return [
 			[''],

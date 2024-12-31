@@ -4,7 +4,7 @@
  * Require or include this file in order to use this package.
  * 
  * @version 1.0.0
- * @author Cláudio "Feralidragon" Luís <claudio.luis@aptoide.com>
+ * @author Cláudio "Feralidragon" Luís <claudioluis8@gmail.com>
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
@@ -12,13 +12,12 @@ use Dracodeum\Kit\Root\Loader;
 
 
 
-//avoid the loader to be loaded again
+//prevent the loader from being loaded again
 if (class_exists(Loader::class, false)) {
 	return false;
 }
 
 //constants
-define('DRACODEUM_KIT_VERSION', '1.0.0');
 define('DRACODEUM_KIT_DIRECTORY', __DIR__ . '/src');
 
 //required classes

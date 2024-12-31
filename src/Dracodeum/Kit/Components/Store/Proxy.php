@@ -1,18 +1,18 @@
 <?php
 
 /**
- * @author Cláudio "Feralidragon" Luís <claudio.luis@aptoide.com>
+ * @author Cláudio "Feralidragon" Luís <claudioluis8@gmail.com>
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
 namespace Dracodeum\Kit\Components\Store;
 
-use Dracodeum\Kit\Proxy as KitProxy;
+use Dracodeum\Kit\Proxy as KProxy;
 use Dracodeum\Kit\Prototypes\Store\Contract as IContract;
 use Dracodeum\Kit\Components\Store as Owner;
 use Dracodeum\Kit\Structures\Uid;
 
-class Proxy extends KitProxy implements IContract
+class Proxy extends KProxy implements IContract
 {
 	//Implemented protected static methods
 	/** {@inheritdoc} */

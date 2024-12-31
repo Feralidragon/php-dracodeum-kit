@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @author Cláudio "Feralidragon" Luís <claudio.luis@aptoide.com>
+ * @author Cláudio "Feralidragon" Luís <claudioluis8@gmail.com>
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
@@ -229,7 +229,7 @@ final class Data extends Utility
 		} elseif (is_object($value)) {
 			$safe = false;
 			return 'O:' . spl_object_id($value);
-		} elseif (is_resource($value)) {
+		} elseif (is_resource($value) || gettype($value) === 'resource (closed)') {
 			$safe = false;
 			return 'R:' . (int)$value;
 		} elseif (is_array($value)) {
@@ -793,7 +793,7 @@ final class Data extends Utility
 	 * 
 	 * @param array $array
 	 * <p>The array to filter.</p>
-	 * @param int[]|string[] $keys
+	 * @param (int|string)[] $keys
 	 * <p>The keys to filter from.</p>
 	 * @param int|null $depth [default = null]
 	 * <p>The recursive depth limit to stop the filtering at.<br>
@@ -984,7 +984,7 @@ final class Data extends Utility
 	 * 
 	 * @param array $array
 	 * <p>The array to trim.</p>
-	 * @param int[]|string[] $keys
+	 * @param (int|string)[] $keys
 	 * <p>The keys to trim from.</p>
 	 * @param int|null $depth [default = null]
 	 * <p>The recursive depth limit to stop the trimming at.<br>
@@ -1480,7 +1480,7 @@ final class Data extends Utility
 	 * 
 	 * @param array $array
 	 * <p>The array to align.</p>
-	 * @param int[]|string[] $keys
+	 * @param (int|string)[] $keys
 	 * <p>The keys to align with.</p>
 	 * @param int|null $depth [default = null]
 	 * <p>The recursive depth limit to stop the alignment at.<br>
@@ -1739,7 +1739,6 @@ final class Data extends Utility
 	 * <p>The value to prepend.</p>
 	 * @param int|string|null $key [default = null]
 	 * <p>The key to prepend with.</p>
-	 * @return void
 	 */
 	final public static function prepend(array &$array, $value, $key = null): void
 	{
@@ -1760,7 +1759,6 @@ final class Data extends Utility
 	 * <p>The value to append.</p>
 	 * @param int|string|null $key [default = null]
 	 * <p>The key to append with.</p>
-	 * @return void
 	 */
 	final public static function append(array &$array, $value, $key = null): void
 	{
@@ -1791,7 +1789,7 @@ final class Data extends Utility
 			if ($no_throw) {
 				return null;
 			}
-			throw new Exceptions\EmptyArray();
+			throw new Exceptions\EmptyArray;
 		}
 		return reset($array);
 	}
@@ -1815,7 +1813,7 @@ final class Data extends Utility
 			if ($no_throw) {
 				return null;
 			}
-			throw new Exceptions\EmptyArray();
+			throw new Exceptions\EmptyArray;
 		}
 		reset($array);
 		return key($array);
@@ -1840,7 +1838,7 @@ final class Data extends Utility
 			if ($no_throw) {
 				return null;
 			}
-			throw new Exceptions\EmptyArray();
+			throw new Exceptions\EmptyArray;
 		}
 		return end($array);
 	}
@@ -1864,7 +1862,7 @@ final class Data extends Utility
 			if ($no_throw) {
 				return null;
 			}
-			throw new Exceptions\EmptyArray();
+			throw new Exceptions\EmptyArray;
 		}
 		end($array);
 		return key($array);
@@ -2020,7 +2018,7 @@ final class Data extends Utility
 	 * 
 	 * @param array $array
 	 * <p>The array to coalesce from.</p>
-	 * @param int[]|string[] $keys [default = []]
+	 * @param (int|string)[] $keys [default = []]
 	 * <p>The keys to coalesce by.<br>
 	 * If empty, then all the values from the given array are used to coalesce by, 
 	 * otherwise only the values in the matching keys are used.<br>
@@ -2070,8 +2068,6 @@ final class Data extends Utility
 	 * <p>Do not allow an associative array.</p>
 	 * @param bool $non_empty [default = false]
 	 * <p>Do not allow an empty array.</p>
-	 * @param bool $recursive [default = false]
-	 * <p>Evaluate all possible referenced subobjects into arrays recursively.</p>
 	 * @param bool $nullable [default = false]
 	 * <p>Allow the given value to evaluate as <code>null</code>.</p>
 	 * @return bool
@@ -2079,10 +2075,10 @@ final class Data extends Utility
 	 */
 	final public static function evaluate(
 		&$value, ?callable $evaluator = null, bool $non_associative = false, bool $non_empty = false,
-		bool $recursive = false, bool $nullable = false
+		bool $nullable = false
 	): bool
 	{
-		return self::processCoercion($value, $evaluator, $non_associative, $non_empty, $recursive, $nullable, true);
+		return self::processCoercion($value, $evaluator, $non_associative, $non_empty, $nullable, true);
 	}
 	
 	/**
@@ -2113,8 +2109,6 @@ final class Data extends Utility
 	 * <p>Do not allow an associative array.</p>
 	 * @param bool $non_empty [default = false]
 	 * <p>Do not allow an empty array.</p>
-	 * @param bool $recursive [default = false]
-	 * <p>Coerce all possible referenced subobjects into arrays recursively.</p>
 	 * @param bool $nullable [default = false]
 	 * <p>Allow the given value to coerce as <code>null</code>.</p>
 	 * @throws \Dracodeum\Kit\Utilities\Data\Exceptions\CoercionFailed
@@ -2124,10 +2118,10 @@ final class Data extends Utility
 	 */
 	final public static function coerce(
 		$value, ?callable $evaluator = null, bool $non_associative = false, bool $non_empty = false,
-		bool $recursive = false, bool $nullable = false
+		bool $nullable = false
 	): ?array
 	{
-		self::processCoercion($value, $evaluator, $non_associative, $non_empty, $recursive, $nullable);
+		self::processCoercion($value, $evaluator, $non_associative, $non_empty, $nullable);
 		return $value;
 	}
 	
@@ -2159,8 +2153,6 @@ final class Data extends Utility
 	 * <p>Do not allow an associative array.</p>
 	 * @param bool $non_empty [default = false]
 	 * <p>Do not allow an empty array.</p>
-	 * @param bool $recursive [default = false]
-	 * <p>Coerce all possible referenced subobjects into arrays recursively.</p>
 	 * @param bool $nullable [default = false]
 	 * <p>Allow the given value to coerce as <code>null</code>.</p>
 	 * @param bool $no_throw [default = false]
@@ -2171,7 +2163,7 @@ final class Data extends Utility
 	 */
 	final public static function processCoercion(
 		&$value, ?callable $evaluator = null, bool $non_associative = false, bool $non_empty = false,
-		bool $recursive = false, bool $nullable = false, bool $no_throw = false
+		bool $nullable = false, bool $no_throw = false
 	): bool
 	{
 		//nullable
@@ -2190,13 +2182,8 @@ final class Data extends Utility
 		
 		//array
 		$array = $value;
-		if (is_object($array) && $array instanceof IArrayable) {
-			$array = $array->toArray($recursive);
-		} elseif ($recursive && is_array($array)) {
-			foreach ($array as &$v) {
-				self::processCoercion($v, $evaluator, $non_associative, $non_empty, $recursive, $nullable, true);
-			}
-			unset($v);
+		if ($array instanceof IArrayable) {
+			$array = $array->toArray();
 		}
 		
 		//coerce

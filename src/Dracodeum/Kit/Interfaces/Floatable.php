@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @author Cláudio "Feralidragon" Luís <claudio.luis@aptoide.com>
+ * @author Cláudio "Feralidragon" Luís <claudioluis8@gmail.com>
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
@@ -15,7 +15,7 @@ interface Floatable
 	 * Cast this object to a float.
 	 * 
 	 * @return float
-	 * <p>This object cast to a float.</p>
+	 * <p>A float cast from this object.</p>
 	 */
 	public function toFloat(): float;
 }
