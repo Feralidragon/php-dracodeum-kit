@@ -2668,136 +2668,22 @@ final class Type extends Utility
 	 * Normalize a given name.
 	 * 
 	 * @param string $name
-	 * <p>The name to normalize.</p>
+	 * The name to normalize.
+	 * 
 	 * @param int $flags
-	 * <p>The flags to normalize with, as any combination of the following:<br>
-	 * <br>
-	 * &nbsp; &#8226; &nbsp; <code>self::NORMALIZE_SHORT_NAME</code> : 
-	 * Return a short name for a class, interface or enumeration instead of the full namespaced name.<br><br>
-	 * &nbsp; &#8226; &nbsp; <code>self::NORMALIZE_NAMESPACE_LEADING_SLASH</code> : 
-	 * Return a namespace with the leading slash.</p>
-	 * @throws \LogicException
+	 * The flags to normalize with, as any combination of the following:
+	 * - `NORMALIZE_SHORT_NAME` (*self*): return a short name for a class, interface or enumeration instead of the full 
+	 * namespaced name;
+	 * - `NORMALIZE_NAMESPACE_LEADING_SLASH` (*self*): return a namespace with the leading slash.
+	 * 
 	 * @return string
-	 * <p>The given name normalized.</p>
+	 * The given name normalized.
 	 */
 	final public static function normalize(string $name, int $flags = 0x00): string
 	{
 		static $map = [];
 		if (!isset($map[$name][$flags])) {
-			//initialize
-			$n_name = trim($name);
-			if ($n_name === '') {
-				$n_name = 'mixed';
-			}
-			
-			//info
-			$info = self::info($n_name);
-			switch ($info->kind) {
-				//generic
-				case EInfoKind::GENERIC:
-					//initialize
-					$n_name = $info->name;
-					if (!self::exists($n_name)) {
-						$n_name = strtolower($n_name);
-					} elseif ($flags & self::NORMALIZE_SHORT_NAME) {
-						$n_name = self::shortname($n_name);
-					} elseif ($flags & self::NORMALIZE_NAMESPACE_LEADING_SLASH) {
-						$n_name = '\\' . $n_name;
-					}
-					
-					//names
-					if (isset($info->names[1])) {
-						$subtypes = [];
-						for ($i = 1; $i < count($info->names); $i++) {
-							$subtypes[] = self::normalize($info->names[$i], $flags);
-						}
-						$n_name .= '<' . implode(',', $subtypes) . '>';
-						unset($subtypes);
-					}
-					
-					//flags
-					$n_flags = $info->flags;
-					static $flags_colon_chars_pattern = '/[' . self::FLAGS_REQUIRED_COLON_CHARS_PATTERN . ']/';
-					if (preg_match_all($flags_colon_chars_pattern, $n_flags, $matches)) {
-						$colon_flags = $matches[0];
-						$non_colon_flags = array_keys(
-							array_diff_key(array_flip(str_split($n_flags)), array_flip($colon_flags))
-						);
-						sort($colon_flags, SORT_STRING);
-						sort($non_colon_flags, SORT_STRING);
-						$n_flags = implode('', $colon_flags) . ':' . $non_colon_flags;
-						unset($colon_flags, $non_colon_flags);
-					}
-					$n_name = $n_flags . $n_name;
-					unset($n_flags, $matches);
-					
-					//parameters
-					if ($info->parameters) {
-						//initialize
-						$n_parameters = [];
-						static $parameter_value_escapable_chars_pattern = '/[' .
-							self::PARAMETER_VALUE_ESCAPABLE_CHARS_PATTERN . ']/';
-							
-						//process
-						$i = 0;
-						foreach ($info->parameters as $k => $v) {
-							//value
-							$n_parameter = $v;
-							if (preg_match($parameter_value_escapable_chars_pattern, $v)) {
-								$n_parameter = '"' . addcslashes($n_parameter, '"') . '"';
-							}
-							
-							//key
-							if ($k !== $i++) {
-								$n_parameter = $k . ':' . $n_parameter;
-							}
-							
-							//finalize
-							$n_parameters[] = $n_parameter;
-							unset($n_parameter);
-						}
-						
-						//finalize
-						$n_name .= '(' . implode(',', $n_parameters) . ')';
-						unset($n_parameters);
-					}
-					
-					//finalize
-					break;
-					
-				//array
-				case EInfoKind::ARRAY:
-					$n_name = self::normalize($info->name, $flags) . '[';
-					if (isset($info->parameters[0])) {
-						$n_name .= $info->parameters[0];
-					}
-					$n_name .= ']';
-					break;
-					
-				//group
-				case EInfoKind::GROUP:
-					$n_name = '(' . self::normalize($info->name, $flags) . ')';
-					break;
-					
-				//union or intersection
-				case EInfoKind::UNION:
-				case EInfoKind::INTERSECTION:
-					$n_names = [];
-					$is_union = $info->kind === EInfoKind::UNION;
-					foreach ($info->names as $i_name) {
-						$n_names[] = self::normalize($i_name, $flags);
-					}
-					$n_name = implode($is_union ? '|' : '&', $n_names);
-					unset($n_names, $is_union);
-					break;
-					
-				//default
-				default:
-					throw new LogicException("Unknown info kind \"{$info->kind}\".");
-			}
-			
-			//finalize
-			$map[$name][$flags] = $n_name;
+			$map[$name][$flags] = self::normalizeName($name, $flags);
 		}
 		return $map[$name][$flags];
 	}
@@ -3333,5 +3219,172 @@ final class Type extends Utility
 			EErrorType::NULL => null,
 			default => $error_type->handleThrowable(new Exceptions\Info\InvalidName([$name]))
 		};
+	}
+	
+	
+	
+	//Private static methods
+	/**
+	 * Normalize a given name.
+	 * 
+	 * @param string $name
+	 * The name to normalize.
+	 * 
+	 * @param int $flags
+	 * The flags to normalize with, as any combination of the following:
+	 * - `NORMALIZE_SHORT_NAME` (*self*): return a short name for a class, interface or enumeration instead of the full 
+	 * namespaced name;
+	 * - `NORMALIZE_NAMESPACE_LEADING_SLASH` (*self*): return a namespace with the leading slash.
+	 * 
+	 * @param int $depth
+	 * The current stack depth to normalize with.
+	 * 
+	 * @throws \LogicException
+	 * 
+	 * @return string
+	 * The given name normalized.
+	 */
+	private static function normalizeName(string $name, int $flags = 0x00, int $depth = 0): string
+	{
+		//initialize
+		$n_name = trim($name);
+		if ($n_name === '') {
+			$n_name = 'mixed';
+		}
+		
+		//info
+		$info = self::info($n_name);
+		switch ($info->kind) {
+			//generic
+			case EInfoKind::GENERIC:
+				//initialize
+				$n_name = $info->name;
+				if (!self::exists($n_name)) {
+					$n_name = strtolower($n_name);
+				} elseif ($flags & self::NORMALIZE_SHORT_NAME) {
+					$n_name = self::shortname($n_name);
+				} elseif ($flags & self::NORMALIZE_NAMESPACE_LEADING_SLASH) {
+					$n_name = '\\' . $n_name;
+				}
+				
+				//names
+				if (isset($info->names[1])) {
+					$subtypes = [];
+					for ($i = 1; $i < count($info->names); $i++) {
+						$subtypes[] = self::normalizeName($info->names[$i], $flags, $depth + 1);
+					}
+					$n_name .= '<' . implode(',', $subtypes) . '>';
+					unset($subtypes);
+				}
+				
+				//flags
+				$n_flags = $info->flags;
+				static $flags_colon_chars_pattern = '/[' . self::FLAGS_REQUIRED_COLON_CHARS_PATTERN . ']/';
+				if (preg_match_all($flags_colon_chars_pattern, $n_flags, $matches)) {
+					$colon_flags = $matches[0];
+					$non_colon_flags = array_keys(
+						array_diff_key(array_flip(str_split($n_flags)), array_flip($colon_flags))
+					);
+					sort($colon_flags, SORT_STRING);
+					sort($non_colon_flags, SORT_STRING);
+					$n_flags = implode('', $colon_flags) . ':' . $non_colon_flags;
+					unset($colon_flags, $non_colon_flags);
+				}
+				$n_name = $n_flags . $n_name;
+				unset($n_flags, $matches);
+				
+				//parameters
+				if ($info->parameters) {
+					//initialize
+					$n_parameters = [];
+					static $parameter_value_escapable_chars_pattern = '/[' .
+						self::PARAMETER_VALUE_ESCAPABLE_CHARS_PATTERN . ']/';
+						
+					//process
+					$i = 0;
+					foreach ($info->parameters as $k => $v) {
+						//value
+						$n_parameter = $v;
+						if (preg_match($parameter_value_escapable_chars_pattern, $v)) {
+							$n_parameter = '"' . addcslashes($n_parameter, '"') . '"';
+						}
+						
+						//key
+						if ($k !== $i++) {
+							$n_parameter = $k . ':' . $n_parameter;
+						}
+						
+						//finalize
+						$n_parameters[] = $n_parameter;
+						unset($n_parameter);
+					}
+					
+					//finalize
+					$n_name .= '(' . implode(',', $n_parameters) . ')';
+					unset($n_parameters);
+				}
+				
+				//finalize
+				break;
+				
+			//array
+			case EInfoKind::ARRAY:
+				$n_name = self::normalizeName($info->name, $flags, $depth + 1) . '[';
+				if (isset($info->parameters[0])) {
+					$n_name .= $info->parameters[0];
+				}
+				$n_name .= ']';
+				break;
+				
+			//group
+			case EInfoKind::GROUP:
+				$n_name = self::normalizeName($info->name, $flags, $depth + 1);
+				$n_info = self::info($n_name);
+				if ($depth > 0 && !in_array($n_info->kind, [EInfoKind::GENERIC, EInfoKind::GROUP], true)) {
+					$n_name = '(' . $n_name . ')';
+				}
+				unset($n_info);
+				break;
+				
+			//union or intersection
+			case EInfoKind::UNION:
+			case EInfoKind::INTERSECTION:
+				//initialize
+				$n_names = [];
+				$is_union = $info->kind === EInfoKind::UNION;
+				
+				//normalize
+				foreach ($info->names as $i_name) {
+					$n_names[] = self::normalizeName($i_name, $flags, $depth + 1);
+				}
+				$n_name = implode($is_union ? '|' : '&', $n_names);
+				
+				//nullable
+				if (
+					$is_union && count($n_names) === 2 && $n_names[0] !== $n_names[1] &&
+					($n_names[0] === 'null' || $n_names[1] === 'null')
+				) {
+					$i_name = $n_names[$n_names[0] === 'null' ? 1 : 0];
+					$i_info = self::info($i_name, true);
+					if ($i_info->kind === EInfoKind::GENERIC) {
+						if (strpos($i_info->flags, '?') === false) {
+							$i_name = '?' . $i_name;
+						}
+						$n_name = self::normalizeName($i_name, $flags, $depth + 1);
+					}
+					unset($i_name, $i_info);
+				}
+				
+				//finalize
+				unset($n_names, $is_union);
+				break;
+				
+			//default
+			default:
+				throw new LogicException("Unknown info kind \"{$info->kind}\".");
+		}
+		
+		//return
+		return $n_name;
 	}
 }
