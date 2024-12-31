@@ -370,33 +370,14 @@ final class Call extends Utility
 				$type = 'mixed';
 				$ptype = $parameter->getType();
 				if ($ptype !== null) {
-					//initialize
-					$types_map = array_flip(Type::mnormalize((string)$ptype));
-					unset($types_map['null']);
-					
-					//types
-					$types = [];
-					foreach ($types_map as $t => $i) {
-						if (Type::exists($t)) {
-							if ($flags & self::PARAMETERS_TYPES_SHORT_NAMES) {
-								$t = Type::shortname($t);
-							} elseif ($flags & self::PARAMETERS_NAMESPACES_LEADING_SLASH) {
-								$t = "\\{$t}";
-							}
-						}
-						$types[] = $t;
+					$normal_flags = 0x00;
+					if ($flags & self::PARAMETERS_TYPES_SHORT_NAMES) {
+						$normal_flags |= Type::NORMALIZE_SHORT_NAME;
+					} elseif ($flags & self::PARAMETERS_NAMESPACES_LEADING_SLASH) {
+						$normal_flags |= Type::NORMALIZE_NAMESPACE_LEADING_SLASH;
 					}
-					
-					//type
-					$type = implode('|', $types);
-					
-					//null
-					if ($ptype->allowsNull() && $type !== 'mixed') {
-						$type = count($types) > 1 ? "{$type}|null" : "?{$type}";
-					}
-					
-					//finalize
-					unset($types_map, $types);
+					$type = Type::normalize((string)$ptype, $normal_flags);
+					unset($normal_flags);
 				}
 				
 				//mixed
@@ -486,30 +467,14 @@ final class Call extends Utility
 		
 		//process
 		if ($rtype !== null) {
-			//initialize
-			$types_map = array_flip(Type::mnormalize((string)$rtype));
-			unset($types_map['null']);
-			
-			//types
-			$types = [];
-			foreach ($types_map as $t => $i) {
-				if (Type::exists($t)) {
-					if ($flags & self::TYPE_SHORT_NAME) {
-						$t = Type::shortname($t);
-					} elseif ($flags & self::TYPE_NAMESPACE_LEADING_SLASH) {
-						$t = "\\{$t}";
-					}
-				}
-				$types[] = $t;
+			$normal_flags = 0x00;
+			if ($flags & self::TYPE_SHORT_NAME) {
+				$normal_flags |= Type::NORMALIZE_SHORT_NAME;
+			} elseif ($flags & self::TYPE_NAMESPACE_LEADING_SLASH) {
+				$normal_flags |= Type::NORMALIZE_NAMESPACE_LEADING_SLASH;
 			}
-			
-			//type
-			$type = implode('|', $types);
-			
-			//null
-			if ($rtype->allowsNull() && $type !== 'mixed') {
-				$type = count($types) > 1 ? "{$type}|null" : "?{$type}";
-			}
+			$type = Type::normalize((string)$rtype, $normal_flags);
+			unset($normal_flags);
 		}
 		
 		//mixed
@@ -713,18 +678,8 @@ final class Call extends Utility
 			$parameter_types = [];
 			foreach ($reflection->getParameters() as $i => $parameter) {
 				//type
-				$parameter_type = 'mixed';
 				$ptype = $parameter->getType();
-				if ($ptype !== null) {
-					$types_map = array_flip(Type::mnormalize((string)$ptype));
-					unset($types_map['null']);
-					$types = array_keys($types_map);
-					$parameter_type = implode('|', $types);
-					if ($ptype->allowsNull() && $parameter_type !== 'mixed') {
-						$parameter_type = count($types) > 1 ? "{$parameter_type}|null" : "?{$parameter_type}";
-					}
-					unset($types_map, $types);
-				}
+				$parameter_type = $ptype !== null ? Type::normalize((string)$ptype) :'mixed';
 				if ($parameter->isVariadic()) {
 					$parameter_type = "...{$parameter_type}";
 				}
@@ -747,18 +702,8 @@ final class Call extends Utility
 			unset($parameter_types, $parameter_type);
 			
 			//return type
-			$return_type = 'mixed';
 			$rtype = $reflection->getReturnType();
-			if ($rtype !== null) {
-				$types_map = array_flip(Type::mnormalize((string)$rtype));
-				unset($types_map['null']);
-				$types = array_keys($types_map);
-				$return_type = implode('|', $types);
-				if ($rtype->allowsNull() && $return_type !== 'mixed') {
-					$return_type = count($types) > 1 ? "{$return_type}|null" : "?{$return_type}";
-				}
-				unset($types_map, $types);
-			}
+			$return_type = $rtype !== null ? Type::normalize((string)$rtype) : 'mixed';
 			$signature .= ": {$return_type}";
 			
 			//return

@@ -38,6 +38,7 @@ use Dracodeum\Kit\Primitives\{
 	Error,
 	Text as TextPrimitive
 };
+use LogicException;
 
 /**
  * This utility implements a set of methods used to check, validate and get information from PHP types, 
@@ -68,12 +69,27 @@ final class Type extends Utility
 	/** All supported integer bits fully on (unsigned). */
 	public const INTEGER_BITS_FULL_UNSIGNED = 0x7fffffffffffffff;
 	
+	/** Normalize into a short name (flag). */
+	public const NORMALIZE_SHORT_NAME = 0x01;
+	
+	/** Normalize with a namespace leading slash (flag). */
+	public const NORMALIZE_NAMESPACE_LEADING_SLASH = 0x02;
+	
 	
 	
 	//Private constants
 	/** Phpfy non-associative array maximum pretty output horizontal length. */
 	private const PHPFY_NONASSOC_ARRAY_PRETTY_MAX_HORIZONTAL_LENGTH = 50;
 	
+	/** Inner delimiter character for types and parameters. */
+	private const INNER_DELIMITER = ',';
+	
+	/** Regular expression pattern of the characters which must be followed by colon in flags. */
+	private const FLAGS_REQUIRED_COLON_CHARS_PATTERN = '\w.,:;"\'\\\\\/\[\](){}<>&|';
+	
+	/** Regular expression pattern of the characters which must be escaped in a parameter value. */
+	private const PARAMETER_VALUE_ESCAPABLE_CHARS_PATTERN = self::INNER_DELIMITER . ':()<>\\\\"';
+
 	
 	
 	//Final public static methods
@@ -1864,16 +1880,20 @@ final class Type extends Utility
 	}
 	
 	/**
-	 * Check if a given class or interface exists.
+	 * Check if a given class, interface or enumeration name exists.
 	 * 
-	 * @param string $class_interface
-	 * <p>The class or interface to check.</p>
+	 * @param string $name
+	 * <p>The class, interface or enumeration name to check.</p>
 	 * @return bool
-	 * <p>Boolean <code>true</code> if the given class or interface exists.</p>
+	 * <p>Boolean <code>true</code> if the given class, interface or enumeration name exists.</p>
 	 */
-	final public static function exists(string $class_interface): bool
+	final public static function exists(string $name): bool
 	{
-		return class_exists($class_interface) || interface_exists($class_interface);
+		static $map = [];
+		if (!isset($map[$name])) {
+			$map[$name] = class_exists($name) || interface_exists($name) || enum_exists($name);
+		}
+		return $map[$name];
 	}
 	
 	/**
@@ -2645,58 +2665,141 @@ final class Type extends Utility
 	}
 	
 	/**
-	 * Normalize a given type.
+	 * Normalize a given name.
 	 * 
-	 * @param string $type
-	 * <p>The type to normalize.</p>
+	 * @param string $name
+	 * <p>The name to normalize.</p>
+	 * @param int $flags
+	 * <p>The flags to normalize with, as any combination of the following:<br>
+	 * <br>
+	 * &nbsp; &#8226; &nbsp; <code>self::NORMALIZE_SHORT_NAME</code> : 
+	 * Return a short name for a class, interface or enumeration instead of the full namespaced name.<br><br>
+	 * &nbsp; &#8226; &nbsp; <code>self::NORMALIZE_NAMESPACE_LEADING_SLASH</code> : 
+	 * Return a namespace with the leading slash.</p>
+	 * @throws \LogicException
 	 * @return string
-	 * <p>The given type normalized.</p>
+	 * <p>The given name normalized.</p>
 	 */
-	final public static function normalize(string $type): string
+	final public static function normalize(string $name, int $flags = 0x00): string
 	{
-		return implode('|', self::mnormalize($type));
-	}
-	
-	/**
-	 * Normalize a given type into multiple ones.
-	 * 
-	 * @param string $type
-	 * <p>The type to normalize.</p>
-	 * @return string[]
-	 * <p>The given type normalized into multiple ones.</p>
-	 */
-	final public static function mnormalize(string $type): array
-	{
-		//process
-		$nullable = false;
-		$types = explode('|', $type);
-		foreach ($types as &$t) {
+		static $map = [];
+		if (!isset($map[$name][$flags])) {
 			//initialize
-			$t = trim($t);
-			if ($t === '') {
-				$t = 'mixed';
+			$n_name = trim($name);
+			if ($n_name === '') {
+				$n_name = 'mixed';
 			}
 			
-			//nullable
-			if ($t[0] === '?') {
-				$nullable = true;
-				$t = trim(substr($t, 1));
+			//info
+			$info = self::info($n_name);
+			switch ($info->kind) {
+				//generic
+				case EInfoKind::GENERIC:
+					//initialize
+					$n_name = $info->name;
+					if (!self::exists($n_name)) {
+						$n_name = strtolower($n_name);
+					} elseif ($flags & self::NORMALIZE_SHORT_NAME) {
+						$n_name = self::shortname($n_name);
+					} elseif ($flags & self::NORMALIZE_NAMESPACE_LEADING_SLASH) {
+						$n_name = '\\' . $n_name;
+					}
+					
+					//names
+					if (isset($info->names[1])) {
+						$subtypes = [];
+						for ($i = 1; $i < count($info->names); $i++) {
+							$subtypes[] = self::normalize($info->names[$i], $flags);
+						}
+						$n_name .= '<' . implode(',', $subtypes) . '>';
+						unset($subtypes);
+					}
+					
+					//flags
+					$n_flags = $info->flags;
+					static $flags_colon_chars_pattern = '/[' . self::FLAGS_REQUIRED_COLON_CHARS_PATTERN . ']/';
+					if (preg_match_all($flags_colon_chars_pattern, $n_flags, $matches)) {
+						$colon_flags = $matches[0];
+						$non_colon_flags = array_keys(
+							array_diff_key(array_flip(str_split($n_flags)), array_flip($colon_flags))
+						);
+						sort($colon_flags, SORT_STRING);
+						sort($non_colon_flags, SORT_STRING);
+						$n_flags = implode('', $colon_flags) . ':' . $non_colon_flags;
+						unset($colon_flags, $non_colon_flags);
+					}
+					$n_name = $n_flags . $n_name;
+					unset($n_flags, $matches);
+					
+					//parameters
+					if ($info->parameters) {
+						//initialize
+						$n_parameters = [];
+						static $parameter_value_escapable_chars_pattern = '/[' .
+							self::PARAMETER_VALUE_ESCAPABLE_CHARS_PATTERN . ']/';
+							
+						//process
+						$i = 0;
+						foreach ($info->parameters as $k => $v) {
+							//value
+							$n_parameter = $v;
+							if (preg_match($parameter_value_escapable_chars_pattern, $v)) {
+								$n_parameter = '"' . addcslashes($n_parameter, '"') . '"';
+							}
+							
+							//key
+							if ($k !== $i++) {
+								$n_parameter = $k . ':' . $n_parameter;
+							}
+							
+							//finalize
+							$n_parameters[] = $n_parameter;
+							unset($n_parameter);
+						}
+						
+						//finalize
+						$n_name .= '(' . implode(',', $n_parameters) . ')';
+						unset($n_parameters);
+					}
+					
+					//finalize
+					break;
+					
+				//array
+				case EInfoKind::ARRAY:
+					$n_name = self::normalize($info->name, $flags) . '[';
+					if (isset($info->parameters[0])) {
+						$n_name .= $info->parameters[0];
+					}
+					$n_name .= ']';
+					break;
+					
+				//group
+				case EInfoKind::GROUP:
+					$n_name = '(' . self::normalize($info->name, $flags) . ')';
+					break;
+					
+				//union or intersection
+				case EInfoKind::UNION:
+				case EInfoKind::INTERSECTION:
+					$n_names = [];
+					$is_union = $info->kind === EInfoKind::UNION;
+					foreach ($info->names as $i_name) {
+						$n_names[] = self::normalize($i_name, $flags);
+					}
+					$n_name = implode($is_union ? '|' : '&', $n_names);
+					unset($n_names, $is_union);
+					break;
+					
+				//default
+				default:
+					throw new LogicException("Unknown info kind \"{$info->kind}\".");
 			}
 			
-			//normalize
-			if (!self::exists($t)) {
-				$t = strtolower($t);
-			}
+			//finalize
+			$map[$name][$flags] = $n_name;
 		}
-		unset($t);
-		
-		//nullable
-		if ($nullable) {
-			$types[] = 'null';
-		}
-		
-		//return
-		return array_unique($types, SORT_STRING);
+		return $map[$name][$flags];
 	}
 	
 	/**
@@ -2711,29 +2814,78 @@ final class Type extends Utility
 	 */
 	final public static function covariant(string $type, string $base_type): bool
 	{
-		$types = self::mnormalize($type);
-		$base_types = self::mnormalize($base_type);
-		foreach ($types as $t) {
-			//process
-			$covariant = false;
-			foreach ($base_types as $bt) {
-				//covariant
-				$covariant = $t === $bt || $bt === 'void' || ($bt === 'mixed' && $t !== 'void') || 
-					(self::exists($t) && self::exists($bt) && is_a($t, $bt, true)) || 
-					($bt === 'object' && self::exists($t));
-				
-				//check
-				if ($covariant) {
-					break;
-				}
-			}
+		static $map = [];
+		if (!isset($map[$type][$base_type])) {
+			//initialize
+			$t_info = self::info($type, true);
+			$bt_info = self::info($base_type, true);
 			
-			//finalize
-			if (!$covariant) {
-				return false;
+			//generic
+			if ($t_info->kind === EInfoKind::GENERIC && $bt_info->kind === $t_info->kind) {
+				//initialize
+				$t = self::normalize($t_info->name);
+				$bt = self::normalize($bt_info->name);
+				$t_count = count($t_info->names);
+				$t_nullable = strpos($t_info->flags, '?') !== false;
+				$bt_nullable = strpos($bt_info->flags, '?') !== false;
+				$null_covariant = ($t === 'null' || $bt === 'null') && ($t_nullable || $bt_nullable);
+				
+				//covariant
+				$covariant = $null_covariant || $bt === 'void' || ($bt === 'mixed' && $t !== 'void') || (
+					$t_count === count($bt_info->names) && ($bt_nullable || !$t_nullable) && (
+						$t === $bt || (
+							self::exists($t) && ($bt === 'object' || (self::exists($bt) && is_a($t, $bt, true)))
+						)
+					)
+				);
+				
+				//subtypes
+				if ($covariant) {
+					for ($i = 1; $i < $t_count; $i++) {
+						if (!self::covariant($t_info->names[$i], $bt_info->names[$i])) {
+							$covariant = false;
+							break;
+						}
+					}
+				}
+				
+				//finalize
+				$map[$type][$base_type] = $covariant;
+				
+			//array
+			} elseif ($t_info->kind === EInfoKind::ARRAY && $bt_info->kind === $t_info->kind) {
+				$map[$type][$base_type] = self::covariant($t_info->name, $bt_info->name);
+				
+			//union and intersection (type)
+			} elseif (in_array($t_info->kind, [EInfoKind::UNION, EInfoKind::INTERSECTION], true)) {
+				$is_union = $t_info->kind === EInfoKind::UNION;
+				$covariant = $is_union;
+				foreach ($t_info->names as $t_name) {
+					if (self::covariant($t_name, $base_type) !== $is_union) {
+						$covariant = !$is_union;
+						break;
+					}
+				}
+				$map[$type][$base_type] = $covariant;
+				
+			//union and intersection (base type)
+			} elseif (in_array($bt_info->kind, [EInfoKind::UNION, EInfoKind::INTERSECTION], true)) {
+				$is_union = $bt_info->kind === EInfoKind::UNION;
+				$covariant = !$is_union;
+				foreach ($bt_info->names as $bt_name) {
+					if (self::covariant($type, $bt_name) === $is_union) {
+						$covariant = $is_union;
+						break;
+					}
+				}
+				$map[$type][$base_type] = $covariant;
+			
+			//other
+			} else {
+				$map[$type][$base_type] = false;
 			}
 		}
-		return true;
+		return $map[$type][$base_type];
 	}
 	
 	/**
@@ -2913,19 +3065,20 @@ final class Type extends Utility
 		}
 		
 		//initialize
-		static $type_delimiter = ',';
+		static $type_delimiter = self::INNER_DELIMITER;
 		static $union_delimiter = '|';
 		static $intersection_delimiter = '&';
-		static $parameter_delimiter = $type_delimiter;
+		static $parameter_delimiter = self::INNER_DELIMITER;
 		static $split_flags = PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY;
 		
 		//patterns
 		static $name_pattern = '[a-z_]\w*(?:\.[a-z_]\w*)*';
 		static $base_pattern = "(?:{$name_pattern}|\\\\?[a-z_]\w*(?:\\\\[a-z_]\w*)*)";
-		static $flags_pattern = '(?:(?:\w\s*)+:)?(?:[^\w.,:;"\'\\\\\/\[\](){}<>&|]+)?';
+		static $flags_pattern = '(?:(?:\w\s*)+:)?(?:[^' . self::FLAGS_REQUIRED_COLON_CHARS_PATTERN . ']+)?';
 		static $quoted_pattern = '"(?:\\\\.|[^"])*"';
 		static $unnested_pattern = "(?:{$quoted_pattern}|\\\\.|[^()<>\"])";
-		static $parameter_value_pattern = "(?:{$quoted_pattern}|(?:\\\\.|[^{$parameter_delimiter}:()<>\\\\\"])+)";
+		static $parameter_value_pattern = "(?:{$quoted_pattern}|(?:\\\\.|[^" .
+			self::PARAMETER_VALUE_ESCAPABLE_CHARS_PATTERN . "])+)";
 		static $parameter_pattern = "(?:{$name_pattern}\s*:\s*)?{$parameter_value_pattern}";
 		static $parameters_pattern = "{$parameter_pattern}(?:\s*{$parameter_delimiter}\s*{$parameter_pattern})*";
 		
