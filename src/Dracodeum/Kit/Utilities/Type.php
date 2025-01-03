@@ -69,11 +69,11 @@ final class Type extends Utility
 	/** All supported integer bits fully on (unsigned). */
 	public const INTEGER_BITS_FULL_UNSIGNED = 0x7fffffffffffffff;
 	
-	/** Normalize into a short name (flag). */
+	/** Normalize into a short name by removing the full namespace (flag). */
 	public const NORMALIZE_SHORT_NAME = 0x01;
 	
-	/** Normalize with a namespace leading slash (flag). */
-	public const NORMALIZE_NAMESPACE_LEADING_SLASH = 0x02;
+	/** Normalize with the global namespace leading backslash (flag). */
+	public const NORMALIZE_LEADING_BACKSLASH = 0x02;
 	
 	
 	
@@ -84,10 +84,10 @@ final class Type extends Utility
 	/** Inner delimiter character for types and parameters. */
 	private const INNER_DELIMITER = ',';
 	
-	/** Regular expression pattern of the characters which must be followed by colon in flags. */
+	/** Regular expression pattern of the character set which must be followed by colon (:) in flags. */
 	private const FLAGS_REQUIRED_COLON_CHARS_PATTERN = '\w.,:;"\'\\\\\/\[\](){}<>&|';
 	
-	/** Regular expression pattern of the characters which must be escaped in a parameter value. */
+	/** Regular expression pattern of the character set which must be escaped or enclosed in a parameter value. */
 	private const PARAMETER_VALUE_ESCAPABLE_CHARS_PATTERN = self::INNER_DELIMITER . ':()<>\\\\"';
 
 	
@@ -240,7 +240,7 @@ final class Type extends Utility
 		if (is_callable($value)) {
 			return Call::source(
 				$value,
-				Call::SOURCE_CONSTANTS_VALUES | Call::SOURCE_NO_MIXED_TYPE | Call::SOURCE_NAMESPACES_LEADING_SLASH
+				Call::SOURCE_CONSTANTS_VALUES | Call::SOURCE_NO_MIXED_TYPES | Call::SOURCE_TYPES_LEADING_BACKSLASH
 			);
 		}
 		
@@ -2672,9 +2672,8 @@ final class Type extends Utility
 	 * 
 	 * @param int $flags
 	 * The flags to normalize with, as any combination of the following:
-	 * - `NORMALIZE_SHORT_NAME` (*self*): return a short name for a class, interface or enumeration instead of the full 
-	 * namespaced name;
-	 * - `NORMALIZE_NAMESPACE_LEADING_SLASH` (*self*): return a namespace with the leading slash.
+	 * - `NORMALIZE_SHORT_NAME` (*self*): return a short name by removing the full namespace;
+	 * - `NORMALIZE_LEADING_BACKSLASH` (*self*): return with the global namespace leading backslash.
 	 * 
 	 * @return string
 	 * The given name normalized.
@@ -3232,9 +3231,8 @@ final class Type extends Utility
 	 * 
 	 * @param int $flags
 	 * The flags to normalize with, as any combination of the following:
-	 * - `NORMALIZE_SHORT_NAME` (*self*): return a short name for a class, interface or enumeration instead of the full 
-	 * namespaced name;
-	 * - `NORMALIZE_NAMESPACE_LEADING_SLASH` (*self*): return a namespace with the leading slash.
+	 * - `NORMALIZE_SHORT_NAME` (*self*): return a short name by removing the full namespace;
+	 * - `NORMALIZE_LEADING_BACKSLASH` (*self*): return with the global namespace leading backslash.
 	 * 
 	 * @param int $depth
 	 * The current stack depth to normalize with.
@@ -3263,7 +3261,7 @@ final class Type extends Utility
 					$n_name = strtolower($n_name);
 				} elseif ($flags & self::NORMALIZE_SHORT_NAME) {
 					$n_name = self::shortname($n_name);
-				} elseif ($flags & self::NORMALIZE_NAMESPACE_LEADING_SLASH) {
+				} elseif ($flags & self::NORMALIZE_LEADING_BACKSLASH) {
 					$n_name = '\\' . $n_name;
 				}
 				
@@ -3338,7 +3336,7 @@ final class Type extends Utility
 				
 			//group
 			case EInfoKind::GROUP:
-				$n_name = self::normalizeName($info->name, $flags, $depth + 1);
+				$n_name = self::normalizeName($info->name, $flags, $depth);
 				$n_info = self::info($n_name);
 				if ($depth > 0 && !in_array($n_info->kind, [EInfoKind::GENERIC, EInfoKind::GROUP], true)) {
 					$n_name = '(' . $n_name . ')';

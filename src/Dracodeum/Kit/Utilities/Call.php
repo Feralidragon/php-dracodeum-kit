@@ -38,11 +38,11 @@ final class Call extends Utility
 	/** Parameters types short names (flag). */
 	public const PARAMETERS_TYPES_SHORT_NAMES = 0x02;
 	
-	/** Parameters namespaces leading slash (flag). */
-	public const PARAMETERS_NAMESPACES_LEADING_SLASH = 0x04;
+	/** Parameters types global namespace leading backslash (flag). */
+	public const PARAMETERS_TYPES_LEADING_BACKSLASH = 0x04;
 	
-	/** Parameters no mixed type (flag). */
-	public const PARAMETERS_NO_MIXED_TYPE = 0x08;
+	/** Parameters no mixed types (flag). */
+	public const PARAMETERS_NO_MIXED_TYPES = 0x08;
 	
 	/** Type no mixed (flag). */
 	public const TYPE_NO_MIXED = 0x01;
@@ -50,8 +50,8 @@ final class Call extends Utility
 	/** Type short name (flag). */
 	public const TYPE_SHORT_NAME = 0x02;
 	
-	/** Type namespace leading slash (flag). */
-	public const TYPE_NAMESPACE_LEADING_SLASH = 0x04;
+	/** Type global namespace leading backslash (flag). */
+	public const TYPE_LEADING_BACKSLASH = 0x04;
 	
 	/** Header constants values (flag). */
 	public const HEADER_CONSTANTS_VALUES = 0x01;
@@ -59,11 +59,11 @@ final class Call extends Utility
 	/** Header types short names (flag). */
 	public const HEADER_TYPES_SHORT_NAMES = 0x02;
 	
-	/** Header namespaces leading slash (flag). */
-	public const HEADER_NAMESPACES_LEADING_SLASH = 0x04;
+	/** Header types global namespace leading backslash (flag). */
+	public const HEADER_TYPES_LEADING_BACKSLASH = 0x04;
 	
-	/** Header no mixed type (flag). */
-	public const HEADER_NO_MIXED_TYPE = 0x08;
+	/** Header no mixed types (flag). */
+	public const HEADER_NO_MIXED_TYPES = 0x08;
 	
 	/** Source constants values (flag). */
 	public const SOURCE_CONSTANTS_VALUES = 0x01;
@@ -71,11 +71,11 @@ final class Call extends Utility
 	/** Source types short names (flag). */
 	public const SOURCE_TYPES_SHORT_NAMES = 0x02;
 	
-	/** Source namespaces leading slash (flag). */
-	public const SOURCE_NAMESPACES_LEADING_SLASH = 0x04;
+	/** Source types global namespace leading backslash (flag). */
+	public const SOURCE_TYPES_LEADING_BACKSLASH = 0x04;
 	
-	/** Source no mixed type (flag). */
-	public const SOURCE_NO_MIXED_TYPE = 0x08;
+	/** Source no mixed types (flag). */
+	public const SOURCE_NO_MIXED_TYPES = 0x08;
 	
 	
 	
@@ -349,9 +349,9 @@ final class Call extends Utility
 	 * Return the constants values instead of their names.<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::PARAMETERS_TYPES_SHORT_NAMES</code> : 
 	 * Return short names for classes and interfaces instead of full namespaced names.<br><br>
-	 * &nbsp; &#8226; &nbsp; <code>self::PARAMETERS_NAMESPACES_LEADING_SLASH</code> : 
-	 * Return namespaces with the leading slash.<br><br>
-	 * &nbsp; &#8226; &nbsp; <code>self::PARAMETERS_NO_MIXED_TYPE</code> : 
+	 * &nbsp; &#8226; &nbsp; <code>self::PARAMETERS_TYPES_LEADING_BACKSLASH</code> : 
+	 * Return namespaces with the leading backslash.<br><br>
+	 * &nbsp; &#8226; &nbsp; <code>self::PARAMETERS_NO_MIXED_TYPES</code> : 
 	 * Do not return mixed parameters with the <code>mixed</code> type keyword.</p>
 	 * @return string[]
 	 * <p>The parameters from the given function.</p>
@@ -373,15 +373,15 @@ final class Call extends Utility
 					$normal_flags = 0x00;
 					if ($flags & self::PARAMETERS_TYPES_SHORT_NAMES) {
 						$normal_flags |= Type::NORMALIZE_SHORT_NAME;
-					} elseif ($flags & self::PARAMETERS_NAMESPACES_LEADING_SLASH) {
-						$normal_flags |= Type::NORMALIZE_NAMESPACE_LEADING_SLASH;
+					} elseif ($flags & self::PARAMETERS_TYPES_LEADING_BACKSLASH) {
+						$normal_flags |= Type::NORMALIZE_LEADING_BACKSLASH;
 					}
 					$type = Type::normalize((string)$ptype, $normal_flags);
 					unset($normal_flags);
 				}
 				
 				//mixed
-				if ($type === 'mixed' && ($flags & self::PARAMETERS_NO_MIXED_TYPE)) {
+				if ($type === 'mixed' && ($flags & self::PARAMETERS_NO_MIXED_TYPES)) {
 					$type = '';
 				}
 				
@@ -412,7 +412,7 @@ final class Call extends Utility
 							if ($flags & self::PARAMETERS_TYPES_SHORT_NAMES) {
 								[$constant_class, $constant_name] = explode('::', $constant);
 								$constant = Type::shortname($constant_class) . '::' . $constant_name;
-							} elseif ($flags & self::PARAMETERS_NAMESPACES_LEADING_SLASH) {
+							} elseif ($flags & self::PARAMETERS_TYPES_LEADING_BACKSLASH) {
 								$constant = "\\{$constant}";
 							}
 							
@@ -423,7 +423,7 @@ final class Call extends Utility
 							}
 							
 							//flags
-							if ($flags & self::PARAMETERS_NAMESPACES_LEADING_SLASH) {
+							if ($flags & self::PARAMETERS_TYPES_LEADING_BACKSLASH) {
 								$constant = "\\{$constant}";
 							}
 						}
@@ -454,8 +454,8 @@ final class Call extends Utility
 	 * Do not return the <code>mixed</code> type keyword.<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::TYPE_SHORT_NAME</code> : 
 	 * Return a short name for a class or interface instead of a full namespaced name.<br><br>
-	 * &nbsp; &#8226; &nbsp; <code>self::TYPE_NAMESPACE_LEADING_SLASH</code> : 
-	 * Return namespace with the leading slash.</p>
+	 * &nbsp; &#8226; &nbsp; <code>self::TYPE_LEADING_BACKSLASH</code> : 
+	 * Return namespace with the leading backslash.</p>
 	 * @return string
 	 * <p>The type from the given function.</p>
 	 */
@@ -470,8 +470,8 @@ final class Call extends Utility
 			$normal_flags = 0x00;
 			if ($flags & self::TYPE_SHORT_NAME) {
 				$normal_flags |= Type::NORMALIZE_SHORT_NAME;
-			} elseif ($flags & self::TYPE_NAMESPACE_LEADING_SLASH) {
-				$normal_flags |= Type::NORMALIZE_NAMESPACE_LEADING_SLASH;
+			} elseif ($flags & self::TYPE_LEADING_BACKSLASH) {
+				$normal_flags |= Type::NORMALIZE_LEADING_BACKSLASH;
 			}
 			$type = Type::normalize((string)$rtype, $normal_flags);
 			unset($normal_flags);
@@ -502,9 +502,9 @@ final class Call extends Utility
 	 * Return the constants values instead of their names.<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::HEADER_TYPES_SHORT_NAMES</code> : 
 	 * Return short names for classes and interfaces instead of full namespaced names.<br><br>
-	 * &nbsp; &#8226; &nbsp; <code>self::HEADER_NAMESPACES_LEADING_SLASH</code> : 
-	 * Return namespaces with the leading slash.<br><br>
-	 * &nbsp; &#8226; &nbsp; <code>self::HEADER_NO_MIXED_TYPE</code> : 
+	 * &nbsp; &#8226; &nbsp; <code>self::HEADER_TYPES_LEADING_BACKSLASH</code> : 
+	 * Return namespaces with the leading backslash.<br><br>
+	 * &nbsp; &#8226; &nbsp; <code>self::HEADER_NO_MIXED_TYPES</code> : 
 	 * Do not return a mixed type nor parameters with the <code>mixed</code> type keyword.</p>
 	 * @return string
 	 * <p>The header from the given function.</p>
@@ -523,24 +523,24 @@ final class Call extends Utility
 		if ($flags & self::HEADER_TYPES_SHORT_NAMES) {
 			$parameters_flags |= self::PARAMETERS_TYPES_SHORT_NAMES;
 		}
-		if ($flags & self::HEADER_NAMESPACES_LEADING_SLASH) {
-			$parameters_flags |= self::PARAMETERS_NAMESPACES_LEADING_SLASH;
+		if ($flags & self::HEADER_TYPES_LEADING_BACKSLASH) {
+			$parameters_flags |= self::PARAMETERS_TYPES_LEADING_BACKSLASH;
 		}
-		if ($flags & self::HEADER_NO_MIXED_TYPE) {
-			$parameters_flags |= self::PARAMETERS_NO_MIXED_TYPE;
+		if ($flags & self::HEADER_NO_MIXED_TYPES) {
+			$parameters_flags |= self::PARAMETERS_NO_MIXED_TYPES;
 		}
 		$parameters = self::parameters($function, $parameters_flags);
 		
 		//type
 		$type_flags = 0x00;
-		if ($flags & self::HEADER_NO_MIXED_TYPE) {
+		if ($flags & self::HEADER_NO_MIXED_TYPES) {
 			$type_flags |= self::TYPE_NO_MIXED;
 		}
 		if ($flags & self::HEADER_TYPES_SHORT_NAMES) {
 			$type_flags |= self::TYPE_SHORT_NAME;
 		}
-		if ($flags & self::HEADER_NAMESPACES_LEADING_SLASH) {
-			$type_flags |= self::TYPE_NAMESPACE_LEADING_SLASH;
+		if ($flags & self::HEADER_TYPES_LEADING_BACKSLASH) {
+			$type_flags |= self::TYPE_LEADING_BACKSLASH;
 		}
 		$type = self::type($function, $type_flags);
 		
@@ -615,9 +615,9 @@ final class Call extends Utility
 	 * Return the parameters constants values instead of their names.<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::SOURCE_TYPES_SHORT_NAMES</code> : 
 	 * Return short names for type and parameters classes and interfaces instead of full namespaced names.<br><br>
-	 * &nbsp; &#8226; &nbsp; <code>self::SOURCE_NAMESPACES_LEADING_SLASH</code> : 
-	 * Return namespaces with the leading slash.<br><br>
-	 * &nbsp; &#8226; &nbsp; <code>self::SOURCE_NO_MIXED_TYPE</code> : 
+	 * &nbsp; &#8226; &nbsp; <code>self::SOURCE_TYPES_LEADING_BACKSLASH</code> : 
+	 * Return namespaces with the leading backslash.<br><br>
+	 * &nbsp; &#8226; &nbsp; <code>self::SOURCE_NO_MIXED_TYPES</code> : 
 	 * Do not return a mixed type nor parameters with the <code>mixed</code> type keyword.</p>
 	 * @return string
 	 * <p>The source from the given function.</p>
@@ -633,11 +633,11 @@ final class Call extends Utility
 			if ($flags & self::SOURCE_TYPES_SHORT_NAMES) {
 				$header_flags |= self::HEADER_TYPES_SHORT_NAMES;
 			}
-			if ($flags & self::SOURCE_NAMESPACES_LEADING_SLASH) {
-				$header_flags |= self::HEADER_NAMESPACES_LEADING_SLASH;
+			if ($flags & self::SOURCE_TYPES_LEADING_BACKSLASH) {
+				$header_flags |= self::HEADER_TYPES_LEADING_BACKSLASH;
 			}
-			if ($flags & self::SOURCE_NO_MIXED_TYPE) {
-				$header_flags |= self::HEADER_NO_MIXED_TYPE;
+			if ($flags & self::SOURCE_NO_MIXED_TYPES) {
+				$header_flags |= self::HEADER_NO_MIXED_TYPES;
 			}
 			$header = self::header($function, $header_flags);
 			

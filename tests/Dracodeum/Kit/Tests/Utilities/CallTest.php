@@ -3124,32 +3124,32 @@ class CallTest extends TestCase
 				UCall::PARAMETERS_TYPES_SHORT_NAMES,
 				['CallTest_Class $a' , 'stdClass $b', 'bool $e = false', 'mixed $k = null']],
 			[function (CallTest_Class $a, \stdClass $b, bool $e = false, $k = null) {},
-				UCall::PARAMETERS_NAMESPACES_LEADING_SLASH,
+				UCall::PARAMETERS_TYPES_LEADING_BACKSLASH,
 				['\\' . $class . ' $a' , '\\stdClass $b', 'bool $e = false', 'mixed $k = null']],
-			[function (CallTest_Class $a, \stdClass $b, bool $e = false, $k = null) {}, UCall::PARAMETERS_NO_MIXED_TYPE,
+			[function (CallTest_Class $a, \stdClass $b, bool $e = false, $k = null) {}, UCall::PARAMETERS_NO_MIXED_TYPES,
 				[$class . ' $a' , 'stdClass $b', 'bool $e = false', '$k = null']],
 			[function (CallTest_Class $a, \stdClass $b, bool $e = false, $k = null) {},
-				UCall::PARAMETERS_TYPES_SHORT_NAMES | UCall::PARAMETERS_NAMESPACES_LEADING_SLASH,
+				UCall::PARAMETERS_TYPES_SHORT_NAMES | UCall::PARAMETERS_TYPES_LEADING_BACKSLASH,
 				['CallTest_Class $a' , 'stdClass $b', 'bool $e = false', 'mixed $k = null']],
 			[function (CallTest_Class $a, \stdClass $b, bool $e = false, $k = null) {},
-				UCall::PARAMETERS_TYPES_SHORT_NAMES | UCall::PARAMETERS_NO_MIXED_TYPE,
+				UCall::PARAMETERS_TYPES_SHORT_NAMES | UCall::PARAMETERS_NO_MIXED_TYPES,
 				['CallTest_Class $a' , 'stdClass $b', 'bool $e = false', '$k = null']],
 			[function (CallTest_Class $a, \stdClass $b, bool $e = false, $k = null) {},
-				UCall::PARAMETERS_NAMESPACES_LEADING_SLASH | UCall::PARAMETERS_NO_MIXED_TYPE,
+				UCall::PARAMETERS_TYPES_LEADING_BACKSLASH | UCall::PARAMETERS_NO_MIXED_TYPES,
 				['\\' . $class . ' $a' , '\\stdClass $b', 'bool $e = false', '$k = null']],
 			[function (CallTest_Class $a, \stdClass $b, bool $e = false, $k = null) {},
-				UCall::PARAMETERS_TYPES_SHORT_NAMES | UCall::PARAMETERS_NAMESPACES_LEADING_SLASH | 
-				UCall::PARAMETERS_NO_MIXED_TYPE,
+				UCall::PARAMETERS_TYPES_SHORT_NAMES | UCall::PARAMETERS_TYPES_LEADING_BACKSLASH | 
+				UCall::PARAMETERS_NO_MIXED_TYPES,
 				['CallTest_Class $a' , 'stdClass $b', 'bool $e = false', '$k = null']],
 			[function (CallTest_AbstractClass $ac, ?CallTest_Interface $i) {}, 0x00,
 				[$class_abstract . ' $ac' , '?' . $interface . ' $i']],
 			[function (CallTest_AbstractClass $ac, ?CallTest_Interface $i) {}, UCall::PARAMETERS_TYPES_SHORT_NAMES,
 				['CallTest_AbstractClass $ac' , '?CallTest_Interface $i']],
 			[function (CallTest_AbstractClass $ac, ?CallTest_Interface $i) {},
-				UCall::PARAMETERS_NAMESPACES_LEADING_SLASH,
+				UCall::PARAMETERS_TYPES_LEADING_BACKSLASH,
 				['\\' . $class_abstract . ' $ac' , '?\\' . $interface . ' $i']],
 			[function (CallTest_AbstractClass $ac, ?CallTest_Interface $i) {},
-				UCall::PARAMETERS_TYPES_SHORT_NAMES | UCall::PARAMETERS_NAMESPACES_LEADING_SLASH,
+				UCall::PARAMETERS_TYPES_SHORT_NAMES | UCall::PARAMETERS_TYPES_LEADING_BACKSLASH,
 				['CallTest_AbstractClass $ac' , '?CallTest_Interface $i']],
 			[new CallTest_InvokeableClass, 0x00, []],
 			[new CallTest_InvokeableClass2, 0x00,
@@ -3158,20 +3158,20 @@ class CallTest extends TestCase
 				['string $s_foo = "bar2foo"']],
 			[new CallTest_InvokeableClass2, UCall::PARAMETERS_TYPES_SHORT_NAMES,
 				['string $s_foo = CallTest_InvokeableClass2::FOO_CONSTANT']],
-			[new CallTest_InvokeableClass2, UCall::PARAMETERS_NAMESPACES_LEADING_SLASH,
+			[new CallTest_InvokeableClass2, UCall::PARAMETERS_TYPES_LEADING_BACKSLASH,
 				['string $s_foo = \\' . CallTest_InvokeableClass2::class . '::FOO_CONSTANT']],
 			[new CallTest_InvokeableClass2,
 				UCall::PARAMETERS_CONSTANTS_VALUES | UCall::PARAMETERS_TYPES_SHORT_NAMES,
 				['string $s_foo = "bar2foo"']],
 			[new CallTest_InvokeableClass2,
-				UCall::PARAMETERS_CONSTANTS_VALUES | UCall::PARAMETERS_NAMESPACES_LEADING_SLASH,
+				UCall::PARAMETERS_CONSTANTS_VALUES | UCall::PARAMETERS_TYPES_LEADING_BACKSLASH,
 				['string $s_foo = "bar2foo"']],
 			[new CallTest_InvokeableClass2,
-				UCall::PARAMETERS_TYPES_SHORT_NAMES | UCall::PARAMETERS_NAMESPACES_LEADING_SLASH,
+				UCall::PARAMETERS_TYPES_SHORT_NAMES | UCall::PARAMETERS_TYPES_LEADING_BACKSLASH,
 				['string $s_foo = CallTest_InvokeableClass2::FOO_CONSTANT']],
 			[new CallTest_InvokeableClass2,
 				UCall::PARAMETERS_CONSTANTS_VALUES | UCall::PARAMETERS_TYPES_SHORT_NAMES | 
-				UCall::PARAMETERS_NAMESPACES_LEADING_SLASH,
+				UCall::PARAMETERS_TYPES_LEADING_BACKSLASH,
 				['string $s_foo = "bar2foo"']],
 			[[$class, 'getString'], 0x00, []],
 			[[$class, 'setString'], 0x00, ['string $string']],
@@ -3212,13 +3212,13 @@ class CallTest extends TestCase
 				'callable $c_function', 'string $farboo = CallTest_Class::A_S', 'array $foob = CallTest_Class::B_ARRAY',
 				'int $cint = CallTest_Class::C_CONSTANT', 'bool &$enable = CallTest_Class::D_ENABLE',
 				'?stdClass $std = null', 'mixed $flags = SORT_STRING', 'mixed ...$p']],
-			[[$class, 'doStuff'], UCall::PARAMETERS_NAMESPACES_LEADING_SLASH,
+			[[$class, 'doStuff'], UCall::PARAMETERS_TYPES_LEADING_BACKSLASH,
 				['?float $fnumber', '\\' . $class_abstract . ' $ac', '?\\' . $class . ' &$c', 'mixed $options',
 				'callable $c_function', 'string $farboo = \\' . $class . '::A_S',
 				'array $foob = \\' . $class . '::B_ARRAY', 'int $cint = \\' . $class . '::C_CONSTANT',
 				'bool &$enable = \\' . $class . '::D_ENABLE', '?\\stdClass $std = null', 'mixed $flags = \\SORT_STRING',
 				'mixed ...$p']],
-			[[$class, 'doStuff'], UCall::PARAMETERS_NO_MIXED_TYPE,
+			[[$class, 'doStuff'], UCall::PARAMETERS_NO_MIXED_TYPES,
 				['?float $fnumber', $class_abstract . ' $ac', '?' . $class . ' &$c', '$options', 'callable $c_function',
 				'string $farboo = ' . $class . '::A_S', 'array $foob = ' . $class . '::B_ARRAY',
 				'int $cint = ' . $class . '::C_CONSTANT', 'bool &$enable = ' . $class . '::D_ENABLE',
@@ -3228,26 +3228,26 @@ class CallTest extends TestCase
 				'callable $c_function', 'string $farboo = "Aaa"', 'array $foob = ["foo"=>false,"bar"=>null]',
 				'int $cint = 1200', 'bool &$enable = true', '?stdClass $std = null', 'mixed $flags = 2',
 				'mixed ...$p']],
-			[[$class, 'doStuff'], UCall::PARAMETERS_CONSTANTS_VALUES | UCall::PARAMETERS_NAMESPACES_LEADING_SLASH,
+			[[$class, 'doStuff'], UCall::PARAMETERS_CONSTANTS_VALUES | UCall::PARAMETERS_TYPES_LEADING_BACKSLASH,
 				['?float $fnumber', '\\' . $class_abstract . ' $ac', '?\\' . $class . ' &$c', 'mixed $options',
 				'callable $c_function', 'string $farboo = "Aaa"', 'array $foob = ["foo"=>false,"bar"=>null]',
 				'int $cint = 1200', 'bool &$enable = true', '?\\stdClass $std = null', 'mixed $flags = 2',
 				'mixed ...$p']],
-			[[$class, 'doStuff'], UCall::PARAMETERS_CONSTANTS_VALUES | UCall::PARAMETERS_NO_MIXED_TYPE,
+			[[$class, 'doStuff'], UCall::PARAMETERS_CONSTANTS_VALUES | UCall::PARAMETERS_NO_MIXED_TYPES,
 				['?float $fnumber', $class_abstract . ' $ac', '?' . $class . ' &$c', '$options',
 				'callable $c_function', 'string $farboo = "Aaa"', 'array $foob = ["foo"=>false,"bar"=>null]',
 				'int $cint = 1200', 'bool &$enable = true', '?stdClass $std = null', '$flags = 2', '...$p']],
-			[[$class, 'doStuff'], UCall::PARAMETERS_TYPES_SHORT_NAMES | UCall::PARAMETERS_NAMESPACES_LEADING_SLASH,
+			[[$class, 'doStuff'], UCall::PARAMETERS_TYPES_SHORT_NAMES | UCall::PARAMETERS_TYPES_LEADING_BACKSLASH,
 				['?float $fnumber', 'CallTest_AbstractClass $ac', '?CallTest_Class &$c', 'mixed $options',
 				'callable $c_function', 'string $farboo = CallTest_Class::A_S', 'array $foob = CallTest_Class::B_ARRAY',
 				'int $cint = CallTest_Class::C_CONSTANT', 'bool &$enable = CallTest_Class::D_ENABLE',
 				'?stdClass $std = null', 'mixed $flags = \\SORT_STRING', 'mixed ...$p']],
-			[[$class, 'doStuff'], UCall::PARAMETERS_TYPES_SHORT_NAMES | UCall::PARAMETERS_NO_MIXED_TYPE,
+			[[$class, 'doStuff'], UCall::PARAMETERS_TYPES_SHORT_NAMES | UCall::PARAMETERS_NO_MIXED_TYPES,
 				['?float $fnumber', 'CallTest_AbstractClass $ac', '?CallTest_Class &$c', '$options',
 				'callable $c_function', 'string $farboo = CallTest_Class::A_S', 'array $foob = CallTest_Class::B_ARRAY',
 				'int $cint = CallTest_Class::C_CONSTANT', 'bool &$enable = CallTest_Class::D_ENABLE',
 				'?stdClass $std = null', '$flags = SORT_STRING', '...$p']],
-			[[$class, 'doStuff'], UCall::PARAMETERS_NAMESPACES_LEADING_SLASH | UCall::PARAMETERS_NO_MIXED_TYPE,
+			[[$class, 'doStuff'], UCall::PARAMETERS_TYPES_LEADING_BACKSLASH | UCall::PARAMETERS_NO_MIXED_TYPES,
 				['?float $fnumber', '\\' . $class_abstract . ' $ac', '?\\' . $class . ' &$c', '$options',
 				'callable $c_function', 'string $farboo = \\' . $class . '::A_S',
 				'array $foob = \\' . $class . '::B_ARRAY', 'int $cint = \\' . $class . '::C_CONSTANT',
@@ -3255,33 +3255,33 @@ class CallTest extends TestCase
 				'...$p']],
 			[[$class, 'doStuff'],
 				UCall::PARAMETERS_CONSTANTS_VALUES | UCall::PARAMETERS_TYPES_SHORT_NAMES | 
-				UCall::PARAMETERS_NAMESPACES_LEADING_SLASH,
+				UCall::PARAMETERS_TYPES_LEADING_BACKSLASH,
 				['?float $fnumber', 'CallTest_AbstractClass $ac', '?CallTest_Class &$c', 'mixed $options',
 				'callable $c_function', 'string $farboo = "Aaa"', 'array $foob = ["foo"=>false,"bar"=>null]',
 				'int $cint = 1200', 'bool &$enable = true', '?stdClass $std = null', 'mixed $flags = 2',
 				'mixed ...$p']],
 			[[$class, 'doStuff'],
 				UCall::PARAMETERS_CONSTANTS_VALUES | UCall::PARAMETERS_TYPES_SHORT_NAMES | 
-				UCall::PARAMETERS_NO_MIXED_TYPE,
+				UCall::PARAMETERS_NO_MIXED_TYPES,
 				['?float $fnumber', 'CallTest_AbstractClass $ac', '?CallTest_Class &$c', '$options',
 				'callable $c_function', 'string $farboo = "Aaa"', 'array $foob = ["foo"=>false,"bar"=>null]',
 				'int $cint = 1200', 'bool &$enable = true', '?stdClass $std = null', '$flags = 2', '...$p']],
 			[[$class, 'doStuff'],
-				UCall::PARAMETERS_CONSTANTS_VALUES | UCall::PARAMETERS_NAMESPACES_LEADING_SLASH | 
-				UCall::PARAMETERS_NO_MIXED_TYPE,
+				UCall::PARAMETERS_CONSTANTS_VALUES | UCall::PARAMETERS_TYPES_LEADING_BACKSLASH | 
+				UCall::PARAMETERS_NO_MIXED_TYPES,
 				['?float $fnumber', '\\' . $class_abstract . ' $ac', '?\\' . $class . ' &$c', '$options',
 				'callable $c_function', 'string $farboo = "Aaa"', 'array $foob = ["foo"=>false,"bar"=>null]',
 				'int $cint = 1200', 'bool &$enable = true', '?\\stdClass $std = null', '$flags = 2', '...$p']],
 			[[$class, 'doStuff'],
-				UCall::PARAMETERS_TYPES_SHORT_NAMES | UCall::PARAMETERS_NAMESPACES_LEADING_SLASH | 
-				UCall::PARAMETERS_NO_MIXED_TYPE,
+				UCall::PARAMETERS_TYPES_SHORT_NAMES | UCall::PARAMETERS_TYPES_LEADING_BACKSLASH | 
+				UCall::PARAMETERS_NO_MIXED_TYPES,
 				['?float $fnumber', 'CallTest_AbstractClass $ac', '?CallTest_Class &$c', '$options',
 				'callable $c_function', 'string $farboo = CallTest_Class::A_S', 'array $foob = CallTest_Class::B_ARRAY',
 				'int $cint = CallTest_Class::C_CONSTANT', 'bool &$enable = CallTest_Class::D_ENABLE',
 				'?stdClass $std = null', '$flags = \\SORT_STRING', '...$p']],
 			[[$class, 'doStuff'],
 				UCall::PARAMETERS_CONSTANTS_VALUES | UCall::PARAMETERS_TYPES_SHORT_NAMES | 
-				UCall::PARAMETERS_NAMESPACES_LEADING_SLASH | UCall::PARAMETERS_NO_MIXED_TYPE,
+				UCall::PARAMETERS_TYPES_LEADING_BACKSLASH | UCall::PARAMETERS_NO_MIXED_TYPES,
 				['?float $fnumber', 'CallTest_AbstractClass $ac', '?CallTest_Class &$c', '$options',
 				'callable $c_function', 'string $farboo = "Aaa"', 'array $foob = ["foo"=>false,"bar"=>null]',
 				'int $cint = 1200', 'bool &$enable = true', '?stdClass $std = null', '$flags = 2', '...$p']],
@@ -3291,7 +3291,7 @@ class CallTest extends TestCase
 				UCall::PARAMETERS_TYPES_SHORT_NAMES,
 				['CallTest_Class|string $a', 'stdClass|int|null $b', 'object|array|float|bool $e = false']],
 			[function (CallTest_Class|string $a, int|\stdClass|null $b, bool|float|object|array $e = false) {},
-				UCall::PARAMETERS_NAMESPACES_LEADING_SLASH,
+				UCall::PARAMETERS_TYPES_LEADING_BACKSLASH,
 				['\\' . $class . '|string $a', '\\stdClass|int|null $b', 'object|array|float|bool $e = false']],
 			[function (CallTest_AbstractClass|null|CallTest_Interface $aci, CallTest_Class|null &$c, mixed $m = 123) {},
 				0x00, [$class_abstract . '|' . $interface . '|null $aci', '?' . $class . ' &$c', 'mixed $m = 123']],
@@ -3299,17 +3299,17 @@ class CallTest extends TestCase
 				UCall::PARAMETERS_TYPES_SHORT_NAMES,
 				['CallTest_AbstractClass|CallTest_Interface|null $aci' , '?CallTest_Class &$c', 'mixed $m = 123']],
 			[function (CallTest_AbstractClass|null|CallTest_Interface $aci, CallTest_Class|null &$c, mixed $m = 123) {},
-				UCall::PARAMETERS_NAMESPACES_LEADING_SLASH,
+				UCall::PARAMETERS_TYPES_LEADING_BACKSLASH,
 				['\\' . $class_abstract . '|\\' . $interface . '|null $aci', '?\\' . $class . ' &$c',
 				'mixed $m = 123']],
 			[function (CallTest_AbstractClass|null|CallTest_Interface $aci, CallTest_Class|null &$c, mixed $m = 123) {},
-				UCall::PARAMETERS_NO_MIXED_TYPE,
+				UCall::PARAMETERS_NO_MIXED_TYPES,
 				[$class_abstract . '|' . $interface . '|null $aci', '?' . $class . ' &$c', '$m = 123']],
 			[function (CallTest_AbstractClass|null|CallTest_Interface $aci, CallTest_Class|null &$c, mixed $m = 123) {},
-				UCall::PARAMETERS_TYPES_SHORT_NAMES | UCall::PARAMETERS_NAMESPACES_LEADING_SLASH,
+				UCall::PARAMETERS_TYPES_SHORT_NAMES | UCall::PARAMETERS_TYPES_LEADING_BACKSLASH,
 				['CallTest_AbstractClass|CallTest_Interface|null $aci' , '?CallTest_Class &$c', 'mixed $m = 123']],
 			[function (CallTest_AbstractClass|null|CallTest_Interface $aci, CallTest_Class|null &$c, mixed $m = 123) {},
-				UCall::PARAMETERS_TYPES_SHORT_NAMES | UCall::PARAMETERS_NO_MIXED_TYPE,
+				UCall::PARAMETERS_TYPES_SHORT_NAMES | UCall::PARAMETERS_NO_MIXED_TYPES,
 				['CallTest_AbstractClass|CallTest_Interface|null $aci' , '?CallTest_Class &$c', '$m = 123']]
 		];
 	}
@@ -3353,45 +3353,45 @@ class CallTest extends TestCase
 			[function (): ?\stdClass {}, 0x00, '?stdClass'],
 			[function (): \stdClass {}, UCall::TYPE_SHORT_NAME, 'stdClass'],
 			[function (): ?\stdClass {}, UCall::TYPE_SHORT_NAME, '?stdClass'],
-			[function (): \stdClass {}, UCall::TYPE_NAMESPACE_LEADING_SLASH, '\\stdClass'],
-			[function (): ?\stdClass {}, UCall::TYPE_NAMESPACE_LEADING_SLASH, '?\\stdClass'],
-			[function (): \stdClass {}, UCall::TYPE_SHORT_NAME | UCall::TYPE_NAMESPACE_LEADING_SLASH, 'stdClass'],
-			[function (): ?\stdClass {}, UCall::TYPE_SHORT_NAME | UCall::TYPE_NAMESPACE_LEADING_SLASH,
+			[function (): \stdClass {}, UCall::TYPE_LEADING_BACKSLASH, '\\stdClass'],
+			[function (): ?\stdClass {}, UCall::TYPE_LEADING_BACKSLASH, '?\\stdClass'],
+			[function (): \stdClass {}, UCall::TYPE_SHORT_NAME | UCall::TYPE_LEADING_BACKSLASH, 'stdClass'],
+			[function (): ?\stdClass {}, UCall::TYPE_SHORT_NAME | UCall::TYPE_LEADING_BACKSLASH,
 				'?stdClass'],
 			[function (): CallTest_Class {}, 0x00, $class],
 			[function (): ?CallTest_Class {}, 0x00, "?{$class}"],
 			[function (): CallTest_Class {}, UCall::TYPE_SHORT_NAME, 'CallTest_Class'],
 			[function (): ?CallTest_Class {}, UCall::TYPE_SHORT_NAME, '?CallTest_Class'],
-			[function (): CallTest_Class {}, UCall::TYPE_NAMESPACE_LEADING_SLASH, "\\{$class}"],
-			[function (): ?CallTest_Class {}, UCall::TYPE_NAMESPACE_LEADING_SLASH, "?\\{$class}"],
-			[function (): CallTest_Class {}, UCall::TYPE_SHORT_NAME | UCall::TYPE_NAMESPACE_LEADING_SLASH,
+			[function (): CallTest_Class {}, UCall::TYPE_LEADING_BACKSLASH, "\\{$class}"],
+			[function (): ?CallTest_Class {}, UCall::TYPE_LEADING_BACKSLASH, "?\\{$class}"],
+			[function (): CallTest_Class {}, UCall::TYPE_SHORT_NAME | UCall::TYPE_LEADING_BACKSLASH,
 				'CallTest_Class'],
-			[function (): ?CallTest_Class {}, UCall::TYPE_SHORT_NAME | UCall::TYPE_NAMESPACE_LEADING_SLASH,
+			[function (): ?CallTest_Class {}, UCall::TYPE_SHORT_NAME | UCall::TYPE_LEADING_BACKSLASH,
 				'?CallTest_Class'],
 			[function (): CallTest_AbstractClass {}, 0x00, $class_abstract],
 			[function (): ?CallTest_AbstractClass {}, 0x00, "?{$class_abstract}"],
 			[function (): CallTest_AbstractClass {}, UCall::TYPE_SHORT_NAME, 'CallTest_AbstractClass'],
 			[function (): ?CallTest_AbstractClass {}, UCall::TYPE_SHORT_NAME, '?CallTest_AbstractClass'],
-			[function (): CallTest_AbstractClass {}, UCall::TYPE_NAMESPACE_LEADING_SLASH, "\\{$class_abstract}"],
-			[function (): ?CallTest_AbstractClass {}, UCall::TYPE_NAMESPACE_LEADING_SLASH, "?\\{$class_abstract}"],
-			[function (): CallTest_AbstractClass {}, UCall::TYPE_SHORT_NAME | UCall::TYPE_NAMESPACE_LEADING_SLASH,
+			[function (): CallTest_AbstractClass {}, UCall::TYPE_LEADING_BACKSLASH, "\\{$class_abstract}"],
+			[function (): ?CallTest_AbstractClass {}, UCall::TYPE_LEADING_BACKSLASH, "?\\{$class_abstract}"],
+			[function (): CallTest_AbstractClass {}, UCall::TYPE_SHORT_NAME | UCall::TYPE_LEADING_BACKSLASH,
 				'CallTest_AbstractClass'],
-			[function (): ?CallTest_AbstractClass {}, UCall::TYPE_SHORT_NAME | UCall::TYPE_NAMESPACE_LEADING_SLASH,
+			[function (): ?CallTest_AbstractClass {}, UCall::TYPE_SHORT_NAME | UCall::TYPE_LEADING_BACKSLASH,
 				'?CallTest_AbstractClass'],
 			[function (): CallTest_Interface {}, 0x00, $interface],
 			[function (): ?CallTest_Interface {}, 0x00, "?{$interface}"],
 			[function (): CallTest_Interface {}, UCall::TYPE_SHORT_NAME, 'CallTest_Interface'],
 			[function (): ?CallTest_Interface {}, UCall::TYPE_SHORT_NAME, '?CallTest_Interface'],
-			[function (): CallTest_Interface {}, UCall::TYPE_NAMESPACE_LEADING_SLASH, "\\{$interface}"],
-			[function (): ?CallTest_Interface {}, UCall::TYPE_NAMESPACE_LEADING_SLASH, "?\\{$interface}"],
-			[function (): CallTest_Interface {}, UCall::TYPE_SHORT_NAME | UCall::TYPE_NAMESPACE_LEADING_SLASH,
+			[function (): CallTest_Interface {}, UCall::TYPE_LEADING_BACKSLASH, "\\{$interface}"],
+			[function (): ?CallTest_Interface {}, UCall::TYPE_LEADING_BACKSLASH, "?\\{$interface}"],
+			[function (): CallTest_Interface {}, UCall::TYPE_SHORT_NAME | UCall::TYPE_LEADING_BACKSLASH,
 				'CallTest_Interface'],
-			[function (): ?CallTest_Interface {}, UCall::TYPE_SHORT_NAME | UCall::TYPE_NAMESPACE_LEADING_SLASH,
+			[function (): ?CallTest_Interface {}, UCall::TYPE_SHORT_NAME | UCall::TYPE_LEADING_BACKSLASH,
 				'?CallTest_Interface'],
 			[new CallTest_InvokeableClass, 0x00, "?{$class}"],
 			[new CallTest_InvokeableClass, UCall::TYPE_SHORT_NAME, '?CallTest_Class'],
-			[new CallTest_InvokeableClass, UCall::TYPE_NAMESPACE_LEADING_SLASH, "?\\{$class}"],
-			[new CallTest_InvokeableClass, UCall::TYPE_SHORT_NAME | UCall::TYPE_NAMESPACE_LEADING_SLASH,
+			[new CallTest_InvokeableClass, UCall::TYPE_LEADING_BACKSLASH, "?\\{$class}"],
+			[new CallTest_InvokeableClass, UCall::TYPE_SHORT_NAME | UCall::TYPE_LEADING_BACKSLASH,
 				'?CallTest_Class'],
 			[new CallTest_InvokeableClass2, 0x00, 'void'],
 			[[$class, 'getString'], 0x00, 'string'],
@@ -3420,26 +3420,26 @@ class CallTest extends TestCase
 			[[$interface, 'setStaticString'], 0x00, 'void'],
 			[[$class, 'doStuff'], 0x00, "?{$interface}"],
 			[[$class, 'doStuff'], UCall::TYPE_SHORT_NAME, '?CallTest_Interface'],
-			[[$class, 'doStuff'], UCall::TYPE_NAMESPACE_LEADING_SLASH, "?\\{$interface}"],
-			[[$class, 'doStuff'], UCall::TYPE_SHORT_NAME | UCall::TYPE_NAMESPACE_LEADING_SLASH,
+			[[$class, 'doStuff'], UCall::TYPE_LEADING_BACKSLASH, "?\\{$interface}"],
+			[[$class, 'doStuff'], UCall::TYPE_SHORT_NAME | UCall::TYPE_LEADING_BACKSLASH,
 				'?CallTest_Interface'],
 			[function (): CallTest_Class|string {}, 0x00, "{$class}|string"],
 			[function (): CallTest_Class|string {}, UCall::TYPE_SHORT_NAME, 'CallTest_Class|string'],
-			[function (): CallTest_Class|string {}, UCall::TYPE_NAMESPACE_LEADING_SLASH, "\\{$class}|string"],
-			[function (): CallTest_Class|string {}, UCall::TYPE_SHORT_NAME | UCall::TYPE_NAMESPACE_LEADING_SLASH,
+			[function (): CallTest_Class|string {}, UCall::TYPE_LEADING_BACKSLASH, "\\{$class}|string"],
+			[function (): CallTest_Class|string {}, UCall::TYPE_SHORT_NAME | UCall::TYPE_LEADING_BACKSLASH,
 				'CallTest_Class|string'],
 			[function (): int|\stdClass|null {}, 0x00, 'stdClass|int|null'],
-			[function (): int|\stdClass|null {}, UCall::TYPE_NAMESPACE_LEADING_SLASH, '\\stdClass|int|null'],
+			[function (): int|\stdClass|null {}, UCall::TYPE_LEADING_BACKSLASH, '\\stdClass|int|null'],
 			[function (): bool|float|object|array {}, 0x00, 'object|array|float|bool'],
 			[function (): CallTest_AbstractClass|null|CallTest_Interface {}, 0x00, 
 				"{$class_abstract}|{$interface}|null"],
 			[function (): CallTest_AbstractClass|null|CallTest_Interface {}, UCall::TYPE_SHORT_NAME,
 				'CallTest_AbstractClass|CallTest_Interface|null'],
-			[function (): CallTest_AbstractClass|null|CallTest_Interface {}, UCall::TYPE_NAMESPACE_LEADING_SLASH,
+			[function (): CallTest_AbstractClass|null|CallTest_Interface {}, UCall::TYPE_LEADING_BACKSLASH,
 				"\\{$class_abstract}|\\{$interface}|null"],
 			[function (): CallTest_Class|null {}, 0x00, "?{$class}"],
 			[function (): CallTest_Class|null {}, UCall::TYPE_SHORT_NAME, '?CallTest_Class'],
-			[function (): CallTest_Class|null {}, UCall::TYPE_NAMESPACE_LEADING_SLASH, "?\\{$class}"]
+			[function (): CallTest_Class|null {}, UCall::TYPE_LEADING_BACKSLASH, "?\\{$class}"]
 		];
 	}
 	
@@ -3460,9 +3460,9 @@ class CallTest extends TestCase
 		return [
 			['strlen', 0x00, 'function strlen(string $string): int'],
 			[function () {}, 0x00, 'function (): mixed'],
-			[function () {}, UCall::HEADER_NO_MIXED_TYPE, 'function ()'],
+			[function () {}, UCall::HEADER_NO_MIXED_TYPES, 'function ()'],
 			[function (): mixed {}, 0x00, 'function (): mixed'],
-			[function (): mixed {}, UCall::HEADER_NO_MIXED_TYPE, 'function ()'],
+			[function (): mixed {}, UCall::HEADER_NO_MIXED_TYPES, 'function ()'],
 			[function (): void {}, 0x00, 'function (): void'],
 			[function (): bool {}, 0x00, 'function (): bool'],
 			[function (): ?bool {}, 0x00, 'function (): ?bool'],
@@ -3482,21 +3482,21 @@ class CallTest extends TestCase
 			[function (): ?\stdClass {}, 0x00, 'function (): ?stdClass'],
 			[function (): \stdClass {}, UCall::HEADER_TYPES_SHORT_NAMES, 'function (): stdClass'],
 			[function (): ?\stdClass {}, UCall::HEADER_TYPES_SHORT_NAMES, 'function (): ?stdClass'],
-			[function (): \stdClass {}, UCall::HEADER_NAMESPACES_LEADING_SLASH, 'function (): \\stdClass'],
-			[function (): ?\stdClass {}, UCall::HEADER_NAMESPACES_LEADING_SLASH, 'function (): ?\\stdClass'],
-			[function (): \stdClass {}, UCall::HEADER_TYPES_SHORT_NAMES | UCall::HEADER_NAMESPACES_LEADING_SLASH,
+			[function (): \stdClass {}, UCall::HEADER_TYPES_LEADING_BACKSLASH, 'function (): \\stdClass'],
+			[function (): ?\stdClass {}, UCall::HEADER_TYPES_LEADING_BACKSLASH, 'function (): ?\\stdClass'],
+			[function (): \stdClass {}, UCall::HEADER_TYPES_SHORT_NAMES | UCall::HEADER_TYPES_LEADING_BACKSLASH,
 				'function (): stdClass'],
-			[function (): ?\stdClass {}, UCall::HEADER_TYPES_SHORT_NAMES | UCall::HEADER_NAMESPACES_LEADING_SLASH,
+			[function (): ?\stdClass {}, UCall::HEADER_TYPES_SHORT_NAMES | UCall::HEADER_TYPES_LEADING_BACKSLASH,
 				'function (): ?stdClass'],
 			[function (): CallTest_Class {}, 0x00, 'function (): ' . $class],
 			[function (): ?CallTest_Class {}, 0x00, 'function (): ?' . $class],
 			[function (): CallTest_Class {}, UCall::HEADER_TYPES_SHORT_NAMES, 'function (): CallTest_Class'],
 			[function (): ?CallTest_Class {}, UCall::HEADER_TYPES_SHORT_NAMES, 'function (): ?CallTest_Class'],
-			[function (): CallTest_Class {}, UCall::HEADER_NAMESPACES_LEADING_SLASH, 'function (): \\' . $class],
-			[function (): ?CallTest_Class {}, UCall::HEADER_NAMESPACES_LEADING_SLASH, 'function (): ?\\' . $class],
-			[function (): CallTest_Class {}, UCall::HEADER_TYPES_SHORT_NAMES | UCall::HEADER_NAMESPACES_LEADING_SLASH,
+			[function (): CallTest_Class {}, UCall::HEADER_TYPES_LEADING_BACKSLASH, 'function (): \\' . $class],
+			[function (): ?CallTest_Class {}, UCall::HEADER_TYPES_LEADING_BACKSLASH, 'function (): ?\\' . $class],
+			[function (): CallTest_Class {}, UCall::HEADER_TYPES_SHORT_NAMES | UCall::HEADER_TYPES_LEADING_BACKSLASH,
 				'function (): CallTest_Class'],
-			[function (): ?CallTest_Class {}, UCall::HEADER_TYPES_SHORT_NAMES | UCall::HEADER_NAMESPACES_LEADING_SLASH,
+			[function (): ?CallTest_Class {}, UCall::HEADER_TYPES_SHORT_NAMES | UCall::HEADER_TYPES_LEADING_BACKSLASH,
 				'function (): ?CallTest_Class'],
 			[function (): CallTest_AbstractClass {}, 0x00, 'function (): ' . $class_abstract],
 			[function (): ?CallTest_AbstractClass {}, 0x00, 'function (): ?' . $class_abstract],
@@ -3504,29 +3504,29 @@ class CallTest extends TestCase
 				'function (): CallTest_AbstractClass'],
 			[function (): ?CallTest_AbstractClass {}, UCall::HEADER_TYPES_SHORT_NAMES,
 				'function (): ?CallTest_AbstractClass'],
-			[function (): CallTest_AbstractClass {}, UCall::HEADER_NAMESPACES_LEADING_SLASH,
+			[function (): CallTest_AbstractClass {}, UCall::HEADER_TYPES_LEADING_BACKSLASH,
 				'function (): \\' . $class_abstract],
-			[function (): ?CallTest_AbstractClass {}, UCall::HEADER_NAMESPACES_LEADING_SLASH,
+			[function (): ?CallTest_AbstractClass {}, UCall::HEADER_TYPES_LEADING_BACKSLASH,
 				'function (): ?\\' . $class_abstract],
 			[function (): CallTest_AbstractClass {},
-				UCall::HEADER_TYPES_SHORT_NAMES | UCall::HEADER_NAMESPACES_LEADING_SLASH,
+				UCall::HEADER_TYPES_SHORT_NAMES | UCall::HEADER_TYPES_LEADING_BACKSLASH,
 				'function (): CallTest_AbstractClass'],
 			[function (): ?CallTest_AbstractClass {},
-				UCall::HEADER_TYPES_SHORT_NAMES | UCall::HEADER_NAMESPACES_LEADING_SLASH,
+				UCall::HEADER_TYPES_SHORT_NAMES | UCall::HEADER_TYPES_LEADING_BACKSLASH,
 				'function (): ?CallTest_AbstractClass'],
 			[function (): CallTest_Interface {}, 0x00, 'function (): ' . $interface],
 			[function (): ?CallTest_Interface {}, 0x00, 'function (): ?' . $interface],
 			[function (): CallTest_Interface {}, UCall::HEADER_TYPES_SHORT_NAMES, 'function (): CallTest_Interface'],
 			[function (): ?CallTest_Interface {}, UCall::HEADER_TYPES_SHORT_NAMES, 'function (): ?CallTest_Interface'],
-			[function (): CallTest_Interface {}, UCall::HEADER_NAMESPACES_LEADING_SLASH,
+			[function (): CallTest_Interface {}, UCall::HEADER_TYPES_LEADING_BACKSLASH,
 				'function (): \\' . $interface],
-			[function (): ?CallTest_Interface {}, UCall::HEADER_NAMESPACES_LEADING_SLASH,
+			[function (): ?CallTest_Interface {}, UCall::HEADER_TYPES_LEADING_BACKSLASH,
 				'function (): ?\\' . $interface],
 			[function (): CallTest_Interface {},
-				UCall::HEADER_TYPES_SHORT_NAMES | UCall::HEADER_NAMESPACES_LEADING_SLASH,
+				UCall::HEADER_TYPES_SHORT_NAMES | UCall::HEADER_TYPES_LEADING_BACKSLASH,
 				'function (): CallTest_Interface'],
 			[function (): ?CallTest_Interface {},
-				UCall::HEADER_TYPES_SHORT_NAMES | UCall::HEADER_NAMESPACES_LEADING_SLASH,
+				UCall::HEADER_TYPES_SHORT_NAMES | UCall::HEADER_TYPES_LEADING_BACKSLASH,
 				'function (): ?CallTest_Interface'],
 			[function (CallTest_Class $a, \stdClass $b, bool $e = false, $k = null): void {}, 0x00,
 				'function (' . $class . ' $a, stdClass $b, bool $e = false, mixed $k = null): void'],
@@ -3534,39 +3534,39 @@ class CallTest extends TestCase
 				UCall::HEADER_TYPES_SHORT_NAMES,
 				'function (CallTest_Class $a, stdClass $b, bool $e = false, mixed $k = null): void'],
 			[function (CallTest_Class $a, \stdClass $b, bool $e = false, $k = null) {},
-				UCall::HEADER_NAMESPACES_LEADING_SLASH,
+				UCall::HEADER_TYPES_LEADING_BACKSLASH,
 				'function (\\' . $class . ' $a, \\stdClass $b, bool $e = false, mixed $k = null): mixed'],
-			[function (CallTest_Class $a, \stdClass $b, bool $e = false, $k = null) {}, UCall::HEADER_NO_MIXED_TYPE,
+			[function (CallTest_Class $a, \stdClass $b, bool $e = false, $k = null) {}, UCall::HEADER_NO_MIXED_TYPES,
 				'function (' . $class . ' $a, stdClass $b, bool $e = false, $k = null)'],
 			[function (CallTest_Class $a, \stdClass $b, bool $e = false, $k = null): CallTest_AbstractClass {},
-				UCall::HEADER_TYPES_SHORT_NAMES | UCall::HEADER_NAMESPACES_LEADING_SLASH,
+				UCall::HEADER_TYPES_SHORT_NAMES | UCall::HEADER_TYPES_LEADING_BACKSLASH,
 				'function (CallTest_Class $a, stdClass $b, bool $e = false, mixed $k = null): CallTest_AbstractClass'],
 			[function (CallTest_Class $a, \stdClass $b, bool $e = false, $k = null): CallTest_AbstractClass {},
-				UCall::HEADER_TYPES_SHORT_NAMES | UCall::HEADER_NO_MIXED_TYPE,
+				UCall::HEADER_TYPES_SHORT_NAMES | UCall::HEADER_NO_MIXED_TYPES,
 				'function (CallTest_Class $a, stdClass $b, bool $e = false, $k = null): CallTest_AbstractClass'],
 			[function (CallTest_Class $a, \stdClass $b, bool $e = false, $k = null): CallTest_AbstractClass {},
-				UCall::HEADER_NAMESPACES_LEADING_SLASH | UCall::HEADER_NO_MIXED_TYPE,
+				UCall::HEADER_TYPES_LEADING_BACKSLASH | UCall::HEADER_NO_MIXED_TYPES,
 				'function (\\' . $class . ' $a, \\stdClass $b, bool $e = false, $k = null): \\' . $class_abstract],
 			[function (CallTest_Class $a, \stdClass $b, bool $e = false, $k = null): int {},
-				UCall::HEADER_TYPES_SHORT_NAMES | UCall::HEADER_NAMESPACES_LEADING_SLASH | 
-				UCall::HEADER_NO_MIXED_TYPE,
+				UCall::HEADER_TYPES_SHORT_NAMES | UCall::HEADER_TYPES_LEADING_BACKSLASH | 
+				UCall::HEADER_NO_MIXED_TYPES,
 				'function (CallTest_Class $a, stdClass $b, bool $e = false, $k = null): int'],
 			[function (CallTest_AbstractClass $ac, ?CallTest_Interface $i): string {}, 0x00,
 				'function (' . $class_abstract . ' $ac, ?' . $interface . ' $i): string'],
 			[function (CallTest_AbstractClass $ac, ?CallTest_Interface $i) {}, UCall::HEADER_TYPES_SHORT_NAMES,
 				'function (CallTest_AbstractClass $ac, ?CallTest_Interface $i): mixed'],
 			[function (CallTest_AbstractClass $ac, ?CallTest_Interface $i): ?\stdClass {},
-				UCall::HEADER_NAMESPACES_LEADING_SLASH,
+				UCall::HEADER_TYPES_LEADING_BACKSLASH,
 				'function (\\' . $class_abstract . ' $ac, ?\\' . $interface . ' $i): ?\\stdClass'],
 			[function (CallTest_AbstractClass $ac, ?CallTest_Interface $i): ?callable {},
-				UCall::HEADER_TYPES_SHORT_NAMES | UCall::HEADER_NAMESPACES_LEADING_SLASH,
+				UCall::HEADER_TYPES_SHORT_NAMES | UCall::HEADER_TYPES_LEADING_BACKSLASH,
 				'function (CallTest_AbstractClass $ac, ?CallTest_Interface $i): ?callable'],
 			[new CallTest_InvokeableClass, 0x00, 'public function __invoke(): ?' . $class],
 			[new CallTest_InvokeableClass, UCall::HEADER_TYPES_SHORT_NAMES,
 				'public function __invoke(): ?CallTest_Class'],
-			[new CallTest_InvokeableClass, UCall::HEADER_NAMESPACES_LEADING_SLASH,
+			[new CallTest_InvokeableClass, UCall::HEADER_TYPES_LEADING_BACKSLASH,
 				'public function __invoke(): ?\\' . $class],
-			[new CallTest_InvokeableClass, UCall::HEADER_TYPES_SHORT_NAMES | UCall::HEADER_NAMESPACES_LEADING_SLASH,
+			[new CallTest_InvokeableClass, UCall::HEADER_TYPES_SHORT_NAMES | UCall::HEADER_TYPES_LEADING_BACKSLASH,
 				'public function __invoke(): ?CallTest_Class'],
 			[new CallTest_InvokeableClass2, 0x00,
 				'public function __invoke(string $s_foo = ' . CallTest_InvokeableClass2::class . 
@@ -3575,21 +3575,21 @@ class CallTest extends TestCase
 				'public function __invoke(string $s_foo = "bar2foo"): void'],
 			[new CallTest_InvokeableClass2, UCall::HEADER_TYPES_SHORT_NAMES,
 				'public function __invoke(string $s_foo = CallTest_InvokeableClass2::FOO_CONSTANT): void'],
-			[new CallTest_InvokeableClass2, UCall::HEADER_NAMESPACES_LEADING_SLASH,
+			[new CallTest_InvokeableClass2, UCall::HEADER_TYPES_LEADING_BACKSLASH,
 				'public function __invoke(string $s_foo = \\' . CallTest_InvokeableClass2::class . 
 				'::FOO_CONSTANT): void'],
 			[new CallTest_InvokeableClass2,
 				UCall::HEADER_CONSTANTS_VALUES | UCall::HEADER_TYPES_SHORT_NAMES,
 				'public function __invoke(string $s_foo = "bar2foo"): void'],
 			[new CallTest_InvokeableClass2,
-				UCall::HEADER_CONSTANTS_VALUES | UCall::HEADER_NAMESPACES_LEADING_SLASH,
+				UCall::HEADER_CONSTANTS_VALUES | UCall::HEADER_TYPES_LEADING_BACKSLASH,
 				'public function __invoke(string $s_foo = "bar2foo"): void'],
 			[new CallTest_InvokeableClass2,
-				UCall::HEADER_TYPES_SHORT_NAMES | UCall::HEADER_NAMESPACES_LEADING_SLASH,
+				UCall::HEADER_TYPES_SHORT_NAMES | UCall::HEADER_TYPES_LEADING_BACKSLASH,
 				'public function __invoke(string $s_foo = CallTest_InvokeableClass2::FOO_CONSTANT): void'],
 			[new CallTest_InvokeableClass2,
 				UCall::HEADER_CONSTANTS_VALUES | UCall::HEADER_TYPES_SHORT_NAMES | 
-				UCall::HEADER_NAMESPACES_LEADING_SLASH,
+				UCall::HEADER_TYPES_LEADING_BACKSLASH,
 				'public function __invoke(string $s_foo = "bar2foo"): void'],
 			[[$class, 'getString'], 0x00, 'public function getString(): string'],
 			[[$class, 'setString'], 0x00, 'public function setString(string $string): void'],
@@ -3664,13 +3664,13 @@ class CallTest extends TestCase
 				'array $foob = CallTest_Class::B_ARRAY, int $cint = CallTest_Class::C_CONSTANT, ' . 
 				'bool &$enable = CallTest_Class::D_ENABLE, ?stdClass $std = null, mixed $flags = SORT_STRING, ' . 
 				'mixed ...$p): ?CallTest_Interface'],
-			[[$class, 'doStuff'], UCall::HEADER_NAMESPACES_LEADING_SLASH,
+			[[$class, 'doStuff'], UCall::HEADER_TYPES_LEADING_BACKSLASH,
 				'public function doStuff(?float $fnumber, \\' . $class_abstract . ' $ac, ?\\' . $class . ' &$c, ' . 
 				'mixed $options, callable $c_function, string $farboo = \\' . $class . '::A_S, ' . 
 				'array $foob = \\' . $class . '::B_ARRAY, int $cint = \\' . $class . '::C_CONSTANT, ' . 
 				'bool &$enable = \\' . $class . '::D_ENABLE, ?\\stdClass $std = null, mixed $flags = \\SORT_STRING, ' . 
 				'mixed ...$p): ?\\' . $interface],
-			[[$class, 'doStuff'], UCall::HEADER_NO_MIXED_TYPE,
+			[[$class, 'doStuff'], UCall::HEADER_NO_MIXED_TYPES,
 				'public function doStuff(?float $fnumber, ' . $class_abstract . ' $ac, ?' . $class . ' &$c, ' . 
 				'$options, callable $c_function, string $farboo = ' . $class . '::A_S, ' . 
 				'array $foob = ' . $class . '::B_ARRAY, int $cint = ' . $class . '::C_CONSTANT, ' . 
@@ -3681,28 +3681,28 @@ class CallTest extends TestCase
 				'mixed $options, callable $c_function, string $farboo = "Aaa", ' . 
 				'array $foob = ["foo"=>false,"bar"=>null], int $cint = 1200, bool &$enable = true, ' . 
 				'?stdClass $std = null, mixed $flags = 2, mixed ...$p): ?CallTest_Interface'],
-			[[$class, 'doStuff'], UCall::HEADER_CONSTANTS_VALUES | UCall::HEADER_NAMESPACES_LEADING_SLASH,
+			[[$class, 'doStuff'], UCall::HEADER_CONSTANTS_VALUES | UCall::HEADER_TYPES_LEADING_BACKSLASH,
 				'public function doStuff(?float $fnumber, \\' . $class_abstract . ' $ac, ?\\' . $class . ' &$c, ' . 
 				'mixed $options, callable $c_function, string $farboo = "Aaa", ' . 
 				'array $foob = ["foo"=>false,"bar"=>null], int $cint = 1200, bool &$enable = true, ' . 
 				'?\\stdClass $std = null, mixed $flags = 2, mixed ...$p): ?\\' . $interface],
-			[[$class, 'doStuff'], UCall::HEADER_CONSTANTS_VALUES | UCall::HEADER_NO_MIXED_TYPE,
+			[[$class, 'doStuff'], UCall::HEADER_CONSTANTS_VALUES | UCall::HEADER_NO_MIXED_TYPES,
 				'public function doStuff(?float $fnumber, ' . $class_abstract . ' $ac, ?' . $class . ' &$c, ' . 
 				'$options, callable $c_function, string $farboo = "Aaa", array $foob = ["foo"=>false,"bar"=>null], ' . 
 				'int $cint = 1200, bool &$enable = true, ?stdClass $std = null, $flags = 2, ...$p): ?' . $interface],
-			[[$class, 'doStuff'], UCall::HEADER_TYPES_SHORT_NAMES | UCall::HEADER_NAMESPACES_LEADING_SLASH,
+			[[$class, 'doStuff'], UCall::HEADER_TYPES_SHORT_NAMES | UCall::HEADER_TYPES_LEADING_BACKSLASH,
 				'public function doStuff(?float $fnumber, CallTest_AbstractClass $ac, ?CallTest_Class &$c, ' . 
 				'mixed $options, callable $c_function, string $farboo = CallTest_Class::A_S, ' . 
 				'array $foob = CallTest_Class::B_ARRAY, int $cint = CallTest_Class::C_CONSTANT, ' . 
 				'bool &$enable = CallTest_Class::D_ENABLE, ?stdClass $std = null, mixed $flags = \\SORT_STRING, ' . 
 				'mixed ...$p): ?CallTest_Interface'],
-			[[$class, 'doStuff'], UCall::HEADER_TYPES_SHORT_NAMES | UCall::HEADER_NO_MIXED_TYPE,
+			[[$class, 'doStuff'], UCall::HEADER_TYPES_SHORT_NAMES | UCall::HEADER_NO_MIXED_TYPES,
 				'public function doStuff(?float $fnumber, CallTest_AbstractClass $ac, ?CallTest_Class &$c, ' . 
 				'$options, callable $c_function, string $farboo = CallTest_Class::A_S, ' . 
 				'array $foob = CallTest_Class::B_ARRAY, int $cint = CallTest_Class::C_CONSTANT, ' . 
 				'bool &$enable = CallTest_Class::D_ENABLE, ?stdClass $std = null, $flags = SORT_STRING, ' . 
 				'...$p): ?CallTest_Interface'],
-			[[$class, 'doStuff'], UCall::HEADER_NAMESPACES_LEADING_SLASH | UCall::HEADER_NO_MIXED_TYPE,
+			[[$class, 'doStuff'], UCall::HEADER_TYPES_LEADING_BACKSLASH | UCall::HEADER_NO_MIXED_TYPES,
 				'public function doStuff(?float $fnumber, \\' . $class_abstract . ' $ac, ?\\' . $class . ' &$c, ' . 
 				'$options, callable $c_function, string $farboo = \\' . $class . '::A_S, ' . 
 				'array $foob = \\' . $class . '::B_ARRAY, int $cint = \\' . $class . '::C_CONSTANT, ' . 
@@ -3710,28 +3710,28 @@ class CallTest extends TestCase
 				'...$p): ?\\' . $interface],
 			[[$class, 'doStuff'],
 				UCall::HEADER_CONSTANTS_VALUES | UCall::HEADER_TYPES_SHORT_NAMES | 
-				UCall::HEADER_NAMESPACES_LEADING_SLASH,
+				UCall::HEADER_TYPES_LEADING_BACKSLASH,
 				'public function doStuff(?float $fnumber, CallTest_AbstractClass $ac, ?CallTest_Class &$c, ' . 
 				'mixed $options, callable $c_function, string $farboo = "Aaa", ' . 
 				'array $foob = ["foo"=>false,"bar"=>null], int $cint = 1200, bool &$enable = true, ' . 
 				'?stdClass $std = null, mixed $flags = 2, mixed ...$p): ?CallTest_Interface'],
 			[[$class, 'doStuff'],
 				UCall::HEADER_CONSTANTS_VALUES | UCall::HEADER_TYPES_SHORT_NAMES | 
-				UCall::HEADER_NO_MIXED_TYPE,
+				UCall::HEADER_NO_MIXED_TYPES,
 				'public function doStuff(?float $fnumber, CallTest_AbstractClass $ac, ?CallTest_Class &$c, ' . 
 				'$options, callable $c_function, string $farboo = "Aaa", array $foob = ["foo"=>false,"bar"=>null], ' . 
 				'int $cint = 1200, bool &$enable = true, ?stdClass $std = null, $flags = 2, ' . 
 				'...$p): ?CallTest_Interface'],
 			[[$class, 'doStuff'],
-				UCall::HEADER_CONSTANTS_VALUES | UCall::HEADER_NAMESPACES_LEADING_SLASH | 
-				UCall::HEADER_NO_MIXED_TYPE,
+				UCall::HEADER_CONSTANTS_VALUES | UCall::HEADER_TYPES_LEADING_BACKSLASH | 
+				UCall::HEADER_NO_MIXED_TYPES,
 				'public function doStuff(?float $fnumber, \\' . $class_abstract . ' $ac, ?\\' . $class . ' &$c, ' . 
 				'$options, callable $c_function, string $farboo = "Aaa", array $foob = ["foo"=>false,"bar"=>null], ' . 
 				'int $cint = 1200, bool &$enable = true, ?\\stdClass $std = null, $flags = 2, ' . 
 				'...$p): ?\\' . $interface],
 			[[$class, 'doStuff'],
-				UCall::HEADER_TYPES_SHORT_NAMES | UCall::HEADER_NAMESPACES_LEADING_SLASH | 
-				UCall::HEADER_NO_MIXED_TYPE,
+				UCall::HEADER_TYPES_SHORT_NAMES | UCall::HEADER_TYPES_LEADING_BACKSLASH | 
+				UCall::HEADER_NO_MIXED_TYPES,
 				'public function doStuff(?float $fnumber, CallTest_AbstractClass $ac, ?CallTest_Class &$c, ' . 
 				'$options, callable $c_function, string $farboo = CallTest_Class::A_S, ' . 
 				'array $foob = CallTest_Class::B_ARRAY, int $cint = CallTest_Class::C_CONSTANT, ' . 
@@ -3739,7 +3739,7 @@ class CallTest extends TestCase
 				'...$p): ?CallTest_Interface'],
 			[[$class, 'doStuff'],
 				UCall::HEADER_CONSTANTS_VALUES | UCall::HEADER_TYPES_SHORT_NAMES | 
-				UCall::HEADER_NAMESPACES_LEADING_SLASH | UCall::HEADER_NO_MIXED_TYPE,
+				UCall::HEADER_TYPES_LEADING_BACKSLASH | UCall::HEADER_NO_MIXED_TYPES,
 				'public function doStuff(?float $fnumber, CallTest_AbstractClass $ac, ?CallTest_Class &$c, ' . 
 				'$options, callable $c_function, string $farboo = "Aaa", array $foob = ["foo"=>false,"bar"=>null], ' . 
 				'int $cint = 1200, bool &$enable = true, ?stdClass $std = null, $flags = 2, ' . 
@@ -3747,24 +3747,24 @@ class CallTest extends TestCase
 			[function (): CallTest_Class|string {}, 0x00, "function (): {$class}|string"],
 			[function (): CallTest_Class|string {}, UCall::HEADER_TYPES_SHORT_NAMES,
 				'function (): CallTest_Class|string'],
-			[function (): CallTest_Class|string {}, UCall::HEADER_NAMESPACES_LEADING_SLASH,
+			[function (): CallTest_Class|string {}, UCall::HEADER_TYPES_LEADING_BACKSLASH,
 				"function (): \\{$class}|string"],
 			[function (): CallTest_Class|string {},
-				UCall::HEADER_TYPES_SHORT_NAMES | UCall::HEADER_NAMESPACES_LEADING_SLASH,
+				UCall::HEADER_TYPES_SHORT_NAMES | UCall::HEADER_TYPES_LEADING_BACKSLASH,
 				'function (): CallTest_Class|string'],
 			[function (): int|\stdClass|null {}, 0x00, 'function (): stdClass|int|null'],
-			[function (): int|\stdClass|null {}, UCall::HEADER_NAMESPACES_LEADING_SLASH,
+			[function (): int|\stdClass|null {}, UCall::HEADER_TYPES_LEADING_BACKSLASH,
 				'function (): \\stdClass|int|null'],
 			[function (): bool|float|object|array {}, 0x00, 'function (): object|array|float|bool'],
 			[function (): CallTest_AbstractClass|null|CallTest_Interface {}, 0x00,
 				"function (): {$class_abstract}|{$interface}|null"],
 			[function (): CallTest_AbstractClass|null|CallTest_Interface {}, UCall::HEADER_TYPES_SHORT_NAMES,
 				'function (): CallTest_AbstractClass|CallTest_Interface|null'],
-			[function (): CallTest_AbstractClass|null|CallTest_Interface {}, UCall::HEADER_NAMESPACES_LEADING_SLASH,
+			[function (): CallTest_AbstractClass|null|CallTest_Interface {}, UCall::HEADER_TYPES_LEADING_BACKSLASH,
 				"function (): \\{$class_abstract}|\\{$interface}|null"],
 			[function (): CallTest_Class|null {}, 0x00, "function (): ?{$class}"],
 			[function (): CallTest_Class|null {}, UCall::HEADER_TYPES_SHORT_NAMES, 'function (): ?CallTest_Class'],
-			[function (): CallTest_Class|null {}, UCall::HEADER_NAMESPACES_LEADING_SLASH, "function (): ?\\{$class}"],
+			[function (): CallTest_Class|null {}, UCall::HEADER_TYPES_LEADING_BACKSLASH, "function (): ?\\{$class}"],
 			[function (CallTest_Class|string $a, int|\stdClass|null $b, bool|float|object|array $e = false): void {}, 
 				0x00,
 				'function (' . $class . '|string $a, stdClass|int|null $b, object|array|float|bool $e = false): void'],
@@ -3772,7 +3772,7 @@ class CallTest extends TestCase
 				UCall::HEADER_TYPES_SHORT_NAMES,
 				'function (CallTest_Class|string $a, stdClass|int|null $b, object|array|float|bool $e = false): void'],
 			[function (CallTest_Class|string $a, int|\stdClass|null $b, bool|float|object|array $e = false): void {},
-				UCall::HEADER_NAMESPACES_LEADING_SLASH,
+				UCall::HEADER_TYPES_LEADING_BACKSLASH,
 				'function (\\' . $class . '|string $a, \\stdClass|int|null $b, object|array|float|bool $e = false): ' . 
 				'void'],
 			[function (CallTest_AbstractClass|null|CallTest_Interface $aci, CallTest_Class|null &$c, mixed $m = 123) {},
@@ -3784,18 +3784,18 @@ class CallTest extends TestCase
 				'function (CallTest_AbstractClass|CallTest_Interface|null $aci, ?CallTest_Class &$c, ' . 
 				'mixed $m = 123): mixed'],
 			[function (CallTest_AbstractClass|null|CallTest_Interface $aci, CallTest_Class|null &$c, mixed $m = 123) {},
-				UCall::HEADER_NAMESPACES_LEADING_SLASH,
+				UCall::HEADER_TYPES_LEADING_BACKSLASH,
 				'function (\\' . $class_abstract . '|\\' . $interface . '|null $aci, ?\\' . $class . ' &$c, ' . 
 				'mixed $m = 123): mixed'],
 			[function (CallTest_AbstractClass|null|CallTest_Interface $aci, CallTest_Class|null &$c, mixed $m = 123) {},
-				UCall::HEADER_NO_MIXED_TYPE,
+				UCall::HEADER_NO_MIXED_TYPES,
 				'function (' . $class_abstract . '|' . $interface . '|null $aci, ?' . $class . ' &$c, $m = 123)'],
 			[function (CallTest_AbstractClass|null|CallTest_Interface $aci, CallTest_Class|null &$c, mixed $m = 123) {},
-				UCall::HEADER_TYPES_SHORT_NAMES | UCall::HEADER_NAMESPACES_LEADING_SLASH,
+				UCall::HEADER_TYPES_SHORT_NAMES | UCall::HEADER_TYPES_LEADING_BACKSLASH,
 				'function (CallTest_AbstractClass|CallTest_Interface|null $aci, ?CallTest_Class &$c, ' . 
 				'mixed $m = 123): mixed'],
 			[function (CallTest_AbstractClass|null|CallTest_Interface $aci, CallTest_Class|null &$c, mixed $m = 123) {},
-				UCall::HEADER_TYPES_SHORT_NAMES | UCall::HEADER_NO_MIXED_TYPE,
+				UCall::HEADER_TYPES_SHORT_NAMES | UCall::HEADER_NO_MIXED_TYPES,
 				'function (CallTest_AbstractClass|CallTest_Interface|null $aci, ?CallTest_Class &$c, $m = 123)']
 		];
 	}
@@ -3907,11 +3907,11 @@ class CallTest extends TestCase
 		return [
 			['strlen', 0x00, 'function strlen(string $string): int {}'],
 			[function () {}, 0x00, 'function (): mixed {}'],
-			[function () {}, UCall::SOURCE_NO_MIXED_TYPE, 'function () {}'],
+			[function () {}, UCall::SOURCE_NO_MIXED_TYPES, 'function () {}'],
 			[function (): mixed {}, 0x00, 'function (): mixed {}'],
-			[function (): mixed {}, UCall::SOURCE_NO_MIXED_TYPE, 'function () {}'],
+			[function (): mixed {}, UCall::SOURCE_NO_MIXED_TYPES, 'function () {}'],
 			[function () {return 'foo2bar';}, 0x00, "function (): mixed\n{\n\treturn 'foo2bar';\n}"],
-			[function () {return 'foo2bar';}, UCall::SOURCE_NO_MIXED_TYPE, "function ()\n{\n\treturn 'foo2bar';\n}"],
+			[function () {return 'foo2bar';}, UCall::SOURCE_NO_MIXED_TYPES, "function ()\n{\n\treturn 'foo2bar';\n}"],
 			[
 				function () {
 					return "foo2bar";
@@ -3922,7 +3922,7 @@ class CallTest extends TestCase
 				function () {
 					return "foo2bar";
 				},
-				UCall::SOURCE_NO_MIXED_TYPE,
+				UCall::SOURCE_NO_MIXED_TYPES,
 				"function ()\n{\n\treturn \"foo2bar\";\n}"
 			], [
 				function ($i) {
@@ -3940,7 +3940,7 @@ class CallTest extends TestCase
 					}
 					return null;
 				},
-				UCall::SOURCE_NO_MIXED_TYPE,
+				UCall::SOURCE_NO_MIXED_TYPES,
 				"function (\$i)\n{\n\tif (\$i > 2) {\n\t\treturn \$i + 1;\n\t}\n\treturn null;\n}"
 			],
 			[function (): void {}, 0x00, 'function (): void {}'],
@@ -3957,23 +3957,23 @@ class CallTest extends TestCase
 			[function (): ?\stdClass {}, 0x00, 'function (): ?stdClass {}'],
 			[function (): \stdClass {}, UCall::SOURCE_TYPES_SHORT_NAMES, 'function (): stdClass {}'],
 			[function (): ?\stdClass {}, UCall::SOURCE_TYPES_SHORT_NAMES, 'function (): ?stdClass {}'],
-			[function (): \stdClass {}, UCall::SOURCE_NAMESPACES_LEADING_SLASH, 'function (): \\stdClass {}'],
-			[function (): ?\stdClass {}, UCall::SOURCE_NAMESPACES_LEADING_SLASH, 'function (): ?\\stdClass {}'],
-			[function (): \stdClass {}, UCall::SOURCE_TYPES_SHORT_NAMES | UCall::SOURCE_NAMESPACES_LEADING_SLASH,
+			[function (): \stdClass {}, UCall::SOURCE_TYPES_LEADING_BACKSLASH, 'function (): \\stdClass {}'],
+			[function (): ?\stdClass {}, UCall::SOURCE_TYPES_LEADING_BACKSLASH, 'function (): ?\\stdClass {}'],
+			[function (): \stdClass {}, UCall::SOURCE_TYPES_SHORT_NAMES | UCall::SOURCE_TYPES_LEADING_BACKSLASH,
 				'function (): stdClass {}'],
-			[function (): ?\stdClass {}, UCall::SOURCE_TYPES_SHORT_NAMES | UCall::SOURCE_NAMESPACES_LEADING_SLASH,
+			[function (): ?\stdClass {}, UCall::SOURCE_TYPES_SHORT_NAMES | UCall::SOURCE_TYPES_LEADING_BACKSLASH,
 				'function (): ?stdClass {}'],
 			[function (): CallTest_Class {}, 0x00, 'function (): ' . $class . ' {}'],
 			[function (): ?CallTest_Class {}, 0x00, 'function (): ?' . $class . ' {}'],
 			[function (): CallTest_Class {}, UCall::SOURCE_TYPES_SHORT_NAMES, 'function (): CallTest_Class {}'],
 			[function (): ?CallTest_Class {}, UCall::SOURCE_TYPES_SHORT_NAMES, 'function (): ?CallTest_Class {}'],
-			[function (): CallTest_Class {}, UCall::SOURCE_NAMESPACES_LEADING_SLASH,
+			[function (): CallTest_Class {}, UCall::SOURCE_TYPES_LEADING_BACKSLASH,
 				'function (): \\' . $class . ' {}'],
-			[function (): ?CallTest_Class {}, UCall::SOURCE_NAMESPACES_LEADING_SLASH,
+			[function (): ?CallTest_Class {}, UCall::SOURCE_TYPES_LEADING_BACKSLASH,
 				'function (): ?\\' . $class . ' {}'],
-			[function (): CallTest_Class {}, UCall::SOURCE_TYPES_SHORT_NAMES | UCall::SOURCE_NAMESPACES_LEADING_SLASH,
+			[function (): CallTest_Class {}, UCall::SOURCE_TYPES_SHORT_NAMES | UCall::SOURCE_TYPES_LEADING_BACKSLASH,
 				'function (): CallTest_Class {}'],
-			[function (): ?CallTest_Class {}, UCall::SOURCE_TYPES_SHORT_NAMES | UCall::SOURCE_NAMESPACES_LEADING_SLASH,
+			[function (): ?CallTest_Class {}, UCall::SOURCE_TYPES_SHORT_NAMES | UCall::SOURCE_TYPES_LEADING_BACKSLASH,
 				'function (): ?CallTest_Class {}'],
 			[function (): CallTest_AbstractClass {}, 0x00, 'function (): ' . $class_abstract . ' {}'],
 			[function (): ?CallTest_AbstractClass {}, 0x00, 'function (): ?' . $class_abstract . ' {}'],
@@ -3981,30 +3981,30 @@ class CallTest extends TestCase
 				'function (): CallTest_AbstractClass {}'],
 			[function (): ?CallTest_AbstractClass {}, UCall::SOURCE_TYPES_SHORT_NAMES,
 				'function (): ?CallTest_AbstractClass {}'],
-			[function (): CallTest_AbstractClass {}, UCall::SOURCE_NAMESPACES_LEADING_SLASH,
+			[function (): CallTest_AbstractClass {}, UCall::SOURCE_TYPES_LEADING_BACKSLASH,
 				'function (): \\' . $class_abstract . ' {}'],
-			[function (): ?CallTest_AbstractClass {}, UCall::SOURCE_NAMESPACES_LEADING_SLASH,
+			[function (): ?CallTest_AbstractClass {}, UCall::SOURCE_TYPES_LEADING_BACKSLASH,
 				'function (): ?\\' . $class_abstract . ' {}'],
 			[function (): CallTest_AbstractClass {},
-				UCall::SOURCE_TYPES_SHORT_NAMES | UCall::SOURCE_NAMESPACES_LEADING_SLASH,
+				UCall::SOURCE_TYPES_SHORT_NAMES | UCall::SOURCE_TYPES_LEADING_BACKSLASH,
 				'function (): CallTest_AbstractClass {}'],
 			[function (): ?CallTest_AbstractClass {},
-				UCall::SOURCE_TYPES_SHORT_NAMES | UCall::SOURCE_NAMESPACES_LEADING_SLASH,
+				UCall::SOURCE_TYPES_SHORT_NAMES | UCall::SOURCE_TYPES_LEADING_BACKSLASH,
 				'function (): ?CallTest_AbstractClass {}'],
 			[function (): CallTest_Interface {}, 0x00, 'function (): ' . $interface . ' {}'],
 			[function (): ?CallTest_Interface {}, 0x00, 'function (): ?' . $interface . ' {}'],
 			[function (): CallTest_Interface {}, UCall::SOURCE_TYPES_SHORT_NAMES, 'function (): CallTest_Interface {}'],
 			[function (): ?CallTest_Interface {}, UCall::SOURCE_TYPES_SHORT_NAMES,
 				'function (): ?CallTest_Interface {}'],
-			[function (): CallTest_Interface {}, UCall::SOURCE_NAMESPACES_LEADING_SLASH,
+			[function (): CallTest_Interface {}, UCall::SOURCE_TYPES_LEADING_BACKSLASH,
 				'function (): \\' . $interface . ' {}'],
-			[function (): ?CallTest_Interface {}, UCall::SOURCE_NAMESPACES_LEADING_SLASH,
+			[function (): ?CallTest_Interface {}, UCall::SOURCE_TYPES_LEADING_BACKSLASH,
 				'function (): ?\\' . $interface . ' {}'],
 			[function (): CallTest_Interface {},
-				UCall::SOURCE_TYPES_SHORT_NAMES | UCall::SOURCE_NAMESPACES_LEADING_SLASH,
+				UCall::SOURCE_TYPES_SHORT_NAMES | UCall::SOURCE_TYPES_LEADING_BACKSLASH,
 				'function (): CallTest_Interface {}'],
 			[function (): ?CallTest_Interface {},
-				UCall::SOURCE_TYPES_SHORT_NAMES | UCall::SOURCE_NAMESPACES_LEADING_SLASH,
+				UCall::SOURCE_TYPES_SHORT_NAMES | UCall::SOURCE_TYPES_LEADING_BACKSLASH,
 				'function (): ?CallTest_Interface {}'],
 			[function (CallTest_Class $a, \stdClass $b, bool $e = false, $k = null): void {}, 0x00,
 				'function (' . $class . ' $a, stdClass $b, bool $e = false, mixed $k = null): void {}'],
@@ -4012,41 +4012,41 @@ class CallTest extends TestCase
 				UCall::SOURCE_TYPES_SHORT_NAMES,
 				'function (CallTest_Class $a, stdClass $b, bool $e = false, mixed $k = null): void {}'],
 			[function (CallTest_Class $a, \stdClass $b, bool $e = false, $k = null) {},
-				UCall::SOURCE_NAMESPACES_LEADING_SLASH,
+				UCall::SOURCE_TYPES_LEADING_BACKSLASH,
 				'function (\\' . $class . ' $a, \\stdClass $b, bool $e = false, mixed $k = null): mixed {}'],
-			[function (CallTest_Class $a, \stdClass $b, bool $e = false, $k = null) {}, UCall::SOURCE_NO_MIXED_TYPE,
+			[function (CallTest_Class $a, \stdClass $b, bool $e = false, $k = null) {}, UCall::SOURCE_NO_MIXED_TYPES,
 				'function (' . $class . ' $a, stdClass $b, bool $e = false, $k = null) {}'],
 			[function (CallTest_Class $a, \stdClass $b, bool $e = false, $k = null): CallTest_AbstractClass {},
-				UCall::SOURCE_TYPES_SHORT_NAMES | UCall::SOURCE_NAMESPACES_LEADING_SLASH,
+				UCall::SOURCE_TYPES_SHORT_NAMES | UCall::SOURCE_TYPES_LEADING_BACKSLASH,
 				'function (CallTest_Class $a, stdClass $b, bool $e = false, mixed $k = null): ' . 
 				'CallTest_AbstractClass {}'],
 			[function (CallTest_Class $a, \stdClass $b, bool $e = false, $k = null): CallTest_AbstractClass {},
-				UCall::SOURCE_TYPES_SHORT_NAMES | UCall::SOURCE_NO_MIXED_TYPE,
+				UCall::SOURCE_TYPES_SHORT_NAMES | UCall::SOURCE_NO_MIXED_TYPES,
 				'function (CallTest_Class $a, stdClass $b, bool $e = false, $k = null): CallTest_AbstractClass {}'],
 			[function (CallTest_Class $a, \stdClass $b, bool $e = false, $k = null): CallTest_AbstractClass {},
-				UCall::SOURCE_NAMESPACES_LEADING_SLASH | UCall::SOURCE_NO_MIXED_TYPE,
+				UCall::SOURCE_TYPES_LEADING_BACKSLASH | UCall::SOURCE_NO_MIXED_TYPES,
 				'function (\\' . $class . ' $a, \\stdClass $b, bool $e = false, $k = null): ' . 
 				'\\' . $class_abstract . ' {}'],
 			[function (CallTest_Class $a, \stdClass $b, bool $e = false, $k = null): int {},
-				UCall::SOURCE_TYPES_SHORT_NAMES | UCall::SOURCE_NAMESPACES_LEADING_SLASH | 
-				UCall::SOURCE_NO_MIXED_TYPE,
+				UCall::SOURCE_TYPES_SHORT_NAMES | UCall::SOURCE_TYPES_LEADING_BACKSLASH | 
+				UCall::SOURCE_NO_MIXED_TYPES,
 				'function (CallTest_Class $a, stdClass $b, bool $e = false, $k = null): int {}'],
 			[function (CallTest_AbstractClass $ac, ?CallTest_Interface $i): string {}, 0x00,
 				'function (' . $class_abstract . ' $ac, ?' . $interface . ' $i): string {}'],
 			[function (CallTest_AbstractClass $ac, ?CallTest_Interface $i) {}, UCall::SOURCE_TYPES_SHORT_NAMES,
 				'function (CallTest_AbstractClass $ac, ?CallTest_Interface $i): mixed {}'],
 			[function (CallTest_AbstractClass $ac, ?CallTest_Interface $i): ?\stdClass {},
-				UCall::SOURCE_NAMESPACES_LEADING_SLASH,
+				UCall::SOURCE_TYPES_LEADING_BACKSLASH,
 				'function (\\' . $class_abstract . ' $ac, ?\\' . $interface . ' $i): ?\\stdClass {}'],
 			[function (CallTest_AbstractClass $ac, ?CallTest_Interface $i): ?callable {},
-				UCall::SOURCE_TYPES_SHORT_NAMES | UCall::SOURCE_NAMESPACES_LEADING_SLASH,
+				UCall::SOURCE_TYPES_SHORT_NAMES | UCall::SOURCE_TYPES_LEADING_BACKSLASH,
 				'function (CallTest_AbstractClass $ac, ?CallTest_Interface $i): ?callable {}'],
 			[new CallTest_InvokeableClass, 0x00, 'public function __invoke(): ?' . $class . ' {}'],
 			[new CallTest_InvokeableClass, UCall::SOURCE_TYPES_SHORT_NAMES,
 				'public function __invoke(): ?CallTest_Class {}'],
-			[new CallTest_InvokeableClass, UCall::SOURCE_NAMESPACES_LEADING_SLASH,
+			[new CallTest_InvokeableClass, UCall::SOURCE_TYPES_LEADING_BACKSLASH,
 				'public function __invoke(): ?\\' . $class . ' {}'],
-			[new CallTest_InvokeableClass, UCall::SOURCE_TYPES_SHORT_NAMES | UCall::SOURCE_NAMESPACES_LEADING_SLASH,
+			[new CallTest_InvokeableClass, UCall::SOURCE_TYPES_SHORT_NAMES | UCall::SOURCE_TYPES_LEADING_BACKSLASH,
 				'public function __invoke(): ?CallTest_Class {}'],
 			[new CallTest_InvokeableClass2, 0x00,
 				'public function __invoke(string $s_foo = ' . CallTest_InvokeableClass2::class . 
@@ -4056,22 +4056,22 @@ class CallTest extends TestCase
 			[new CallTest_InvokeableClass2, UCall::SOURCE_TYPES_SHORT_NAMES,
 				'public function __invoke(string $s_foo = CallTest_InvokeableClass2::FOO_CONSTANT): void' . 
 				$invoke_body],
-			[new CallTest_InvokeableClass2, UCall::SOURCE_NAMESPACES_LEADING_SLASH,
+			[new CallTest_InvokeableClass2, UCall::SOURCE_TYPES_LEADING_BACKSLASH,
 				'public function __invoke(string $s_foo = \\' . CallTest_InvokeableClass2::class . 
 				'::FOO_CONSTANT): void' . $invoke_body],
 			[new CallTest_InvokeableClass2,
 				UCall::SOURCE_CONSTANTS_VALUES | UCall::SOURCE_TYPES_SHORT_NAMES,
 				'public function __invoke(string $s_foo = "bar2foo"): void' . $invoke_body],
 			[new CallTest_InvokeableClass2,
-				UCall::SOURCE_CONSTANTS_VALUES | UCall::SOURCE_NAMESPACES_LEADING_SLASH,
+				UCall::SOURCE_CONSTANTS_VALUES | UCall::SOURCE_TYPES_LEADING_BACKSLASH,
 				'public function __invoke(string $s_foo = "bar2foo"): void' . $invoke_body],
 			[new CallTest_InvokeableClass2,
-				UCall::SOURCE_TYPES_SHORT_NAMES | UCall::SOURCE_NAMESPACES_LEADING_SLASH,
+				UCall::SOURCE_TYPES_SHORT_NAMES | UCall::SOURCE_TYPES_LEADING_BACKSLASH,
 				'public function __invoke(string $s_foo = CallTest_InvokeableClass2::FOO_CONSTANT): void' . 
 				$invoke_body],
 			[new CallTest_InvokeableClass2,
 				UCall::SOURCE_CONSTANTS_VALUES | UCall::SOURCE_TYPES_SHORT_NAMES | 
-				UCall::SOURCE_NAMESPACES_LEADING_SLASH,
+				UCall::SOURCE_TYPES_LEADING_BACKSLASH,
 				'public function __invoke(string $s_foo = "bar2foo"): void' . $invoke_body],
 			[[$class, 'getString'], 0x00, 'public function getString(): string' . $string_body],
 			[[$class, 'setString'], 0x00, 'public function setString(string $string): void {}'],
@@ -4150,13 +4150,13 @@ class CallTest extends TestCase
 				'array $foob = CallTest_Class::B_ARRAY, int $cint = CallTest_Class::C_CONSTANT, ' . 
 				'bool &$enable = CallTest_Class::D_ENABLE, ?stdClass $std = null, mixed $flags = SORT_STRING, ' . 
 				'mixed ...$p): ?CallTest_Interface' . $dostuff_body],
-			[[$class, 'doStuff'], UCall::SOURCE_NAMESPACES_LEADING_SLASH,
+			[[$class, 'doStuff'], UCall::SOURCE_TYPES_LEADING_BACKSLASH,
 				'public function doStuff(?float $fnumber, \\' . $class_abstract . ' $ac, ?\\' . $class . ' &$c, ' . 
 				'mixed $options, callable $c_function, string $farboo = \\' . $class . '::A_S, ' . 
 				'array $foob = \\' . $class . '::B_ARRAY, int $cint = \\' . $class . '::C_CONSTANT, ' . 
 				'bool &$enable = \\' . $class . '::D_ENABLE, ?\\stdClass $std = null, mixed $flags = \\SORT_STRING, ' . 
 				'mixed ...$p): ?\\' . $interface . $dostuff_body],
-			[[$class, 'doStuff'], UCall::SOURCE_NO_MIXED_TYPE,
+			[[$class, 'doStuff'], UCall::SOURCE_NO_MIXED_TYPES,
 				'public function doStuff(?float $fnumber, ' . $class_abstract . ' $ac, ?' . $class . ' &$c, ' . 
 				'$options, callable $c_function, string $farboo = ' . $class . '::A_S, ' . 
 				'array $foob = ' . $class . '::B_ARRAY, int $cint = ' . $class . '::C_CONSTANT, ' . 
@@ -4167,29 +4167,29 @@ class CallTest extends TestCase
 				'mixed $options, callable $c_function, string $farboo = "Aaa", ' . 
 				'array $foob = ["foo"=>false,"bar"=>null], int $cint = 1200, bool &$enable = true, ' . 
 				'?stdClass $std = null, mixed $flags = 2, mixed ...$p): ?CallTest_Interface' . $dostuff_body],
-			[[$class, 'doStuff'], UCall::SOURCE_CONSTANTS_VALUES | UCall::SOURCE_NAMESPACES_LEADING_SLASH,
+			[[$class, 'doStuff'], UCall::SOURCE_CONSTANTS_VALUES | UCall::SOURCE_TYPES_LEADING_BACKSLASH,
 				'public function doStuff(?float $fnumber, \\' . $class_abstract . ' $ac, ?\\' . $class . ' &$c, ' . 
 				'mixed $options, callable $c_function, string $farboo = "Aaa", ' . 
 				'array $foob = ["foo"=>false,"bar"=>null], int $cint = 1200, bool &$enable = true, ' . 
 				'?\\stdClass $std = null, mixed $flags = 2, mixed ...$p): ?\\' . $interface . $dostuff_body],
-			[[$class, 'doStuff'], UCall::SOURCE_CONSTANTS_VALUES | UCall::SOURCE_NO_MIXED_TYPE,
+			[[$class, 'doStuff'], UCall::SOURCE_CONSTANTS_VALUES | UCall::SOURCE_NO_MIXED_TYPES,
 				'public function doStuff(?float $fnumber, ' . $class_abstract . ' $ac, ?' . $class . ' &$c, ' . 
 				'$options, callable $c_function, string $farboo = "Aaa", array $foob = ["foo"=>false,"bar"=>null], ' . 
 				'int $cint = 1200, bool &$enable = true, ?stdClass $std = null, $flags = 2, ...$p): ?' . $interface . 
 				$dostuff_body],
-			[[$class, 'doStuff'], UCall::SOURCE_TYPES_SHORT_NAMES | UCall::SOURCE_NAMESPACES_LEADING_SLASH,
+			[[$class, 'doStuff'], UCall::SOURCE_TYPES_SHORT_NAMES | UCall::SOURCE_TYPES_LEADING_BACKSLASH,
 				'public function doStuff(?float $fnumber, CallTest_AbstractClass $ac, ?CallTest_Class &$c, ' . 
 				'mixed $options, callable $c_function, string $farboo = CallTest_Class::A_S, ' . 
 				'array $foob = CallTest_Class::B_ARRAY, int $cint = CallTest_Class::C_CONSTANT, ' . 
 				'bool &$enable = CallTest_Class::D_ENABLE, ?stdClass $std = null, mixed $flags = \\SORT_STRING, ' . 
 				'mixed ...$p): ?CallTest_Interface' . $dostuff_body],
-			[[$class, 'doStuff'], UCall::SOURCE_TYPES_SHORT_NAMES | UCall::SOURCE_NO_MIXED_TYPE,
+			[[$class, 'doStuff'], UCall::SOURCE_TYPES_SHORT_NAMES | UCall::SOURCE_NO_MIXED_TYPES,
 				'public function doStuff(?float $fnumber, CallTest_AbstractClass $ac, ?CallTest_Class &$c, ' . 
 				'$options, callable $c_function, string $farboo = CallTest_Class::A_S, ' . 
 				'array $foob = CallTest_Class::B_ARRAY, int $cint = CallTest_Class::C_CONSTANT, ' . 
 				'bool &$enable = CallTest_Class::D_ENABLE, ?stdClass $std = null, $flags = SORT_STRING, ' . 
 				'...$p): ?CallTest_Interface' . $dostuff_body],
-			[[$class, 'doStuff'], UCall::SOURCE_NAMESPACES_LEADING_SLASH | UCall::SOURCE_NO_MIXED_TYPE,
+			[[$class, 'doStuff'], UCall::SOURCE_TYPES_LEADING_BACKSLASH | UCall::SOURCE_NO_MIXED_TYPES,
 				'public function doStuff(?float $fnumber, \\' . $class_abstract . ' $ac, ?\\' . $class . ' &$c, ' . 
 				'$options, callable $c_function, string $farboo = \\' . $class . '::A_S, ' . 
 				'array $foob = \\' . $class . '::B_ARRAY, int $cint = \\' . $class . '::C_CONSTANT, ' . 
@@ -4197,28 +4197,28 @@ class CallTest extends TestCase
 				'...$p): ?\\' . $interface . $dostuff_body],
 			[[$class, 'doStuff'],
 				UCall::SOURCE_CONSTANTS_VALUES | UCall::SOURCE_TYPES_SHORT_NAMES | 
-				UCall::SOURCE_NAMESPACES_LEADING_SLASH,
+				UCall::SOURCE_TYPES_LEADING_BACKSLASH,
 				'public function doStuff(?float $fnumber, CallTest_AbstractClass $ac, ?CallTest_Class &$c, ' . 
 				'mixed $options, callable $c_function, string $farboo = "Aaa", ' . 
 				'array $foob = ["foo"=>false,"bar"=>null], int $cint = 1200, bool &$enable = true, ' . 
 				'?stdClass $std = null, mixed $flags = 2, mixed ...$p): ?CallTest_Interface' . $dostuff_body],
 			[[$class, 'doStuff'],
 				UCall::SOURCE_CONSTANTS_VALUES | UCall::SOURCE_TYPES_SHORT_NAMES | 
-				UCall::SOURCE_NO_MIXED_TYPE,
+				UCall::SOURCE_NO_MIXED_TYPES,
 				'public function doStuff(?float $fnumber, CallTest_AbstractClass $ac, ?CallTest_Class &$c, ' . 
 				'$options, callable $c_function, string $farboo = "Aaa", array $foob = ["foo"=>false,"bar"=>null], ' . 
 				'int $cint = 1200, bool &$enable = true, ?stdClass $std = null, $flags = 2, ' . 
 				'...$p): ?CallTest_Interface' . $dostuff_body],
 			[[$class, 'doStuff'],
-				UCall::SOURCE_CONSTANTS_VALUES | UCall::SOURCE_NAMESPACES_LEADING_SLASH | 
-				UCall::SOURCE_NO_MIXED_TYPE,
+				UCall::SOURCE_CONSTANTS_VALUES | UCall::SOURCE_TYPES_LEADING_BACKSLASH | 
+				UCall::SOURCE_NO_MIXED_TYPES,
 				'public function doStuff(?float $fnumber, \\' . $class_abstract . ' $ac, ?\\' . $class . ' &$c, ' . 
 				'$options, callable $c_function, string $farboo = "Aaa", array $foob = ["foo"=>false,"bar"=>null], ' . 
 				'int $cint = 1200, bool &$enable = true, ?\\stdClass $std = null, $flags = 2, ' . 
 				'...$p): ?\\' . $interface . $dostuff_body],
 			[[$class, 'doStuff'],
-				UCall::SOURCE_TYPES_SHORT_NAMES | UCall::SOURCE_NAMESPACES_LEADING_SLASH | 
-				UCall::SOURCE_NO_MIXED_TYPE,
+				UCall::SOURCE_TYPES_SHORT_NAMES | UCall::SOURCE_TYPES_LEADING_BACKSLASH | 
+				UCall::SOURCE_NO_MIXED_TYPES,
 				'public function doStuff(?float $fnumber, CallTest_AbstractClass $ac, ?CallTest_Class &$c, ' . 
 				'$options, callable $c_function, string $farboo = CallTest_Class::A_S, ' . 
 				'array $foob = CallTest_Class::B_ARRAY, int $cint = CallTest_Class::C_CONSTANT, ' . 
@@ -4226,7 +4226,7 @@ class CallTest extends TestCase
 				'...$p): ?CallTest_Interface' . $dostuff_body],
 			[[$class, 'doStuff'],
 				UCall::SOURCE_CONSTANTS_VALUES | UCall::SOURCE_TYPES_SHORT_NAMES | 
-				UCall::SOURCE_NAMESPACES_LEADING_SLASH | UCall::SOURCE_NO_MIXED_TYPE,
+				UCall::SOURCE_TYPES_LEADING_BACKSLASH | UCall::SOURCE_NO_MIXED_TYPES,
 				'public function doStuff(?float $fnumber, CallTest_AbstractClass $ac, ?CallTest_Class &$c, ' . 
 				'$options, callable $c_function, string $farboo = "Aaa", array $foob = ["foo"=>false,"bar"=>null], ' . 
 				'int $cint = 1200, bool &$enable = true, ?stdClass $std = null, $flags = 2, ' . 
@@ -4234,24 +4234,24 @@ class CallTest extends TestCase
 			[function (): CallTest_Class|string {}, 0x00, "function (): {$class}|string {}"],
 			[function (): CallTest_Class|string {}, UCall::SOURCE_TYPES_SHORT_NAMES,
 				'function (): CallTest_Class|string {}'],
-			[function (): CallTest_Class|string {}, UCall::SOURCE_NAMESPACES_LEADING_SLASH,
+			[function (): CallTest_Class|string {}, UCall::SOURCE_TYPES_LEADING_BACKSLASH,
 				"function (): \\{$class}|string {}"],
 			[function (): CallTest_Class|string {},
-				UCall::SOURCE_TYPES_SHORT_NAMES | UCall::SOURCE_NAMESPACES_LEADING_SLASH,
+				UCall::SOURCE_TYPES_SHORT_NAMES | UCall::SOURCE_TYPES_LEADING_BACKSLASH,
 				'function (): CallTest_Class|string {}'],
 			[function (): int|\stdClass|null {}, 0x00, 'function (): stdClass|int|null {}'],
-			[function (): int|\stdClass|null {}, UCall::SOURCE_NAMESPACES_LEADING_SLASH,
+			[function (): int|\stdClass|null {}, UCall::SOURCE_TYPES_LEADING_BACKSLASH,
 				'function (): \\stdClass|int|null {}'],
 			[function (): bool|float|object|array {}, 0x00, 'function (): object|array|float|bool {}'],
 			[function (): CallTest_AbstractClass|null|CallTest_Interface {}, 0x00,
 				"function (): {$class_abstract}|{$interface}|null {}"],
 			[function (): CallTest_AbstractClass|null|CallTest_Interface {}, UCall::SOURCE_TYPES_SHORT_NAMES,
 				'function (): CallTest_AbstractClass|CallTest_Interface|null {}'],
-			[function (): CallTest_AbstractClass|null|CallTest_Interface {}, UCall::SOURCE_NAMESPACES_LEADING_SLASH,
+			[function (): CallTest_AbstractClass|null|CallTest_Interface {}, UCall::SOURCE_TYPES_LEADING_BACKSLASH,
 				"function (): \\{$class_abstract}|\\{$interface}|null {}"],
 			[function (): CallTest_Class|null {}, 0x00, "function (): ?{$class} {}"],
 			[function (): CallTest_Class|null {}, UCall::SOURCE_TYPES_SHORT_NAMES, 'function (): ?CallTest_Class {}'],
-			[function (): CallTest_Class|null {}, UCall::SOURCE_NAMESPACES_LEADING_SLASH,
+			[function (): CallTest_Class|null {}, UCall::SOURCE_TYPES_LEADING_BACKSLASH,
 				"function (): ?\\{$class} {}"],
 			[function (CallTest_Class|string $a, int|\stdClass|null $b, bool|float|object|array $e = false): void {}, 
 				0x00,
@@ -4262,7 +4262,7 @@ class CallTest extends TestCase
 				'function (CallTest_Class|string $a, stdClass|int|null $b, object|array|float|bool $e = false): ' . 
 				'void {}'],
 			[function (CallTest_Class|string $a, int|\stdClass|null $b, bool|float|object|array $e = false): void {},
-				UCall::SOURCE_NAMESPACES_LEADING_SLASH,
+				UCall::SOURCE_TYPES_LEADING_BACKSLASH,
 				'function (\\' . $class . '|string $a, \\stdClass|int|null $b, object|array|float|bool $e = false): ' . 
 				'void {}'],
 			[function (CallTest_AbstractClass|null|CallTest_Interface $aci, CallTest_Class|null &$c, mixed $m = 123) {},
@@ -4274,18 +4274,18 @@ class CallTest extends TestCase
 				'function (CallTest_AbstractClass|CallTest_Interface|null $aci, ?CallTest_Class &$c, ' . 
 				'mixed $m = 123): mixed {}'],
 			[function (CallTest_AbstractClass|null|CallTest_Interface $aci, CallTest_Class|null &$c, mixed $m = 123) {},
-				UCall::SOURCE_NAMESPACES_LEADING_SLASH,
+				UCall::SOURCE_TYPES_LEADING_BACKSLASH,
 				'function (\\' . $class_abstract . '|\\' . $interface . '|null $aci, ?\\' . $class . ' &$c, ' . 
 				'mixed $m = 123): mixed {}'],
 			[function (CallTest_AbstractClass|null|CallTest_Interface $aci, CallTest_Class|null &$c, mixed $m = 123) {},
-				UCall::SOURCE_NO_MIXED_TYPE,
+				UCall::SOURCE_NO_MIXED_TYPES,
 				'function (' . $class_abstract . '|' . $interface . '|null $aci, ?' . $class . ' &$c, $m = 123) {}'],
 			[function (CallTest_AbstractClass|null|CallTest_Interface $aci, CallTest_Class|null &$c, mixed $m = 123) {},
-				UCall::SOURCE_TYPES_SHORT_NAMES | UCall::SOURCE_NAMESPACES_LEADING_SLASH,
+				UCall::SOURCE_TYPES_SHORT_NAMES | UCall::SOURCE_TYPES_LEADING_BACKSLASH,
 				'function (CallTest_AbstractClass|CallTest_Interface|null $aci, ?CallTest_Class &$c, ' . 
 				'mixed $m = 123): mixed {}'],
 			[function (CallTest_AbstractClass|null|CallTest_Interface $aci, CallTest_Class|null &$c, mixed $m = 123) {},
-				UCall::SOURCE_TYPES_SHORT_NAMES | UCall::SOURCE_NO_MIXED_TYPE,
+				UCall::SOURCE_TYPES_SHORT_NAMES | UCall::SOURCE_NO_MIXED_TYPES,
 				'function (CallTest_AbstractClass|CallTest_Interface|null $aci, ?CallTest_Class &$c, $m = 123) {}']
 		];
 	}
