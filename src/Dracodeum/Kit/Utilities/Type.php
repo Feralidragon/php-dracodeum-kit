@@ -78,9 +78,6 @@ final class Type extends Utility
 	
 	
 	//Private constants
-	/** Phpfy non-associative array maximum pretty output horizontal length. */
-	private const PHPFY_NONASSOC_ARRAY_PRETTY_MAX_HORIZONTAL_LENGTH = 50;
-	
 	/** Inner delimiter character for types and parameters. */
 	private const INNER_DELIMITER = ',';
 	
@@ -89,10 +86,346 @@ final class Type extends Utility
 	
 	/** Regular expression pattern of the character set which must be escaped or enclosed in a parameter value. */
 	private const PARAMETER_VALUE_ESCAPABLE_CHARS_PATTERN = self::INNER_DELIMITER . ':()<>\\\\"';
+	
+	/** Phpfy non-associative array maximum pretty output horizontal length. */
+	private const PHPFY_NONASSOC_ARRAY_PRETTY_MAX_HORIZONTAL_LENGTH = 50;
 
 	
 	
 	//Final public static methods
+	/**
+	 * Get info instance from a given name.
+	 * 
+	 * @param string $name
+	 * The name to get from.
+	 * 
+	 * @param bool $degroup
+	 * Return an info instance with the given name already degrouped.
+	 * 
+	 * @param \Dracodeum\Kit\Enums\Error\Type $error_type
+	 * The type of error to return if an error occurs.
+	 * 
+	 * @throws \Dracodeum\Kit\Utilities\Type\Exceptions\Info\InvalidName
+	 * 
+	 * @return \Dracodeum\Kit\Utilities\Type\Info|\Dracodeum\Kit\Primitives\Error|null
+	 * An info instance from the given name.  
+	 * If an error occurs, then the returning value follows the behavior set through `$error_type` instead.
+	 */
+	final public static function info(
+		string $name, bool $degroup = false, EErrorType $error_type = EErrorType::THROWABLE
+	): Info|Error|null
+	{
+		//name
+		$name = trim($name);
+		if ($name === '') {
+			return match ($error_type) {
+				EErrorType::NULL => null,
+				default => $error_type->handleThrowable(
+					new Exceptions\Info\InvalidName([$name, 'error_message' => "Cannot be empty."])
+				)
+			};
+		}
+		
+		//memoization
+		static $infos = [];
+		if (isset($infos[$name][$degroup])) {
+			return $infos[$name][$degroup];
+		}
+		
+		//initialize
+		static $type_delimiter = self::INNER_DELIMITER;
+		static $union_delimiter = '|';
+		static $intersection_delimiter = '&';
+		static $parameter_delimiter = self::INNER_DELIMITER;
+		static $split_flags = PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY;
+		
+		//patterns
+		static $name_pattern = '[a-z_]\w*(?:\.[a-z_]\w*)*';
+		static $base_pattern = "(?:{$name_pattern}|\\\\?[a-z_]\w*(?:\\\\[a-z_]\w*)*)";
+		static $flags_pattern = '(?:(?:\w\s*)+:)?(?:[^' . self::FLAGS_REQUIRED_COLON_CHARS_PATTERN . ']+)?';
+		static $quoted_pattern = '"(?:\\\\.|[^"])*"';
+		static $unnested_pattern = "(?:{$quoted_pattern}|\\\\.|[^()<>\"])";
+		static $parameter_value_pattern = "(?:{$quoted_pattern}|(?:\\\\.|[^" .
+			self::PARAMETER_VALUE_ESCAPABLE_CHARS_PATTERN . "])+)";
+		static $parameter_pattern = "(?:{$name_pattern}\s*:\s*)?{$parameter_value_pattern}";
+		static $parameters_pattern = "{$parameter_pattern}(?:\s*{$parameter_delimiter}\s*{$parameter_pattern})*";
+		
+		//match patterns
+		static $match_array_pattern = '/\S\s*(\[\s*(?P<size>\d+)?\s*\])$/';
+		static $match_group_pattern = "/^(\((?:{$quoted_pattern}|\\\\.|[^()\"]|(?1))*\))$/si";
+		static $match_generic_pattern = "/^" .
+			"(?P<flags>{$flags_pattern})?" .
+			"(?P<base>{$base_pattern})" .
+			"(?:\s*\(\s*(?P<parameters>{$parameters_pattern})?\s*\))?" .
+			"(?:\s*<(?P<types>.+)>)?" .
+			"$/si";
+		static $match_type_non_pattern = "/^(?:\(\s*(?!\))|[{$type_delimiter})<>\"])+$/";
+		static $match_parameter_pattern = "/^(?:(?P<name>{$name_pattern})\s*:\s*)?" .
+			"(?P<value>{$parameter_value_pattern})$/si";
+		
+		//split patterns
+		static $split_parameter_pattern = "/\s*({$parameter_pattern})\s*/si";
+		static $split_delimiter_patterns = [];
+		if (!$split_delimiter_patterns) {
+			foreach ([$type_delimiter, $union_delimiter, $intersection_delimiter] as $delimiter) {
+				$split_delimiter_patterns[$delimiter] = "/((?:" .
+					"(?:{$quoted_pattern}|\\\\.|[^{$delimiter}()<>\"])+|" .
+					"(\((?:{$unnested_pattern}|(?2)|(?3))*\))|" .
+					"(<(?:{$unnested_pattern}|(?2)|(?3))*>)" .
+				")+)/si";
+			}
+		}
+		static $split_type_pattern = $split_delimiter_patterns[$type_delimiter];
+		
+		//group
+		if (preg_match($match_group_pattern, $name)) {
+			//name
+			$group_name = trim(substr($name, 1, -1));
+			if ($group_name === '') {
+				return match ($error_type) {
+					EErrorType::NULL => null,
+					default => $error_type->handleThrowable(
+						new Exceptions\Info\InvalidName([$name, 'error_message' => "Cannot have an empty group."])
+					)
+				};
+			}
+			
+			//info
+			$info = $degroup ? self::info($group_name, true, $error_type) : new Info(EInfoKind::GROUP, [$group_name]);
+			if ($info instanceof Info) {
+				$infos[$name][$degroup] = $info;
+			}
+			return $info;
+		}
+		
+		//union and intersection
+		static $delimiters_kinds = [
+			$union_delimiter => EInfoKind::UNION,
+			$intersection_delimiter => EInfoKind::INTERSECTION
+		];
+		foreach ($delimiters_kinds as $delimiter => $kind) {
+			//process
+			$names = [];
+			$delimited = true;
+			$split_pattern = $split_delimiter_patterns[$delimiter];
+			foreach (preg_split($split_pattern, $name, flags: $split_flags) as $s) {
+				$s = trim($s);
+				if ($s === '' || ($s === $delimiter && $delimited)) {
+					return match ($error_type) {
+						EErrorType::NULL => null,
+						default => $error_type->handleThrowable(
+							new Exceptions\Info\InvalidName([
+								$name, 'error_message' => "Cannot have blanks within a union or intersection."
+							])
+						)
+					};
+				} elseif ($s === $delimiter) {
+					$delimited = true;
+				} elseif ($delimited) {
+					$names[] = $s;
+					$delimited = false;
+				}
+			}
+			
+			//error
+			if ($delimited && $names) {
+				return match ($error_type) {
+					EErrorType::NULL => null,
+					default => $error_type->handleThrowable(
+						new Exceptions\Info\InvalidName([
+							$name,
+							'error_message' => "Cannot have a union or intersection ending with a trailing operator."
+						])
+					)
+				};
+			}
+			
+			//finalize
+			if (count($names) > 1) {
+				$info = $infos[$name][false] = $infos[$name][true] = new Info($kind, $names);
+				return $info;
+			}
+		}
+		
+		//array
+		if (preg_match($match_array_pattern, $name, $matches)) {
+			//parameters
+			$parameters = [];
+			$size = $matches['size'] ?? '';
+			if ($size !== '') {
+				$parameters[] = (int)$size;
+			}
+			
+			//finalize
+			$info = $infos[$name][false] = $infos[$name][true] = new Info(
+				EInfoKind::ARRAY, [trim(substr($name, 0, -strlen($matches[1])))], parameters: $parameters
+			);
+			return $info;
+		}
+		
+		//generic
+		if (preg_match($match_generic_pattern, $name, $matches)) {
+			//initialize
+			$names = [$matches['base']];
+			
+			//flags
+			$flags = preg_replace('/[\s:]/', '', $matches['flags'] ?? '');
+			if (strlen(count_chars($flags, 3)) !== strlen($flags)) {
+				return match ($error_type) {
+					EErrorType::NULL => null,
+					default => $error_type->handleThrowable(
+						new Exceptions\Info\InvalidName([$name, 'error_message' => "Cannot have duplicated flags."])
+					)
+				};
+			}
+			
+			//parameters
+			$parameters = [];
+			$delimited = true;
+			foreach (preg_split($split_parameter_pattern, $matches['parameters'] ?? '', flags: $split_flags) as $s) {
+				$s = trim($s);
+				if ($s === '' || ($s === $parameter_delimiter && $delimited)) {
+					return match ($error_type) {
+						EErrorType::NULL => null,
+						default => $error_type->handleThrowable(
+							new Exceptions\Info\InvalidName([$name, 'error_message' => "Cannot have blank parameters."])
+						)
+					};
+				} elseif ($s === $parameter_delimiter) {
+					$delimited = true;
+				} elseif ($delimited) {
+					if (preg_match($match_parameter_pattern, $s, $parameter_matches)) {
+						//initialize
+						$parameter_name = trim($parameter_matches['name'] ?? '');
+						$parameter_value = trim($parameter_matches['value']);
+						if ($parameter_value[0] === '"') {
+							$parameter_value = substr($parameter_value, 1, -1);
+						}
+						$parameter_value = stripcslashes($parameter_value);
+						
+						//parameter
+						if ($parameter_name !== '') {
+							if (isset($parameters[$parameter_name])) {
+								return match ($error_type) {
+									EErrorType::NULL => null,
+									default => $error_type->handleThrowable(
+										new Exceptions\Info\InvalidName([
+											$name, 'error_message' => "Cannot have duplicated parameters."
+										])
+									)
+								};
+							}
+							$parameters[$parameter_name] = $parameter_value;
+						} else {
+							$parameters[] = $parameter_value;
+						}
+						
+						//finalize
+						$delimited = false;
+						unset($parameter_name, $parameter_value, $parameter_matches);
+					} else {
+						return match ($error_type) {
+							EErrorType::NULL => null,
+							default => $error_type->handleThrowable(
+								new Exceptions\Info\InvalidName([
+									$name, 'error_message' => "One or more malformed parameters were given."
+								])
+							)
+						};
+					}
+				}
+			}
+			
+			//parameters (finalize)
+			ksort($parameters);
+			if ($delimited && $parameters) {
+				return match ($error_type) {
+					EErrorType::NULL => null,
+					default => $error_type->handleThrowable(
+						new Exceptions\Info\InvalidName([
+							$name, 'error_message' => "Cannot have parameters ending with a trailing comma."
+						])
+					)
+				};
+			}
+			
+			//types
+			$delimited = true;
+			foreach (preg_split($split_type_pattern, $matches['types'] ?? '', flags: $split_flags) as $s) {
+				$s = trim($s);
+				if ($s === '' || ($s === $type_delimiter && $delimited)) {
+					return match ($error_type) {
+						EErrorType::NULL => null,
+						default => $error_type->handleThrowable(
+							new Exceptions\Info\InvalidName([$name, 'error_message' => "Cannot have blank types."])
+						)
+					};
+				} elseif ($s === $type_delimiter) {
+					$delimited = true;
+				} elseif (preg_match($match_type_non_pattern, $s)) {
+					return match ($error_type) {
+						EErrorType::NULL => null,
+						default => $error_type->handleThrowable(
+							new Exceptions\Info\InvalidName([
+								$name, 'error_message' => "At least one malformed type was found."
+							])
+						)
+					};
+				} elseif ($delimited) {
+					$names[] = $s;
+					$delimited = false;
+				}
+			}
+			
+			//types (finalize)
+			if ($delimited && isset($names[1])) {
+				return match ($error_type) {
+					EErrorType::NULL => null,
+					default => $error_type->handleThrowable(
+						new Exceptions\Info\InvalidName([
+							$name, 'error_message' => "Cannot have types ending with a trailing comma."
+						])
+					)
+				};
+			}
+			
+			//return
+			$info = $infos[$name][false] = $infos[$name][true] = new Info(
+				EInfoKind::GENERIC, $names, $flags, $parameters
+			);
+			return $info;
+		}
+		
+		//error
+		return match ($error_type) {
+			EErrorType::NULL => null,
+			default => $error_type->handleThrowable(new Exceptions\Info\InvalidName([$name]))
+		};
+	}
+	
+	/**
+	 * Normalize a given name.
+	 * 
+	 * @param string $name
+	 * The name to normalize.
+	 * 
+	 * @param int $flags
+	 * The flags to normalize with, as any combination of the following:
+	 * - `NORMALIZE_SHORT_NAME` (*self*): return a short name by removing the full namespace;
+	 * - `NORMALIZE_LEADING_BACKSLASH` (*self*): return with the global namespace leading backslash.
+	 * 
+	 * @return string
+	 * The given name normalized.
+	 */
+	final public static function normalize(string $name, int $flags = 0x00): string
+	{
+		static $map = [];
+		if (!isset($map[$name][$flags])) {
+			$map[$name][$flags] = self::normalizeName($name, $flags);
+		}
+		return $map[$name][$flags];
+	}
+	
 	/**
 	 * Generate PHP code from a given value.
 	 * 
@@ -2665,29 +2998,6 @@ final class Type extends Utility
 	}
 	
 	/**
-	 * Normalize a given name.
-	 * 
-	 * @param string $name
-	 * The name to normalize.
-	 * 
-	 * @param int $flags
-	 * The flags to normalize with, as any combination of the following:
-	 * - `NORMALIZE_SHORT_NAME` (*self*): return a short name by removing the full namespace;
-	 * - `NORMALIZE_LEADING_BACKSLASH` (*self*): return with the global namespace leading backslash.
-	 * 
-	 * @return string
-	 * The given name normalized.
-	 */
-	final public static function normalize(string $name, int $flags = 0x00): string
-	{
-		static $map = [];
-		if (!isset($map[$name][$flags])) {
-			$map[$name][$flags] = self::normalizeName($name, $flags);
-		}
-		return $map[$name][$flags];
-	}
-	
-	/**
 	 * Check if a given type is covariant in relation to a given base type.
 	 * 
 	 * @param string $type
@@ -2910,316 +3220,6 @@ final class Type extends Utility
 		return $type->textify($value, $context, $no_throw);
 	}
 	
-	/**
-	 * Get info instance from a given name.
-	 * 
-	 * @param string $name
-	 * The name to get from.
-	 * 
-	 * @param bool $degroup
-	 * Return an info instance with the given name already degrouped.
-	 * 
-	 * @param \Dracodeum\Kit\Enums\Error\Type $error_type
-	 * The type of error to return if an error occurs.
-	 * 
-	 * @throws \Dracodeum\Kit\Utilities\Type\Exceptions\Info\InvalidName
-	 * 
-	 * @return \Dracodeum\Kit\Utilities\Type\Info|\Dracodeum\Kit\Primitives\Error|null
-	 * An info instance from the given name.  
-	 * If an error occurs, then the returning value follows the behavior set through `$error_type` instead.
-	 */
-	final public static function info(
-		string $name, bool $degroup = false, EErrorType $error_type = EErrorType::THROWABLE
-	): Info|Error|null
-	{
-		//name
-		$name = trim($name);
-		if ($name === '') {
-			return match ($error_type) {
-				EErrorType::NULL => null,
-				default => $error_type->handleThrowable(
-					new Exceptions\Info\InvalidName([$name, 'error_message' => "Cannot be empty."])
-				)
-			};
-		}
-		
-		//memoization
-		static $infos = [];
-		if (isset($infos[$name][$degroup])) {
-			return $infos[$name][$degroup];
-		}
-		
-		//initialize
-		static $type_delimiter = self::INNER_DELIMITER;
-		static $union_delimiter = '|';
-		static $intersection_delimiter = '&';
-		static $parameter_delimiter = self::INNER_DELIMITER;
-		static $split_flags = PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY;
-		
-		//patterns
-		static $name_pattern = '[a-z_]\w*(?:\.[a-z_]\w*)*';
-		static $base_pattern = "(?:{$name_pattern}|\\\\?[a-z_]\w*(?:\\\\[a-z_]\w*)*)";
-		static $flags_pattern = '(?:(?:\w\s*)+:)?(?:[^' . self::FLAGS_REQUIRED_COLON_CHARS_PATTERN . ']+)?';
-		static $quoted_pattern = '"(?:\\\\.|[^"])*"';
-		static $unnested_pattern = "(?:{$quoted_pattern}|\\\\.|[^()<>\"])";
-		static $parameter_value_pattern = "(?:{$quoted_pattern}|(?:\\\\.|[^" .
-			self::PARAMETER_VALUE_ESCAPABLE_CHARS_PATTERN . "])+)";
-		static $parameter_pattern = "(?:{$name_pattern}\s*:\s*)?{$parameter_value_pattern}";
-		static $parameters_pattern = "{$parameter_pattern}(?:\s*{$parameter_delimiter}\s*{$parameter_pattern})*";
-		
-		//match patterns
-		static $match_array_pattern = '/\S\s*(\[\s*(?P<size>\d+)?\s*\])$/';
-		static $match_group_pattern = "/^(\((?:{$quoted_pattern}|\\\\.|[^()\"]|(?1))*\))$/si";
-		static $match_generic_pattern = "/^" .
-			"(?P<flags>{$flags_pattern})?" .
-			"(?P<base>{$base_pattern})" .
-			"(?:\s*\(\s*(?P<parameters>{$parameters_pattern})?\s*\))?" .
-			"(?:\s*<(?P<types>.+)>)?" .
-			"$/si";
-		static $match_type_non_pattern = "/^(?:\(\s*(?!\))|[{$type_delimiter})<>\"])+$/";
-		static $match_parameter_pattern = "/^(?:(?P<name>{$name_pattern})\s*:\s*)?" .
-			"(?P<value>{$parameter_value_pattern})$/si";
-		
-		//split patterns
-		static $split_parameter_pattern = "/\s*({$parameter_pattern})\s*/si";
-		static $split_delimiter_patterns = [];
-		if (!$split_delimiter_patterns) {
-			foreach ([$type_delimiter, $union_delimiter, $intersection_delimiter] as $delimiter) {
-				$split_delimiter_patterns[$delimiter] = "/((?:" .
-					"(?:{$quoted_pattern}|\\\\.|[^{$delimiter}()<>\"])+|" .
-					"(\((?:{$unnested_pattern}|(?2)|(?3))*\))|" .
-					"(<(?:{$unnested_pattern}|(?2)|(?3))*>)" .
-				")+)/si";
-			}
-		}
-		static $split_type_pattern = $split_delimiter_patterns[$type_delimiter];
-		
-		//group
-		if (preg_match($match_group_pattern, $name)) {
-			//name
-			$group_name = trim(substr($name, 1, -1));
-			if ($group_name === '') {
-				return match ($error_type) {
-					EErrorType::NULL => null,
-					default => $error_type->handleThrowable(
-						new Exceptions\Info\InvalidName([$name, 'error_message' => "Cannot have an empty group."])
-					)
-				};
-			}
-			
-			//info
-			$info = $degroup ? self::info($group_name, true, $error_type) : new Info(EInfoKind::GROUP, [$group_name]);
-			if ($info instanceof Info) {
-				$infos[$name][$degroup] = $info;
-			}
-			return $info;
-		}
-		
-		//union and intersection
-		static $delimiters_kinds = [
-			$union_delimiter => EInfoKind::UNION,
-			$intersection_delimiter => EInfoKind::INTERSECTION
-		];
-		foreach ($delimiters_kinds as $delimiter => $kind) {
-			//process
-			$names = [];
-			$delimited = true;
-			$split_pattern = $split_delimiter_patterns[$delimiter];
-			foreach (preg_split($split_pattern, $name, flags: $split_flags) as $s) {
-				$s = trim($s);
-				if ($s === '' || ($s === $delimiter && $delimited)) {
-					return match ($error_type) {
-						EErrorType::NULL => null,
-						default => $error_type->handleThrowable(
-							new Exceptions\Info\InvalidName([
-								$name, 'error_message' => "Cannot have blanks within a union or intersection."
-							])
-						)
-					};
-				} elseif ($s === $delimiter) {
-					$delimited = true;
-				} elseif ($delimited) {
-					$names[] = $s;
-					$delimited = false;
-				}
-			}
-			
-			//error
-			if ($delimited && $names) {
-				return match ($error_type) {
-					EErrorType::NULL => null,
-					default => $error_type->handleThrowable(
-						new Exceptions\Info\InvalidName([
-							$name,
-							'error_message' => "Cannot have a union or intersection ending with a trailing operator."
-						])
-					)
-				};
-			}
-			
-			//finalize
-			if (count($names) > 1) {
-				$info = $infos[$name][false] = $infos[$name][true] = new Info($kind, $names);
-				return $info;
-			}
-		}
-		
-		//array
-		if (preg_match($match_array_pattern, $name, $matches)) {
-			//parameters
-			$parameters = [];
-			$size = $matches['size'] ?? '';
-			if ($size !== '') {
-				$parameters[] = (int)$size;
-			}
-			
-			//finalize
-			$info = $infos[$name][false] = $infos[$name][true] = new Info(
-				EInfoKind::ARRAY, [trim(substr($name, 0, -strlen($matches[1])))], parameters: $parameters
-			);
-			return $info;
-		}
-		
-		//generic
-		if (preg_match($match_generic_pattern, $name, $matches)) {
-			//initialize
-			$names = [$matches['base']];
-			
-			//flags
-			$flags = preg_replace('/[\s:]/', '', $matches['flags'] ?? '');
-			if (strlen(count_chars($flags, 3)) !== strlen($flags)) {
-				return match ($error_type) {
-					EErrorType::NULL => null,
-					default => $error_type->handleThrowable(
-						new Exceptions\Info\InvalidName([$name, 'error_message' => "Cannot have duplicated flags."])
-					)
-				};
-			}
-			
-			//parameters
-			$parameters = [];
-			$delimited = true;
-			foreach (preg_split($split_parameter_pattern, $matches['parameters'] ?? '', flags: $split_flags) as $s) {
-				$s = trim($s);
-				if ($s === '' || ($s === $parameter_delimiter && $delimited)) {
-					return match ($error_type) {
-						EErrorType::NULL => null,
-						default => $error_type->handleThrowable(
-							new Exceptions\Info\InvalidName([$name, 'error_message' => "Cannot have blank parameters."])
-						)
-					};
-				} elseif ($s === $parameter_delimiter) {
-					$delimited = true;
-				} elseif ($delimited) {
-					if (preg_match($match_parameter_pattern, $s, $parameter_matches)) {
-						//initialize
-						$parameter_name = trim($parameter_matches['name'] ?? '');
-						$parameter_value = trim($parameter_matches['value']);
-						if ($parameter_value[0] === '"') {
-							$parameter_value = substr($parameter_value, 1, -1);
-						}
-						$parameter_value = stripcslashes($parameter_value);
-						
-						//parameter
-						if ($parameter_name !== '') {
-							if (isset($parameters[$parameter_name])) {
-								return match ($error_type) {
-									EErrorType::NULL => null,
-									default => $error_type->handleThrowable(
-										new Exceptions\Info\InvalidName([
-											$name, 'error_message' => "Cannot have duplicated parameters."
-										])
-									)
-								};
-							}
-							$parameters[$parameter_name] = $parameter_value;
-						} else {
-							$parameters[] = $parameter_value;
-						}
-						
-						//finalize
-						$delimited = false;
-						unset($parameter_name, $parameter_value, $parameter_matches);
-					} else {
-						return match ($error_type) {
-							EErrorType::NULL => null,
-							default => $error_type->handleThrowable(
-								new Exceptions\Info\InvalidName([
-									$name, 'error_message' => "One or more malformed parameters were given."
-								])
-							)
-						};
-					}
-				}
-			}
-			
-			//parameters (finalize)
-			ksort($parameters);
-			if ($delimited && $parameters) {
-				return match ($error_type) {
-					EErrorType::NULL => null,
-					default => $error_type->handleThrowable(
-						new Exceptions\Info\InvalidName([
-							$name, 'error_message' => "Cannot have parameters ending with a trailing comma."
-						])
-					)
-				};
-			}
-			
-			//types
-			$delimited = true;
-			foreach (preg_split($split_type_pattern, $matches['types'] ?? '', flags: $split_flags) as $s) {
-				$s = trim($s);
-				if ($s === '' || ($s === $type_delimiter && $delimited)) {
-					return match ($error_type) {
-						EErrorType::NULL => null,
-						default => $error_type->handleThrowable(
-							new Exceptions\Info\InvalidName([$name, 'error_message' => "Cannot have blank types."])
-						)
-					};
-				} elseif ($s === $type_delimiter) {
-					$delimited = true;
-				} elseif (preg_match($match_type_non_pattern, $s)) {
-					return match ($error_type) {
-						EErrorType::NULL => null,
-						default => $error_type->handleThrowable(
-							new Exceptions\Info\InvalidName([
-								$name, 'error_message' => "At least one malformed type was found."
-							])
-						)
-					};
-				} elseif ($delimited) {
-					$names[] = $s;
-					$delimited = false;
-				}
-			}
-			
-			//types (finalize)
-			if ($delimited && isset($names[1])) {
-				return match ($error_type) {
-					EErrorType::NULL => null,
-					default => $error_type->handleThrowable(
-						new Exceptions\Info\InvalidName([
-							$name, 'error_message' => "Cannot have types ending with a trailing comma."
-						])
-					)
-				};
-			}
-			
-			//return
-			$info = $infos[$name][false] = $infos[$name][true] = new Info(
-				EInfoKind::GENERIC, $names, $flags, $parameters
-			);
-			return $info;
-		}
-		
-		//error
-		return match ($error_type) {
-			EErrorType::NULL => null,
-			default => $error_type->handleThrowable(new Exceptions\Info\InvalidName([$name]))
-		};
-	}
-	
 	
 	
 	//Private static methods
@@ -3235,7 +3235,7 @@ final class Type extends Utility
 	 * - `NORMALIZE_LEADING_BACKSLASH` (*self*): return with the global namespace leading backslash.
 	 * 
 	 * @param int $depth
-	 * The current stack depth to normalize with.
+	 * The current depth being normalized at.
 	 * 
 	 * @throws \LogicException
 	 * 
@@ -3285,7 +3285,7 @@ final class Type extends Utility
 					);
 					sort($colon_flags, SORT_STRING);
 					sort($non_colon_flags, SORT_STRING);
-					$n_flags = implode('', $colon_flags) . ':' . $non_colon_flags;
+					$n_flags = implode('', $colon_flags) . ':' . implode('', $non_colon_flags);
 					unset($colon_flags, $non_colon_flags);
 				}
 				$n_name = $n_flags . $n_name;
@@ -3301,11 +3301,10 @@ final class Type extends Utility
 					//process
 					$i = 0;
 					foreach ($info->parameters as $k => $v) {
-						//value
-						$n_parameter = $v;
-						if (preg_match($parameter_value_escapable_chars_pattern, $v)) {
-							$n_parameter = '"' . addcslashes($n_parameter, '"') . '"';
-						}
+						//parameter
+						$n_parameter = preg_match($parameter_value_escapable_chars_pattern, $v)
+							? '"' . addcslashes($v, '"') . '"'
+							: $v;
 						
 						//key
 						if ($k !== $i++) {
@@ -3319,7 +3318,7 @@ final class Type extends Utility
 					
 					//finalize
 					$n_name .= '(' . implode(',', $n_parameters) . ')';
-					unset($n_parameters);
+					unset($n_parameters, $i, $k, $v);
 				}
 				
 				//finalize
@@ -3355,7 +3354,9 @@ final class Type extends Utility
 				foreach ($info->names as $i_name) {
 					$n_names[] = self::normalizeName($i_name, $flags, $depth + 1);
 				}
+				$n_names = array_values(array_unique($n_names, SORT_STRING));
 				$n_name = implode($is_union ? '|' : '&', $n_names);
+				unset($i_name);
 				
 				//nullable
 				if (
