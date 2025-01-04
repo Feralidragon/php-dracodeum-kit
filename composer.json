@@ -10,7 +10,7 @@
 		"framework"
 	],
 	"require": {
-		"php": "^8.3.0",
+		"php": "^8.4.0",
 		"ext-iconv": "*",
 		"ext-mbstring": "*"
 	},
