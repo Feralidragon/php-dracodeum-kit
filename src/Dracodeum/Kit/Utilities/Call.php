@@ -194,7 +194,7 @@ final class Call extends Utility
 		if (is_string($function)) {
 			$function = str_replace('->', '::', $function);
 			if (strpos($function, '::') !== false) {
-				return new \ReflectionMethod($function);
+				return \ReflectionMethod::createFromMethodName($function);
 			}
 		}
 		
@@ -214,7 +214,7 @@ final class Call extends Utility
 			
 			//finalize
 			$name = $reflection->getName();
-			if ($object_class !== null && !preg_match('/\{closure\}$/', $name)) {
+			if ($object_class !== null && !preg_match('/^\{closure/', $name)) {
 				$reflection = new \ReflectionMethod($object_class, $name);
 			}
 		}
@@ -239,26 +239,7 @@ final class Call extends Utility
 	final public static function hash($function, string $algorithm = 'SHA1', bool $raw = false): string
 	{
 		return self::memoize(function ($function, string $algorithm = 'SHA1', bool $raw = false): string {
-			$data = self::name($function, true);
-			if ($data === null) {
-				//initialize
-				$reflection = self::reflection($function);
-				$data = $reflection->getName();
-				
-				//lines
-				$start_line = $reflection->getStartLine();
-				$end_line = $reflection->getEndLine();
-				if ($start_line !== false && $end_line !== false) {
-					$data .= "({$start_line}-{$end_line})";
-				}
-				
-				//scope class
-				$reflection_scope_class = $reflection->getClosureScopeClass();
-				if ($reflection_scope_class !== null) {
-					$data = "{$reflection_scope_class->getName()}:{$data}";
-				}
-			}
-			return hash($algorithm, $data, $raw);
+			return hash($algorithm, self::name($function, true) ?? self::reflection($function)->getName(), $raw);
 		});
 	}
 	
@@ -320,7 +301,7 @@ final class Call extends Utility
 	{
 		$reflection = self::reflection($function);
 		$name = $reflection->getName();
-		if (preg_match('/\{closure\}$/', $name)) {
+		if (preg_match('/^\{closure/', $name)) {
 			return null;
 		} elseif ($full) {
 			$class = self::class($function, $short);
@@ -1230,10 +1211,7 @@ final class Call extends Utility
 		$debug_flags = DEBUG_BACKTRACE_IGNORE_ARGS | DEBUG_BACKTRACE_PROVIDE_OBJECT;
 		foreach (array_slice(debug_backtrace($debug_flags, $limit), $offset + 2) as $backtrace) {
 			//name
-			$name = $backtrace['function'];
-			if (preg_match('/^(?:[\w\\\\]+\\\\)?\{closure\}$/', $name)) {
-				$name = null;
-			}
+			$name = preg_match('/^\{closure/', $backtrace['function']) ? null : $backtrace['function'];
 			
 			//full name
 			if ($full && $name !== null) {

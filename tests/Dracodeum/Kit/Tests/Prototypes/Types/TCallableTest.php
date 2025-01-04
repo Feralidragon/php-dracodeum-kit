@@ -308,7 +308,7 @@ class TCallableTest extends TestCase
 			],
 			[
 				function (
-					?string $s, object $sc, stdClass $o = null, float &$f = 0.0, ?int ...$i
+					?string $s, object $sc, ?stdClass $o = null, float &$f = 0.0, ?int ...$i
 				): TCallableTest_Class2 {},
 				['template' => function (
 					string $s, stdClass $sc, ?object $o, float &$f = 1.0, int ...$i

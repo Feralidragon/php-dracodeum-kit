@@ -37,6 +37,6 @@ class Staging extends Environment
 	public function apply(): void
 	{
 		System::setIniOption('display_errors', true);
-		System::setErrorReportingFlags(E_ALL ^ E_NOTICE ^ E_STRICT ^ E_DEPRECATED);
+		System::setErrorReportingFlags(E_ALL ^ E_NOTICE ^ E_DEPRECATED);
 	}
 }
