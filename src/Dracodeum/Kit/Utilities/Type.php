@@ -94,6 +94,24 @@ final class Type extends Utility
 	
 	//Final public static methods
 	/**
+	 * Check if a given class, interface or enumeration name exists.
+	 * 
+	 * @param string $name
+	 * The class, interface or enumeration name to check.
+	 * 
+	 * @return bool
+	 * Boolean `true` if the given class, interface or enumeration name exists.
+	 */
+	final public static function exists(string $name): bool
+	{
+		static $map = [];
+		if (!isset($map[$name])) {
+			$map[$name] = class_exists($name) || interface_exists($name) || enum_exists($name);
+		}
+		return $map[$name];
+	}
+	
+	/**
 	 * Get info instance from a given name.
 	 * 
 	 * @param string $name
@@ -2210,23 +2228,6 @@ final class Type extends Utility
 		//finalize
 		$value = $object_class;
 		return true;
-	}
-	
-	/**
-	 * Check if a given class, interface or enumeration name exists.
-	 * 
-	 * @param string $name
-	 * <p>The class, interface or enumeration name to check.</p>
-	 * @return bool
-	 * <p>Boolean <code>true</code> if the given class, interface or enumeration name exists.</p>
-	 */
-	final public static function exists(string $name): bool
-	{
-		static $map = [];
-		if (!isset($map[$name])) {
-			$map[$name] = class_exists($name) || interface_exists($name) || enum_exists($name);
-		}
-		return $map[$name];
 	}
 	
 	/**

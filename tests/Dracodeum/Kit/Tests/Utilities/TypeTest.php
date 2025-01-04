@@ -19,11 +19,32 @@ use Dracodeum\Kit\Primitives\{
 	Error,
 	Text
 };
+use stdClass;
 
 /** @covers \Dracodeum\Kit\Utilities\Type */
 class TypeTest extends TestCase
 {
 	//Public methods
+	/**
+	 * Test `exists` method.
+	 * 
+	 * NOTE: The test is repeated twice in order to test the internal method memoization.
+	 * 
+	 * @testdox Type::exists('$name')
+	 * @dataProvider provideExistsData
+	 * @dataProvider provideExistsData
+	 * 
+	 * @param string $name
+	 * The method `$name` parameter to test with.
+	 * 
+	 * @param bool $expected
+	 * The expected method return value.
+	 */
+	public function testExists(string $name, bool $expected): void
+	{
+		$this->assertSame($expected, UType::exists($name));
+	}
+	
 	/**
 	 * Test `info` method.
 	 * 
@@ -103,6 +124,30 @@ class TypeTest extends TestCase
 	
 	
 	//Public static methods
+	/**
+	 * Provide `exists` method data.
+	 * 
+	 * @return array
+	 * The provided `exists` method data.
+	 */
+	public static function provideExistsData(): array
+	{
+		return [
+			['', false],
+			['void', false],
+			['bool', false],
+			['int', false],
+			['string', false],
+			['array', false],
+			['mixed', false],
+			['Foo', false],
+			[stdClass::class, true],
+			[TypeTest_Class::class, true],
+			[TypeTest_Interface::class, true],
+			[TypeTest_Enum::class, true]
+		];
+	}
+	
 	/**
 	 * Provide `info` method data.
 	 * 
@@ -487,3 +532,18 @@ class TypeTest extends TestCase
 		];
 	}
 }
+
+
+
+/** Test case dummy class. */
+class TypeTest_Class {}
+
+
+
+/** Test case dummy interface. */
+interface TypeTest_Interface {}
+
+
+
+/** Test case dummy enumeration. */
+enum TypeTest_Enum {}
