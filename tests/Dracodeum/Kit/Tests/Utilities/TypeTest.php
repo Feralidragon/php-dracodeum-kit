@@ -121,6 +121,29 @@ class TypeTest extends TestCase
 		}
 	}
 	
+	/**
+	 * Test `normalize` method.
+	 * 
+	 * NOTE: The test is repeated twice in order to test the internal method memoization.
+	 * 
+	 * @testdox Type::normalize('$name', $flags)
+	 * @dataProvider provideNormalizeData
+	 * @dataProvider provideNormalizeData
+	 * 
+	 * @param string $name
+	 * The method `$name` parameter to test with.
+	 * 
+	 * @param int $flags
+	 * The method `$flags` parameter to test with.
+	 * 
+	 * @param string $expected
+	 * The expected method return value.
+	 */
+	public function testNormalize(string $name, int $flags, string $expected): void
+	{
+		$this->assertSame($expected, UType::normalize($name, $flags));
+	}
+	
 	
 	
 	//Public static methods
@@ -173,6 +196,12 @@ class TypeTest extends TestCase
 			['?*+int', null, new Info(EInfoKind::GENERIC, ['int'], '?*+')],
 			['u:int', null, new Info(EInfoKind::GENERIC, ['int'], 'u')],
 			['u:?*+int', null, new Info(EInfoKind::GENERIC, ['int'], 'u?*+')],
+			['uA:?*+Foo\Bar123', null, new Info(EInfoKind::GENERIC, ['Foo\Bar123'], 'uA?*+')],
+			['uA:?*+Foo.Bar123', null, new Info(EInfoKind::GENERIC, ['Foo.Bar123'], 'uA?*+')],
+			['uA:?*+Foo_bar__123', null, new Info(EInfoKind::GENERIC, ['Foo_bar__123'], 'uA?*+')],
+			['uA:?*+Foo\Bar\_123', null, new Info(EInfoKind::GENERIC, ['Foo\Bar\_123'], 'uA?*+')],
+			['uA:?*+\Foo\Bar\_123', null, new Info(EInfoKind::GENERIC, ['\Foo\Bar\_123'], 'uA?*+')],
+			['uA:?*+Foo.Bar._123', null, new Info(EInfoKind::GENERIC, ['Foo.Bar._123'], 'uA?*+')],
 			['_ A u : ? * + int', null, new Info(EInfoKind::GENERIC, ['int'], '_Au?*+')],
 			[
 				'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_:!#$%*+-=?@^`~Foo_bar123', null,
@@ -530,6 +559,90 @@ class TypeTest extends TestCase
 			['(int|float|string|)', 'int|float|string|', true],
 			['(int&float&string&)', 'int&float&string&', true]
 		];
+	}
+	
+	/**
+	 * Provide `normalize` method data.
+	 * 
+	 * @return array
+	 * The provided `normalize` method data.
+	 */
+	public static function provideNormalizeData(): array
+	{
+		//data
+		$data = [];
+		foreach ([0x00, UType::NORMALIZE_SHORT_NAME, UType::NORMALIZE_LEADING_BACKSLASH] as $flags) {
+			$data = array_merge($data, [
+				['', $flags, 'mixed'],
+				[' ', $flags, 'mixed'],
+				['void', $flags, 'void'],
+				['mixed', $flags, 'mixed'],
+				['string', $flags, 'string'],
+				[' String ', $flags, 'string'],
+				['int[]', $flags, 'int[]'],
+				['INT [ ]', $flags, 'int[]'],
+				['INT [ 332 ]', $flags, 'int[332]'],
+				['String | NULL', $flags, '?string'],
+				['NULL | String', $flags, '?string'],
+				['(((String | NULL)))', $flags, '?string'],
+				['(String | NULL)[]', $flags, '?string[]'],
+				['String & NULL', $flags, 'string&null'],
+				['NULL & String', $flags, 'null&string'],
+				['(((String & NULL)))', $flags, 'string&null'],
+				['(String & NULL)[]', $flags, '(string&null)[]'],
+				[
+					'bZ : ? ! Foo (cD : foobar , abc, \,12\"3 , a1:888 ) < Bar , STRING >', $flags,
+					'Zb:!?foo(abc,",12\"3",a1:888,cD:foobar)<bar,string>'
+				],
+				['void | String [ ] [8 ] | foo <Bar, sTring >', $flags, 'void|string[][8]|foo<bar,string>'],
+				['void & String [ ] [8 ] & foo <Bar, sTring >', $flags, 'void&string[][8]&foo<bar,string>'],
+				['void & String [ ] [8 ] | foo <Bar, sTring >', $flags, 'void&string[][8]|foo<bar,string>'],
+				['((((void) & String [ ]) | foo <Bar, (sTring | A) >))', $flags, '(void&string[])|foo<bar,(string|a)>'],
+				[
+					'(( bZ : ? ! Foo (cD : foobar , abc, \,12\"3 , a1:888 ) < Bar , STRING > ) & (A | B)) []', $flags,
+					'(Zb:!?foo(abc,",12\"3",a1:888,cD:foobar)<bar,string>&(a|b))[]'
+				]
+			]);
+		}
+		
+		//classes, interfaces and enumerations
+		$data = array_merge($data, [
+			[stdClass::class, 0x00, 'stdClass'],
+			[stdClass::class, UType::NORMALIZE_SHORT_NAME, 'stdClass'],
+			[stdClass::class, UType::NORMALIZE_LEADING_BACKSLASH, '\stdClass'],
+			[TypeTest_Class::class, 0x00, TypeTest_Class::class],
+			[TypeTest_Class::class, UType::NORMALIZE_SHORT_NAME, 'TypeTest_Class'],
+			[TypeTest_Class::class, UType::NORMALIZE_LEADING_BACKSLASH, '\\' . TypeTest_Class::class],
+			[TypeTest_Interface::class, 0x00, TypeTest_Interface::class],
+			[TypeTest_Interface::class, UType::NORMALIZE_SHORT_NAME, 'TypeTest_Interface'],
+			[TypeTest_Interface::class, UType::NORMALIZE_LEADING_BACKSLASH, '\\' . TypeTest_Interface::class],
+			[TypeTest_Enum::class, 0x00, TypeTest_Enum::class],
+			[TypeTest_Enum::class, UType::NORMALIZE_SHORT_NAME, 'TypeTest_Enum'],
+			[TypeTest_Enum::class, UType::NORMALIZE_LEADING_BACKSLASH, '\\' . TypeTest_Enum::class],
+			[
+				'(((String | ? ' . TypeTest_Class::class . ' < T >) [ 100 ] & ((' . stdClass::class . ') | null ) & ' .
+					'(VOID | NULL | ((' . TypeTest_Interface::class . ')) & ' . TypeTest_Enum::class . ')))',
+				0x00,
+				'(string|?' . TypeTest_Class::class . '<t>)[100]&?stdClass&(void|null|' . TypeTest_Interface::class .
+					'&' . TypeTest_Enum::class . ')'
+			],
+			[
+				'(((String | ? ' . TypeTest_Class::class . ' < T >) [ 100 ] & ((' . stdClass::class . ') | null ) & ' .
+					'(VOID | NULL | ((' . TypeTest_Interface::class . ')) & ' . TypeTest_Enum::class . ')))',
+				UType::NORMALIZE_SHORT_NAME,
+				'(string|?TypeTest_Class<t>)[100]&?stdClass&(void|null|TypeTest_Interface&TypeTest_Enum)'
+			],
+			[
+				'(((String | ? ' . TypeTest_Class::class . ' < T >) [ 100 ] & ((' . stdClass::class . ') | null ) & ' .
+					'(VOID | NULL | ((' . TypeTest_Interface::class . ')) & ' . TypeTest_Enum::class . ')))',
+				UType::NORMALIZE_LEADING_BACKSLASH,
+				'(string|?\\' . TypeTest_Class::class . '<t>)[100]&?\stdClass&(void|null|\\' .
+					TypeTest_Interface::class . '&\\' . TypeTest_Enum::class . ')'
+			]
+		]);
+		
+		//return
+		return $data;
 	}
 }
 

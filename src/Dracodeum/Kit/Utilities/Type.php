@@ -160,7 +160,7 @@ final class Type extends Utility
 		//patterns
 		static $name_pattern = '[a-z_]\w*(?:\.[a-z_]\w*)*';
 		static $base_pattern = "(?:{$name_pattern}|\\\\?[a-z_]\w*(?:\\\\[a-z_]\w*)*)";
-		static $flags_pattern = '(?:(?:\w\s*)+:)?(?:[^' . self::FLAGS_REQUIRED_COLON_CHARS_PATTERN . ']+)?';
+		static $flags_pattern = '(?:[\w\s]+:)?(?:[^' . self::FLAGS_REQUIRED_COLON_CHARS_PATTERN . ']+)?';
 		static $quoted_pattern = '"(?:\\\\.|[^"])*"';
 		static $unnested_pattern = "(?:{$quoted_pattern}|\\\\.|[^()<>\"])";
 		static $parameter_value_pattern = "(?:{$quoted_pattern}|(?:\\\\.|[^" .
@@ -3262,18 +3262,8 @@ final class Type extends Utility
 					$n_name = strtolower($n_name);
 				} elseif ($flags & self::NORMALIZE_SHORT_NAME) {
 					$n_name = self::shortname($n_name);
-				} elseif ($flags & self::NORMALIZE_LEADING_BACKSLASH) {
+				} elseif (($flags & self::NORMALIZE_LEADING_BACKSLASH) && $n_name[0] !== '\\') {
 					$n_name = '\\' . $n_name;
-				}
-				
-				//names
-				if (isset($info->names[1])) {
-					$subtypes = [];
-					for ($i = 1; $i < count($info->names); $i++) {
-						$subtypes[] = self::normalizeName($info->names[$i], $flags, $depth + 1);
-					}
-					$n_name .= '<' . implode(',', $subtypes) . '>';
-					unset($subtypes);
 				}
 				
 				//flags
@@ -3320,6 +3310,16 @@ final class Type extends Utility
 					//finalize
 					$n_name .= '(' . implode(',', $n_parameters) . ')';
 					unset($n_parameters, $i, $k, $v);
+				}
+				
+				//names
+				if (isset($info->names[1])) {
+					$subtypes = [];
+					for ($i = 1; $i < count($info->names); $i++) {
+						$subtypes[] = self::normalizeName($info->names[$i], $flags, $depth + 1);
+					}
+					$n_name .= '<' . implode(',', $subtypes) . '>';
+					unset($subtypes);
 				}
 				
 				//finalize
