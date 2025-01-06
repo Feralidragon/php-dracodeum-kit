@@ -25,17 +25,18 @@ class InfoTest extends TestCase
 	{
 		//initialize
 		$kind = EKind::UNION;
+		$name = 'array';
 		$names = ['int', 'string', 'stdClass'];
 		$flags = '*?';
 		$parameters = ['foo' => 'bar', 'k' => 123];
-		$info = new Info($kind, $names, $flags, $parameters);
+		$info = new Info($kind, $name, $names, $flags, $parameters);
 		
 		//assert
 		$this->assertSame($kind, $info->kind);
+		$this->assertSame($name, $info->name);
 		$this->assertSame($names, $info->names);
 		$this->assertSame($flags, $info->flags);
 		$this->assertSame($parameters, $info->parameters);
-		$this->assertSame($names[0], $info->name);
 	}
 	
 	/**
@@ -51,7 +52,7 @@ class InfoTest extends TestCase
 	{
 		$this->expectException(InvalidArgumentException::class);
 		try {
-			new Info(EKind::GENERIC, $names);
+			new Info(EKind::GENERIC, names: $names);
 		} catch (InvalidArgumentException $exception) {
 			$this->assertSame('names', $exception->name);
 			$this->assertSame($names, $exception->value);
@@ -72,7 +73,6 @@ class InfoTest extends TestCase
 	public static function provideData_Exception_InvalidArgument(): array
 	{
 		return [
-			[[]],
 			[[1 => 'foo']],
 			[['a' => 'foo']]
 		];

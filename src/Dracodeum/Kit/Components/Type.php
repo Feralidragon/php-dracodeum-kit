@@ -118,41 +118,41 @@ class Type extends Component
 			case EInfoKind::GENERIC:
 				switch ($info->name) {
 					case 'class':
-						if (isset($info->names[1])) {
-							return !isset($info->names[2])
-								? new Prototypes\TClass(['class' => $info->names[1]] + $properties)
+						if (isset($info->names[0])) {
+							return !isset($info->names[1])
+								? new Prototypes\TClass(['class' => $info->names[0]] + $properties)
 								: null;
 						}
 						break;
 					case 'object':
-						if (isset($info->names[1])) {
-							return !isset($info->names[2])
-								? new Prototypes\TObject(['class' => $info->names[1]] + $properties)
+						if (isset($info->names[0])) {
+							return !isset($info->names[1])
+								? new Prototypes\TObject(['class' => $info->names[0]] + $properties)
 								: null;
 						}
 						break;
 					case 'resource':
-						if (isset($info->names[1])) {
-							return !isset($info->names[2])
-								? new Prototypes\TResource(['type' => $info->names[1]] + $properties)
+						if (isset($info->names[0])) {
+							return !isset($info->names[1])
+								? new Prototypes\TResource(['type' => $info->names[0]] + $properties)
 								: null;
 						}
 					case 'array':
-						if (isset($info->names[3])) {
+						if (isset($info->names[2])) {
 							return null;
-						} elseif (isset($info->names[2]) && isset($info->names[1])) {
+						} elseif (isset($info->names[1]) && isset($info->names[0])) {
 							return new Prototypes\TArray([
-								'type' => $this->build($info->names[2], ['strict' => $this->strict]),
-								'key_type' => $this->build($info->names[1], ['strict' => $this->strict])
+								'type' => $this->build($info->names[1], ['strict' => $this->strict]),
+								'key_type' => $this->build($info->names[0], ['strict' => $this->strict])
 							] + $properties);
-						} elseif (isset($info->names[1])) {
+						} elseif (isset($info->names[0])) {
 							return new Prototypes\TArray([
-								'type' => $this->build($info->names[1], ['strict' => $this->strict])
+								'type' => $this->build($info->names[0], ['strict' => $this->strict])
 							] + $properties);
 						}
 						break;
 					default:
-						if (isset($info->names[1])) {
+						if (isset($info->names[0])) {
 							return null;
 						}
 				}

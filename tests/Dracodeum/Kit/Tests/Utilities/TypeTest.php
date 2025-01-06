@@ -69,8 +69,8 @@ class TypeTest extends TestCase
 			//assert
 			$this->assertInstanceOf(Info::class, $info);
 			$this->assertSame($info, UType::info($name, $dgrp));
-			$this->assertSame($expected_info->name, $info->name);
 			$this->assertSame($expected_info->kind, $info->kind);
+			$this->assertSame($expected_info->name, $info->name);
 			$this->assertSame($expected_info->names, $info->names);
 			$this->assertSame($expected_info->flags, $info->flags);
 			$this->assertSame($expected_info->parameters, $info->parameters);
@@ -226,172 +226,196 @@ class TypeTest extends TestCase
 	public static function provideInfoData(): array
 	{
 		return [
-			['bool', null, new Info(EInfoKind::GENERIC, ['bool'])],
-			['int', null, new Info(EInfoKind::GENERIC, ['int'])],
-			['float', null, new Info(EInfoKind::GENERIC, ['float'])],
-			['string', null, new Info(EInfoKind::GENERIC, ['string'])],
-			['array', null, new Info(EInfoKind::GENERIC, ['array'])],
-			['Foo_bar123', null, new Info(EInfoKind::GENERIC, ['Foo_bar123'])],
-			['Foo\Bar123', null, new Info(EInfoKind::GENERIC, ['Foo\Bar123'])],
-			['Foo.Bar123', null, new Info(EInfoKind::GENERIC, ['Foo.Bar123'])],
-			['Foo_bar__123', null, new Info(EInfoKind::GENERIC, ['Foo_bar__123'])],
-			['Foo\Bar\_123', null, new Info(EInfoKind::GENERIC, ['Foo\Bar\_123'])],
-			['\Foo\Bar\_123', null, new Info(EInfoKind::GENERIC, ['\Foo\Bar\_123'])],
-			['Foo.Bar._123', null, new Info(EInfoKind::GENERIC, ['Foo.Bar._123'])],
-			['+int', null, new Info(EInfoKind::GENERIC, ['int'], '+')],
-			['?*+int', null, new Info(EInfoKind::GENERIC, ['int'], '?*+')],
-			['u:int', null, new Info(EInfoKind::GENERIC, ['int'], 'u')],
-			['u:?*+int', null, new Info(EInfoKind::GENERIC, ['int'], 'u?*+')],
-			['uA:?*+Foo\Bar123', null, new Info(EInfoKind::GENERIC, ['Foo\Bar123'], 'uA?*+')],
-			['uA:?*+Foo.Bar123', null, new Info(EInfoKind::GENERIC, ['Foo.Bar123'], 'uA?*+')],
-			['uA:?*+Foo_bar__123', null, new Info(EInfoKind::GENERIC, ['Foo_bar__123'], 'uA?*+')],
-			['uA:?*+Foo\Bar\_123', null, new Info(EInfoKind::GENERIC, ['Foo\Bar\_123'], 'uA?*+')],
-			['uA:?*+\Foo\Bar\_123', null, new Info(EInfoKind::GENERIC, ['\Foo\Bar\_123'], 'uA?*+')],
-			['uA:?*+Foo.Bar._123', null, new Info(EInfoKind::GENERIC, ['Foo.Bar._123'], 'uA?*+')],
-			['_ A u : ? * + int', null, new Info(EInfoKind::GENERIC, ['int'], '_Au?*+')],
+			['bool', null, new Info(EInfoKind::GENERIC, 'bool')],
+			['int', null, new Info(EInfoKind::GENERIC, 'int')],
+			['float', null, new Info(EInfoKind::GENERIC, 'float')],
+			['string', null, new Info(EInfoKind::GENERIC, 'string')],
+			['array', null, new Info(EInfoKind::GENERIC, 'array')],
+			['Foo_bar123', null, new Info(EInfoKind::GENERIC, 'Foo_bar123')],
+			['Foo\Bar123', null, new Info(EInfoKind::GENERIC, 'Foo\Bar123')],
+			['Foo.Bar123', null, new Info(EInfoKind::GENERIC, 'Foo.Bar123')],
+			['Foo_bar__123', null, new Info(EInfoKind::GENERIC, 'Foo_bar__123')],
+			['Foo\Bar\_123', null, new Info(EInfoKind::GENERIC, 'Foo\Bar\_123')],
+			['\Foo\Bar\_123', null, new Info(EInfoKind::GENERIC, '\Foo\Bar\_123')],
+			['Foo.Bar._123', null, new Info(EInfoKind::GENERIC, 'Foo.Bar._123')],
+			['+int', null, new Info(EInfoKind::GENERIC, 'int', flags: '+')],
+			['?*+int', null, new Info(EInfoKind::GENERIC, 'int', flags: '?*+')],
+			['u:int', null, new Info(EInfoKind::GENERIC, 'int', flags: 'u')],
+			['u:?*+int', null, new Info(EInfoKind::GENERIC, 'int', flags: 'u?*+')],
+			['uA:?*+Foo\Bar123', null, new Info(EInfoKind::GENERIC, 'Foo\Bar123', flags: 'uA?*+')],
+			['uA:?*+Foo.Bar123', null, new Info(EInfoKind::GENERIC, 'Foo.Bar123', flags: 'uA?*+')],
+			['uA:?*+Foo_bar__123', null, new Info(EInfoKind::GENERIC, 'Foo_bar__123', flags: 'uA?*+')],
+			['uA:?*+Foo\Bar\_123', null, new Info(EInfoKind::GENERIC, 'Foo\Bar\_123', flags: 'uA?*+')],
+			['uA:?*+\Foo\Bar\_123', null, new Info(EInfoKind::GENERIC, '\Foo\Bar\_123', flags: 'uA?*+')],
+			['uA:?*+Foo.Bar._123', null, new Info(EInfoKind::GENERIC, 'Foo.Bar._123', flags: 'uA?*+')],
+			['_ A u : ? * + int', null, new Info(EInfoKind::GENERIC, 'int', flags: '_Au?*+')],
 			[
 				'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_:!#$%*+-=?@^`~Foo_bar123', null,
 				new Info(
-					EInfoKind::GENERIC, ['Foo_bar123'],
-					'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_!#$%*+-=?@^`~'
+					EInfoKind::GENERIC, 'Foo_bar123',
+					flags: 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_!#$%*+-=?@^`~'
 				)
 			],
-			['int()', null, new Info(EInfoKind::GENERIC, ['int'])],
-			['int(123)', null, new Info(EInfoKind::GENERIC, ['int'], '', ['123'])],
-			['int(max:123)', null, new Info(EInfoKind::GENERIC, ['int'], '', ['max' => '123'])],
+			['int()', null, new Info(EInfoKind::GENERIC, 'int')],
+			['int(123)', null, new Info(EInfoKind::GENERIC, 'int', parameters: ['123'])],
+			['int(max:123)', null, new Info(EInfoKind::GENERIC, 'int', parameters: ['max' => '123'])],
 			[
 				'int ( min : 0, max : "123" ) ', null, new Info(
-					EInfoKind::GENERIC, ['int'], '', ['max' => '123', 'min' => '0']
+					EInfoKind::GENERIC, 'int', parameters: ['max' => '123', 'min' => '0']
 				)
 			],
 			[
 				'int("\"foo bar\"", min:0,  @Param-Foo  , max:123)', null, new Info(
-					EInfoKind::GENERIC, ['int'], '', ['"foo bar"', '@Param-Foo', 'max' => '123', 'min' => '0']
+					EInfoKind::GENERIC, 'int', parameters: ['"foo bar"', '@Param-Foo', 'max' => '123', 'min' => '0']
 				)
 			],
-			['u:?*+int(0,123)', null, new Info(EInfoKind::GENERIC, ['int'], 'u?*+', ['0', '123'])],
+			['u:?*+int(0,123)', null, new Info(EInfoKind::GENERIC, 'int', flags: 'u?*+', parameters: ['0', '123'])],
 			[
 				'_ Au :? *+  int ( max : 123 , @% , "foo Bar", _s456: f00\, \\\\ b@\)R\")', null, new Info(
-					EInfoKind::GENERIC, ['int'], '_Au?*+', ['@%', 'foo Bar', '_s456' => 'f00, \ b@)R"', 'max' => '123']
+					EInfoKind::GENERIC, 'int', flags: '_Au?*+',
+					parameters: ['@%', 'foo Bar', '_s456' => 'f00, \ b@)R"', 'max' => '123']
 				)
 			],
-			['array<string>', null, new Info(EInfoKind::GENERIC, ['array', 'string'])],
-			['array<int,string>', null, new Info(EInfoKind::GENERIC, ['array', 'int', 'string'])],
+			['array<string>', null, new Info(EInfoKind::GENERIC, 'array', ['string'])],
+			['array<int,string>', null, new Info(EInfoKind::GENERIC, 'array', ['int', 'string'])],
 			[
 				'array<int,array<Foo<string>,Bar>>', null, new Info(
-					EInfoKind::GENERIC, ['array', 'int', 'array<Foo<string>,Bar>']
+					EInfoKind::GENERIC, 'array', ['int', 'array<Foo<string>,Bar>']
 				)
 			],
-			['Foo_bar123 < _ , B123, bool > ', null, new Info(EInfoKind::GENERIC, ['Foo_bar123', '_', 'B123', 'bool'])],
+			['Foo_bar123 < _ , B123, bool > ', null, new Info(EInfoKind::GENERIC, 'Foo_bar123', ['_', 'B123', 'bool'])],
 			[
 				'Foo\Bar <K\Ui12\Obj , _43.n456>', null, new Info(
-					EInfoKind::GENERIC, ['Foo\Bar', 'K\Ui12\Obj', '_43.n456']
+					EInfoKind::GENERIC, 'Foo\Bar', ['K\Ui12\Obj', '_43.n456']
 				)
 			],
 			[
 				'Foo.Bar <K.Ui12.Obj , _43\n456>', null, new Info(
-					EInfoKind::GENERIC, ['Foo.Bar', 'K.Ui12.Obj', '_43\n456']
+					EInfoKind::GENERIC, 'Foo.Bar', ['K.Ui12.Obj', '_43\n456']
 				)
 			],
 			[
 				'Foo.Bar <K.Ui12.Obj<bool> , _43\n456, array< int, string >>', null, new Info(
-					EInfoKind::GENERIC, ['Foo.Bar', 'K.Ui12.Obj<bool>', '_43\n456', 'array< int, string >']
+					EInfoKind::GENERIC, 'Foo.Bar', ['K.Ui12.Obj<bool>', '_43\n456', 'array< int, string >']
 				)
 			],
 			[
 				'_ Au :? *+Foo.Bar (s:m) <K.Ui12.Obj(n:@vvv,%,\)\<)<bool> , _43\n456(0,123), ?array< int, string > >',
 				null, new Info(
 					EInfoKind::GENERIC,
-					['Foo.Bar', 'K.Ui12.Obj(n:@vvv,%,\)\<)<bool>', '_43\n456(0,123)', '?array< int, string >'],
+					'Foo.Bar', ['K.Ui12.Obj(n:@vvv,%,\)\<)<bool>', '_43\n456(0,123)', '?array< int, string >'],
 					'_Au?*+', ['s' => 'm']
 				)
 			],
-			['int[]', null, new Info(EInfoKind::ARRAY, ['int'])],
-			['int[][]', null, new Info(EInfoKind::ARRAY, ['int[]'])],
-			['int[123]', null, new Info(EInfoKind::ARRAY, ['int'], '', [123])],
-			['int [ 456 ] ', null, new Info(EInfoKind::ARRAY, ['int'], '', [456])],
-			['int[123][456]', null, new Info(EInfoKind::ARRAY, ['int[123]'], '', [456])],
-			['(int)', false, new Info(EInfoKind::GROUP, ['int'])],
-			['(int)', true, new Info(EInfoKind::GENERIC, ['int'])],
-			['(int|float|string)', false, new Info(EInfoKind::GROUP, ['int|float|string'])],
-			['(int|float|string)', true, new Info(EInfoKind::UNION, ['int', 'float', 'string'])],
-			['((int|float|string))', false, new Info(EInfoKind::GROUP, ['(int|float|string)'])],
-			['((int|float|string))', true, new Info(EInfoKind::UNION, ['int', 'float', 'string'])],
-			['((int|float)|string)', false, new Info(EInfoKind::GROUP, ['(int|float)|string'])],
-			['((int|float)|string)', true, new Info(EInfoKind::UNION, ['(int|float)', 'string'])],
-			['((int|float))|(string)', null, new Info(EInfoKind::UNION, ['((int|float))', '(string)'])],
+			['int[]', null, new Info(EInfoKind::ARRAY, 'int')],
+			['int[][]', null, new Info(EInfoKind::ARRAY, 'int[]')],
+			['int[123]', null, new Info(EInfoKind::ARRAY, 'int', parameters: [123])],
+			['int [ 456 ] ', null, new Info(EInfoKind::ARRAY, 'int', parameters: [456])],
+			['int[123][456]', null, new Info(EInfoKind::ARRAY, 'int[123]', parameters: [456])],
+			['(int)', false, new Info(EInfoKind::GROUP, 'int')],
+			['(int)', true, new Info(EInfoKind::GENERIC, 'int')],
+			['(int|float|string)', false, new Info(EInfoKind::GROUP, 'int|float|string')],
+			['(int|float|string)', true, new Info(EInfoKind::UNION, names: ['int', 'float', 'string'])],
+			['((int|float|string))', false, new Info(EInfoKind::GROUP, '(int|float|string)')],
+			['((int|float|string))', true, new Info(EInfoKind::UNION, names: ['int', 'float', 'string'])],
+			['((int|float)|string)', false, new Info(EInfoKind::GROUP, '(int|float)|string')],
+			['((int|float)|string)', true, new Info(EInfoKind::UNION, names: ['(int|float)', 'string'])],
+			['((int|float))|(string)', null, new Info(EInfoKind::UNION, names: ['((int|float))', '(string)'])],
 			[
 				'( Foo.Bar | _123\Obj\M(\(\),k:f00) & array<string>)', false, new Info(
-					EInfoKind::GROUP, ['Foo.Bar | _123\Obj\M(\(\),k:f00) & array<string>']
+					EInfoKind::GROUP, 'Foo.Bar | _123\Obj\M(\(\),k:f00) & array<string>'
 				)
 			],
 			[
 				'( Foo.Bar | _123\Obj\M(\(\),k:f00) & array<string>)', true, new Info(
-					EInfoKind::UNION, ['Foo.Bar', '_123\Obj\M(\(\),k:f00) & array<string>']
+					EInfoKind::UNION, names: ['Foo.Bar', '_123\Obj\M(\(\),k:f00) & array<string>']
 				)
 			],
 			[
 				'( Foo.Bar | _123\Obj\M(\(\),k:f00) & array<string>)[]', null, new Info(
-					EInfoKind::ARRAY, ['( Foo.Bar | _123\Obj\M(\(\),k:f00) & array<string>)']
+					EInfoKind::ARRAY, '( Foo.Bar | _123\Obj\M(\(\),k:f00) & array<string>)'
 				)
 			],
 			[
 				'( Foo.Bar | _123\Obj\M(\(\),k:f00) & array<string>) [ 123 ]', null, new Info(
-					EInfoKind::ARRAY, ['( Foo.Bar | _123\Obj\M(\(\),k:f00) & array<string>)'], '', [123]
+					EInfoKind::ARRAY, '( Foo.Bar | _123\Obj\M(\(\),k:f00) & array<string>)', parameters: [123]
 				)
 			],
-			['int|float|string', null, new Info(EInfoKind::UNION, ['int', 'float', 'string'])],
-			['int | float | string | Foo.Bar', null, new Info(EInfoKind::UNION, ['int', 'float', 'string', 'Foo.Bar'])],
-			['(Foo\Bar|int)|K\Obj\_123', null, new Info(EInfoKind::UNION, ['(Foo\Bar|int)', 'K\Obj\_123'])],
-			['Foo\Bar | (int | K\Obj\_123)', null, new Info(EInfoKind::UNION, ['Foo\Bar', '(int | K\Obj\_123)'])],
-			['int&float&string', null, new Info(EInfoKind::INTERSECTION, ['int', 'float', 'string'])],
+			['int|float|string', null, new Info(EInfoKind::UNION, names: ['int', 'float', 'string'])],
+			[
+				'int | float | string | Foo.Bar', null, new Info(
+					EInfoKind::UNION, names: ['int', 'float', 'string', 'Foo.Bar']
+				)
+			],
+			['(Foo\Bar|int)|K\Obj\_123', null, new Info(EInfoKind::UNION, names: ['(Foo\Bar|int)', 'K\Obj\_123'])],
+			[
+				'Foo\Bar | (int | K\Obj\_123)', null, new Info(
+					EInfoKind::UNION, names: ['Foo\Bar', '(int | K\Obj\_123)']
+				)
+			],
+			['int&float&string', null, new Info(EInfoKind::INTERSECTION, names: ['int', 'float', 'string'])],
 			[
 				'int & float & string & Foo.Bar', null, new Info(
-					EInfoKind::INTERSECTION, ['int', 'float', 'string', 'Foo.Bar']
+					EInfoKind::INTERSECTION, names: ['int', 'float', 'string', 'Foo.Bar']
 				)
 			],
-			['(Foo\Bar&int)&K\Obj\_123', null, new Info(EInfoKind::INTERSECTION, ['(Foo\Bar&int)', 'K\Obj\_123'])],
+			[
+				'(Foo\Bar&int)&K\Obj\_123', null, new Info(
+					EInfoKind::INTERSECTION, names: ['(Foo\Bar&int)', 'K\Obj\_123']
+				)
+			],
 			[
 				'Foo\Bar & (int & K\Obj\_123)', null, new Info(
-					EInfoKind::INTERSECTION, ['Foo\Bar', '(int & K\Obj\_123)']
+					EInfoKind::INTERSECTION, names: ['Foo\Bar', '(int & K\Obj\_123)']
 				)
 			],
-			['int&float|string', null, new Info(EInfoKind::UNION, ['int&float', 'string'])],
-			['int|float&string', null, new Info(EInfoKind::UNION, ['int', 'float&string'])],
-			['int | float & string | Foo.Bar', null, new Info(EInfoKind::UNION, ['int', 'float & string', 'Foo.Bar'])],
-			['(Foo\Bar|int)&K\Obj\_123', null, new Info(EInfoKind::INTERSECTION, ['(Foo\Bar|int)', 'K\Obj\_123'])],
+			['int&float|string', null, new Info(EInfoKind::UNION, names: ['int&float', 'string'])],
+			['int|float&string', null, new Info(EInfoKind::UNION, names: ['int', 'float&string'])],
+			[
+				'int | float & string | Foo.Bar', null, new Info(
+					EInfoKind::UNION, names: ['int', 'float & string', 'Foo.Bar']
+				)
+			],
+			[
+				'(Foo\Bar|int)&K\Obj\_123', null, new Info(
+					EInfoKind::INTERSECTION, names: ['(Foo\Bar|int)', 'K\Obj\_123']
+				)
+			],
 			[
 				'Foo\Bar & (int | K\Obj\_123)', null, new Info(
-					EInfoKind::INTERSECTION, ['Foo\Bar', '(int | K\Obj\_123)']
+					EInfoKind::INTERSECTION, names: ['Foo\Bar', '(int | K\Obj\_123)']
 				)
 			],
-			['(Foo\Bar|int)&K\Obj\_123[]', null, new Info(EInfoKind::INTERSECTION, ['(Foo\Bar|int)', 'K\Obj\_123[]'])],
+			[
+				'(Foo\Bar|int)&K\Obj\_123[]', null, new Info(
+					EInfoKind::INTERSECTION, names: ['(Foo\Bar|int)', 'K\Obj\_123[]']
+				)
+			],
 			[
 				'Foo\Bar & (int | K\Obj\_123)[]', null, new Info(
-					EInfoKind::INTERSECTION, ['Foo\Bar', '(int | K\Obj\_123)[]']
+					EInfoKind::INTERSECTION, names: ['Foo\Bar', '(int | K\Obj\_123)[]']
 				)
 			],
-			['(Foo\Bar & (int | K\Obj\_123)[])', false, new Info(EInfoKind::GROUP, ['Foo\Bar & (int | K\Obj\_123)[]'])],
+			['(Foo\Bar & (int | K\Obj\_123)[])', false, new Info(EInfoKind::GROUP, 'Foo\Bar & (int | K\Obj\_123)[]')],
 			[
 				'(Foo\Bar & (int | K\Obj\_123)[])', true, new Info(
-					EInfoKind::INTERSECTION, ['Foo\Bar', '(int | K\Obj\_123)[]']
+					EInfoKind::INTERSECTION, names: ['Foo\Bar', '(int | K\Obj\_123)[]']
 				)
 			],
 			[
 				'(U:*Foo\Bar<a()<ab:b(F:@)<?c(d:1,e:f2)>>>[] & ' .
 					'(+int(123) | K\Obj\_123<f00.b4r|$s|_:_,?f00\b4r(52,x:\"\()>)[])',
 				false, new Info(
-					EInfoKind::GROUP, [
-						'U:*Foo\Bar<a()<ab:b(F:@)<?c(d:1,e:f2)>>>[] & ' .
-							'(+int(123) | K\Obj\_123<f00.b4r|$s|_:_,?f00\b4r(52,x:\"\()>)[]'
-					]
+					EInfoKind::GROUP,
+					'U:*Foo\Bar<a()<ab:b(F:@)<?c(d:1,e:f2)>>>[] & ' .
+						'(+int(123) | K\Obj\_123<f00.b4r|$s|_:_,?f00\b4r(52,x:\"\()>)[]'
 				)
 			],
 			[
 				'(U:*Foo\Bar<a()<ab:b(F:@)<?c(d:1,e:f2)>>>[] & ' .
 					'(+int(123) | K\Obj\_123<f00.b4r|$s|_:_,?f00\b4r(52,x:\"\()>)[])',
 				true, new Info(
-					EInfoKind::INTERSECTION, [
+					EInfoKind::INTERSECTION, names: [
 						'U:*Foo\Bar<a()<ab:b(F:@)<?c(d:1,e:f2)>>>[]',
 						'(+int(123) | K\Obj\_123<f00.b4r|$s|_:_,?f00\b4r(52,x:\"\()>)[]'
 					]
@@ -401,7 +425,7 @@ class TypeTest extends TestCase
 				'U:*Foo\Bar<a()<ab:b(F:@)<?c(d:1,e:f2)>>>[] & ' .
 					'(+int(123) | K\Obj\_123<f00.b4r|$s|_:_,?f00\b4r(52,x:\"\()>)[]',
 				null, new Info(
-					EInfoKind::INTERSECTION, [
+					EInfoKind::INTERSECTION, names: [
 						'U:*Foo\Bar<a()<ab:b(F:@)<?c(d:1,e:f2)>>>[]',
 						'(+int(123) | K\Obj\_123<f00.b4r|$s|_:_,?f00\b4r(52,x:\"\()>)[]'
 					]
@@ -409,46 +433,54 @@ class TypeTest extends TestCase
 			],
 			[
 				'U:*Foo\Bar<a()<ab:b(F:@)<?c(d:1,e:f2)>>>[]', null, new Info(
-					EInfoKind::ARRAY, ['U:*Foo\Bar<a()<ab:b(F:@)<?c(d:1,e:f2)>>>']
+					EInfoKind::ARRAY, 'U:*Foo\Bar<a()<ab:b(F:@)<?c(d:1,e:f2)>>>'
 				)
 			],
 			[
 				'U:*Foo\Bar<a()<ab:b(F:@)<?c(d:1,e:f2)>>>', null, new Info(
-					EInfoKind::GENERIC, ['Foo\Bar', 'a()<ab:b(F:@)<?c(d:1,e:f2)>>'], 'U*'
+					EInfoKind::GENERIC, 'Foo\Bar', ['a()<ab:b(F:@)<?c(d:1,e:f2)>>'], 'U*'
 				)
 			],
-			['a()<ab:b(F:@)<?c(d:1,e:f2)>>', null, new Info(EInfoKind::GENERIC, ['a', 'ab:b(F:@)<?c(d:1,e:f2)>'])],
-			['ab:b(F:@)<?c(d:1,e:f2)>', null, new Info(EInfoKind::GENERIC, ['b', '?c(d:1,e:f2)'], 'ab', ['F' => '@'])],
-			['?c(d:1,e:f2)', null, new Info(EInfoKind::GENERIC, ['c'], '?', ['d' => '1', 'e' => 'f2'])],
+			['a()<ab:b(F:@)<?c(d:1,e:f2)>>', null, new Info(EInfoKind::GENERIC, 'a', ['ab:b(F:@)<?c(d:1,e:f2)>'])],
+			['ab:b(F:@)<?c(d:1,e:f2)>', null, new Info(EInfoKind::GENERIC, 'b', ['?c(d:1,e:f2)'], 'ab', ['F' => '@'])],
+			[
+				'?c(d:1,e:f2)', null, new Info(
+					EInfoKind::GENERIC, 'c', flags: '?', parameters: ['d' => '1', 'e' => 'f2']
+				)
+			],
 			[
 				'(+int(123) | K\Obj\_123<f00.b4r|$s|_:_,?f00\b4r(52,x:\"\()>)[]', null, new Info(
-					EInfoKind::ARRAY, ['(+int(123) | K\Obj\_123<f00.b4r|$s|_:_,?f00\b4r(52,x:\"\()>)']
+					EInfoKind::ARRAY, '(+int(123) | K\Obj\_123<f00.b4r|$s|_:_,?f00\b4r(52,x:\"\()>)'
 				)
 			],
 			[
 				'(+int(123) | K\Obj\_123<f00.b4r|$s|_:_,?f00\b4r(52,x:\"\()>)', false, new Info(
-					EInfoKind::GROUP, ['+int(123) | K\Obj\_123<f00.b4r|$s|_:_,?f00\b4r(52,x:\"\()>']
+					EInfoKind::GROUP, '+int(123) | K\Obj\_123<f00.b4r|$s|_:_,?f00\b4r(52,x:\"\()>'
 				)
 			],
 			[
 				'(+int(123) | K\Obj\_123<f00.b4r|$s|_:_,?f00\b4r(52,x:\"\()>)', true, new Info(
-					EInfoKind::UNION, ['+int(123)', 'K\Obj\_123<f00.b4r|$s|_:_,?f00\b4r(52,x:\"\()>']
+					EInfoKind::UNION, names: ['+int(123)', 'K\Obj\_123<f00.b4r|$s|_:_,?f00\b4r(52,x:\"\()>']
 				)
 			],
 			[
 				'+int(123) | K\Obj\_123<f00.b4r|$s|_:_,?f00\b4r(52,x:\"\()>', null, new Info(
-					EInfoKind::UNION, ['+int(123)', 'K\Obj\_123<f00.b4r|$s|_:_,?f00\b4r(52,x:\"\()>']
+					EInfoKind::UNION, names: ['+int(123)', 'K\Obj\_123<f00.b4r|$s|_:_,?f00\b4r(52,x:\"\()>']
 				)
 			],
 			[
 				'K\Obj\_123<f00.b4r|$s|_:_,?f00\b4r(52,x:\"\()>', null, new Info(
-					EInfoKind::GENERIC, ['K\Obj\_123', 'f00.b4r|$s|_:_', '?f00\b4r(52,x:\"\()']
+					EInfoKind::GENERIC, 'K\Obj\_123', ['f00.b4r|$s|_:_', '?f00\b4r(52,x:\"\()']
 				)
 			],
-			['f00.b4r|$s|_:_', null, new Info(EInfoKind::UNION, ['f00.b4r', '$s', '_:_'])],
-			['$s', null, new Info(EInfoKind::GENERIC, ['s'], '$')],
-			['_:_', null, new Info(EInfoKind::GENERIC, ['_'], '_')],
-			['?f00\b4r(52,x:\"\()', null, new Info(EInfoKind::GENERIC, ['f00\b4r'], '?', ['52', 'x' => '"('])]
+			['f00.b4r|$s|_:_', null, new Info(EInfoKind::UNION, names: ['f00.b4r', '$s', '_:_'])],
+			['$s', null, new Info(EInfoKind::GENERIC, 's', flags: '$')],
+			['_:_', null, new Info(EInfoKind::GENERIC, '_', flags: '_')],
+			[
+				'?f00\b4r(52,x:\"\()', null, new Info(
+					EInfoKind::GENERIC, 'f00\b4r', flags: '?', parameters: ['52', 'x' => '"(']
+				)
+			]
 		];
 	}
 	

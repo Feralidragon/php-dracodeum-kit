@@ -209,7 +209,7 @@ final class Type extends Utility
 			}
 			
 			//info
-			$info = $degroup ? self::info($group_name, true, $error_type) : new Info(EInfoKind::GROUP, [$group_name]);
+			$info = $degroup ? self::info($group_name, true, $error_type) : new Info(EInfoKind::GROUP, $group_name);
 			if ($info instanceof Info) {
 				$infos[$name][$degroup] = $info;
 			}
@@ -260,7 +260,7 @@ final class Type extends Utility
 			
 			//finalize
 			if (count($names) > 1) {
-				$info = $infos[$name][false] = $infos[$name][true] = new Info($kind, $names);
+				$info = $infos[$name][false] = $infos[$name][true] = new Info($kind, names: $names);
 				return $info;
 			}
 		}
@@ -276,7 +276,7 @@ final class Type extends Utility
 			
 			//finalize
 			$info = $infos[$name][false] = $infos[$name][true] = new Info(
-				EInfoKind::ARRAY, [trim(substr($name, 0, -strlen($matches[1])))], parameters: $parameters
+				EInfoKind::ARRAY, trim(substr($name, 0, -strlen($matches[1]))), parameters: $parameters
 			);
 			return $info;
 		}
@@ -284,7 +284,8 @@ final class Type extends Utility
 		//generic
 		if (preg_match($match_generic_pattern, $name, $matches)) {
 			//initialize
-			$names = [$matches['base']];
+			$names = [];
+			$base_name = $matches['base'];
 			
 			//flags
 			$flags = preg_replace('/[\s:]/', '', $matches['flags'] ?? '');
@@ -396,7 +397,7 @@ final class Type extends Utility
 			}
 			
 			//types (finalize)
-			if ($delimited && isset($names[1])) {
+			if ($delimited && $names) {
 				return match ($error_type) {
 					EErrorType::NULL => null,
 					default => $error_type->handleThrowable(
@@ -409,7 +410,7 @@ final class Type extends Utility
 			
 			//return
 			$info = $infos[$name][false] = $infos[$name][true] = new Info(
-				EInfoKind::GENERIC, $names, $flags, $parameters
+				EInfoKind::GENERIC, $base_name, $names, $flags, $parameters
 			);
 			return $info;
 		}
@@ -3246,13 +3247,13 @@ final class Type extends Utility
 				}
 				
 				//names
-				if (isset($info->names[1])) {
+				if ($info->names) {
 					$subtypes = [];
-					for ($i = 1; $i < count($info->names); $i++) {
-						$subtypes[] = self::normalizeName($info->names[$i], $flags, $depth + 1);
+					foreach ($info->names as $i_name) {
+						$subtypes[] = self::normalizeName($i_name, $flags, $depth + 1);
 					}
 					$n_name .= '<' . implode(',', $subtypes) . '>';
-					unset($subtypes);
+					unset($subtypes, $i_name);
 				}
 				
 				//finalize
@@ -3375,8 +3376,8 @@ final class Type extends Utility
 				
 				//subtypes
 				if ($covariant && $t_count >= $bt_count) {
-					for ($i = 1; $i < $bt_count; $i++) {
-						if (!self::isCovariant($t_info->names[$i], $bt_info->names[$i])) {
+					foreach ($bt_info->names as $i => $bi_name) {
+						if (!self::isCovariant($t_info->names[$i], $bi_name)) {
 							$covariant = false;
 							break;
 						}
