@@ -445,6 +445,40 @@ final class Type extends Utility
 	}
 	
 	/**
+	 * Check if a given type is covariant in respect to a given base type.
+	 * 
+	 * @param string $type
+	 * The type to check.
+	 * 
+	 * @param string $base_type
+	 * The base type to check with.
+	 * 
+	 * @return bool
+	 * Boolean `true` if the given type is covariant in respect to the given base type.
+	 */
+	final public static function covariant(string $type, string $base_type): bool
+	{
+		return self::isCovariant($type, $base_type);
+	}
+	
+	/**
+	 * Check if a given type is contravariant in respect to a given base type.
+	 * 
+	 * @param string $type
+	 * The type to check.
+	 * 
+	 * @param string $base_type
+	 * The base type to check with.
+	 * 
+	 * @return bool
+	 * Boolean `true` if the given type is contravariant in respect to the given base type.
+	 */
+	final public static function contravariant(string $type, string $base_type): bool
+	{
+		return self::isCovariant($base_type, $type);
+	}
+	
+	/**
 	 * Generate PHP code from a given value.
 	 * 
 	 * The returning PHP code can be evaluated in order to run as PHP.<br>
@@ -2999,107 +3033,6 @@ final class Type extends Utility
 	}
 	
 	/**
-	 * Check if a given type is covariant in relation to a given base type.
-	 * 
-	 * @param string $type
-	 * <p>The type to check.</p>
-	 * @param string $base_type
-	 * <p>The base type to check against.</p>
-	 * @return bool
-	 * <p>Boolean <code>true</code> if the given type is covariant in relation to the given base type.</p>
-	 */
-	final public static function covariant(string $type, string $base_type): bool
-	{
-		static $map = [];
-		if (!isset($map[$type][$base_type])) {
-			//initialize
-			$t_info = self::info($type, true);
-			$bt_info = self::info($base_type, true);
-			
-			//generic
-			if ($t_info->kind === EInfoKind::GENERIC && $bt_info->kind === $t_info->kind) {
-				//initialize
-				$t = self::normalize($t_info->name);
-				$bt = self::normalize($bt_info->name);
-				$t_count = count($t_info->names);
-				$t_nullable = strpos($t_info->flags, '?') !== false;
-				$bt_nullable = strpos($bt_info->flags, '?') !== false;
-				$null_covariant = ($t === 'null' || $bt === 'null') && ($t_nullable || $bt_nullable);
-				
-				//covariant
-				$covariant = $null_covariant || $bt === 'void' || ($bt === 'mixed' && $t !== 'void') || (
-					$t_count === count($bt_info->names) && ($bt_nullable || !$t_nullable) && (
-						$t === $bt || (
-							self::exists($t) && ($bt === 'object' || (self::exists($bt) && is_a($t, $bt, true)))
-						)
-					)
-				);
-				
-				//subtypes
-				if ($covariant) {
-					for ($i = 1; $i < $t_count; $i++) {
-						if (!self::covariant($t_info->names[$i], $bt_info->names[$i])) {
-							$covariant = false;
-							break;
-						}
-					}
-				}
-				
-				//finalize
-				$map[$type][$base_type] = $covariant;
-				
-			//array
-			} elseif ($t_info->kind === EInfoKind::ARRAY && $bt_info->kind === $t_info->kind) {
-				$map[$type][$base_type] = self::covariant($t_info->name, $bt_info->name);
-				
-			//union and intersection (type)
-			} elseif (in_array($t_info->kind, [EInfoKind::UNION, EInfoKind::INTERSECTION], true)) {
-				$is_union = $t_info->kind === EInfoKind::UNION;
-				$covariant = $is_union;
-				foreach ($t_info->names as $t_name) {
-					if (self::covariant($t_name, $base_type) !== $is_union) {
-						$covariant = !$is_union;
-						break;
-					}
-				}
-				$map[$type][$base_type] = $covariant;
-				
-			//union and intersection (base type)
-			} elseif (in_array($bt_info->kind, [EInfoKind::UNION, EInfoKind::INTERSECTION], true)) {
-				$is_union = $bt_info->kind === EInfoKind::UNION;
-				$covariant = !$is_union;
-				foreach ($bt_info->names as $bt_name) {
-					if (self::covariant($type, $bt_name) === $is_union) {
-						$covariant = $is_union;
-						break;
-					}
-				}
-				$map[$type][$base_type] = $covariant;
-			
-			//other
-			} else {
-				$map[$type][$base_type] = false;
-			}
-		}
-		return $map[$type][$base_type];
-	}
-	
-	/**
-	 * Check if a given type is contravariant in relation to a given base type.
-	 * 
-	 * @param string $type
-	 * <p>The type to check.</p>
-	 * @param string $base_type
-	 * <p>The base type to check against.</p>
-	 * @return bool
-	 * <p>Boolean <code>true</code> if the given type is contravariant in relation to the given base type.</p>
-	 */
-	final public static function contravariant(string $type, string $base_type): bool
-	{
-		return self::covariant($base_type, $type);
-	}
-	
-	/**
 	 * Cast a given value.
 	 * 
 	 * @param mixed $value
@@ -3386,5 +3319,110 @@ final class Type extends Utility
 		
 		//return
 		return $n_name;
+	}
+	
+	/**
+	 * Check if a given type is covariant in respect to a given base type.
+	 * 
+	 * @param string $type
+	 * The type to check.
+	 * 
+	 * @param string $base_type
+	 * The base type to check with.
+	 * 
+	 * @param bool $type_nullable
+	 * Whether the given type is nullable.
+	 * 
+	 * @param bool $base_type_nullable
+	 * Whether the given base type is nullable.
+	 * 
+	 * @return bool
+	 * Boolean `true` if the given type is covariant in respect to the given base type.
+	 */
+	private static function isCovariant(
+		string $type, string $base_type, bool $type_nullable = false, bool $base_type_nullable = false
+	): bool
+	{
+		static $map = [];
+		if (!isset($map[$type][$base_type][$type_nullable][$base_type_nullable])) {
+			//initialize
+			$t_info = self::info(self::normalize($type), true);
+			$bt_info = self::info(self::normalize($base_type), true);
+			$map[$type][$base_type][$type_nullable][$base_type_nullable] = false;
+			$covariant = &$map[$type][$base_type][$type_nullable][$base_type_nullable];
+			
+			//generic
+			if ($t_info->kind === EInfoKind::GENERIC && $bt_info->kind === $t_info->kind) {
+				//initialize
+				$t = $t_info->name;
+				$bt = $bt_info->name;
+				$t_count = count($t_info->names);
+				$bt_count = count($bt_info->names);
+				$t_nullable = $type_nullable || $t === 'null' || $t === 'mixed' ||
+					strpos($t_info->flags, '?') !== false;
+				$bt_nullable = $base_type_nullable || $bt === 'null' || $bt === 'mixed' ||
+					strpos($bt_info->flags, '?') !== false;
+				
+				//covariant
+				$covariant = ($t === 'null' && $bt_nullable) || $bt === 'void' || ($bt === 'mixed' && $t !== 'void') ||
+				(
+					$t_count >= $bt_count && ($bt_nullable || !$t_nullable) && (
+						$t === $bt || (
+							self::exists($t) && ($bt === 'object' || (self::exists($bt) && is_a($t, $bt, true)))
+						)
+					)
+				);
+				
+				//subtypes
+				if ($covariant && $t_count >= $bt_count) {
+					for ($i = 1; $i < $bt_count; $i++) {
+						if (!self::isCovariant($t_info->names[$i], $bt_info->names[$i])) {
+							$covariant = false;
+							break;
+						}
+					}
+				}
+				
+			//array
+			} elseif ($t_info->kind === EInfoKind::ARRAY && $bt_info->kind === $t_info->kind) {
+				$covariant = self::isCovariant($t_info->name, $bt_info->name);
+				if ($covariant && isset($bt_info->parameters[0])) {
+					$covariant = isset($t_info->parameters[0])
+						? (int)$t_info->parameters[0] <= (int)$bt_info->parameters[0]
+						: false;
+				}
+				
+			//union or intersection (type)
+			} elseif (
+				in_array($t_info->kind, [EInfoKind::UNION, EInfoKind::INTERSECTION], true) &&
+				$bt_info->kind !== EInfoKind::INTERSECTION
+			) {
+				$is_union = $t_info->kind === EInfoKind::UNION;
+				$covariant = $is_union;
+				$t_nullable = $type_nullable || $is_union && in_array('null', $t_info->names, true);
+				foreach ($t_info->names as $t_name) {
+					if (self::isCovariant($t_name, $base_type, $t_nullable, $base_type_nullable) !== $is_union) {
+						$covariant = !$is_union;
+						break;
+					}
+				}
+				
+			//union or intersection (base type)
+			} elseif (in_array($bt_info->kind, [EInfoKind::UNION, EInfoKind::INTERSECTION], true)) {
+				$is_union = $bt_info->kind === EInfoKind::UNION;
+				$covariant = !$is_union;
+				$bt_nullable = $base_type_nullable || $is_union && in_array('null', $bt_info->names, true);
+				foreach ($bt_info->names as $bt_name) {
+					if (self::isCovariant($type, $bt_name, $type_nullable, $bt_nullable) === $is_union) {
+						$covariant = $is_union;
+						break;
+					}
+				}
+			}
+			
+			//finalize
+			unset($covariant);
+		}
+		return $map[$type][$base_type][$type_nullable][$base_type_nullable];
 	}
 }

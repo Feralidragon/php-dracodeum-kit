@@ -144,6 +144,52 @@ class TypeTest extends TestCase
 		$this->assertSame($expected, UType::normalize($name, $flags));
 	}
 	
+	/**
+	 * Test `covariant` method.
+	 * 
+	 * NOTE: The test is repeated twice in order to test the internal method memoization.
+	 * 
+	 * @testdox Type::covariant('$type', '$base_type')
+	 * @dataProvider provideCovariantData
+	 * @dataProvider provideCovariantData
+	 * 
+	 * @param string $type
+	 * The method `$type` parameter to test with.
+	 * 
+	 * @param string $base_type
+	 * The method `$base_type` parameter to test with.
+	 * 
+	 * @param bool $expected
+	 * The expected method return value.
+	 */
+	public function testCovariant(string $type, string $base_type, bool $expected): void
+	{
+		$this->assertSame($expected, UType::covariant($type, $base_type));
+	}
+	
+	/**
+	 * Test `contravariant` method.
+	 * 
+	 * NOTE: The test is repeated twice in order to test the internal method memoization.
+	 * 
+	 * @testdox Type::contravariant('$type', '$base_type')
+	 * @dataProvider provideContravariantData
+	 * @dataProvider provideContravariantData
+	 * 
+	 * @param string $type
+	 * The method `$type` parameter to test with.
+	 * 
+	 * @param string $base_type
+	 * The method `$base_type` parameter to test with.
+	 * 
+	 * @param bool $expected
+	 * The expected method return value.
+	 */
+	public function testContravariant(string $type, string $base_type, bool $expected): void
+	{
+		$this->assertSame($expected, UType::contravariant($type, $base_type));
+	}
+	
 	
 	
 	//Public static methods
@@ -165,9 +211,9 @@ class TypeTest extends TestCase
 			['mixed', false],
 			['Foo', false],
 			[stdClass::class, true],
-			[TypeTest_Class::class, true],
-			[TypeTest_Interface::class, true],
-			[TypeTest_Enum::class, true]
+			[TypeTest_Class1::class, true],
+			[TypeTest_Interface1::class, true],
+			[TypeTest_Enum1::class, true]
 		];
 	}
 	
@@ -610,53 +656,799 @@ class TypeTest extends TestCase
 			[stdClass::class, 0x00, 'stdClass'],
 			[stdClass::class, UType::NORMALIZE_SHORT_NAME, 'stdClass'],
 			[stdClass::class, UType::NORMALIZE_LEADING_BACKSLASH, '\stdClass'],
-			[TypeTest_Class::class, 0x00, TypeTest_Class::class],
-			[TypeTest_Class::class, UType::NORMALIZE_SHORT_NAME, 'TypeTest_Class'],
-			[TypeTest_Class::class, UType::NORMALIZE_LEADING_BACKSLASH, '\\' . TypeTest_Class::class],
-			[TypeTest_Interface::class, 0x00, TypeTest_Interface::class],
-			[TypeTest_Interface::class, UType::NORMALIZE_SHORT_NAME, 'TypeTest_Interface'],
-			[TypeTest_Interface::class, UType::NORMALIZE_LEADING_BACKSLASH, '\\' . TypeTest_Interface::class],
-			[TypeTest_Enum::class, 0x00, TypeTest_Enum::class],
-			[TypeTest_Enum::class, UType::NORMALIZE_SHORT_NAME, 'TypeTest_Enum'],
-			[TypeTest_Enum::class, UType::NORMALIZE_LEADING_BACKSLASH, '\\' . TypeTest_Enum::class],
+			[TypeTest_Class1::class, 0x00, TypeTest_Class1::class],
+			[TypeTest_Class1::class, UType::NORMALIZE_SHORT_NAME, 'TypeTest_Class1'],
+			[TypeTest_Class1::class, UType::NORMALIZE_LEADING_BACKSLASH, '\\' . TypeTest_Class1::class],
+			[TypeTest_Interface1::class, 0x00, TypeTest_Interface1::class],
+			[TypeTest_Interface1::class, UType::NORMALIZE_SHORT_NAME, 'TypeTest_Interface1'],
+			[TypeTest_Interface1::class, UType::NORMALIZE_LEADING_BACKSLASH, '\\' . TypeTest_Interface1::class],
+			[TypeTest_Enum1::class, 0x00, TypeTest_Enum1::class],
+			[TypeTest_Enum1::class, UType::NORMALIZE_SHORT_NAME, 'TypeTest_Enum1'],
+			[TypeTest_Enum1::class, UType::NORMALIZE_LEADING_BACKSLASH, '\\' . TypeTest_Enum1::class],
 			[
-				'(((String | ? ' . TypeTest_Class::class . ' < T >) [ 100 ] & ((' . stdClass::class . ') | null ) & ' .
-					'(VOID | NULL | ((' . TypeTest_Interface::class . ')) & ' . TypeTest_Enum::class . ')))',
+				'(((String | ? ' . TypeTest_Class1::class . ' < T >) [ 100 ] & ((' . stdClass::class . ') | null ) & ' .
+					'(VOID | NULL | ((' . TypeTest_Interface1::class . ')) & ' . TypeTest_Enum1::class . ')))',
 				0x00,
-				'(string|?' . TypeTest_Class::class . '<t>)[100]&?stdClass&(void|null|' . TypeTest_Interface::class .
-					'&' . TypeTest_Enum::class . ')'
+				'(string|?' . TypeTest_Class1::class . '<t>)[100]&?stdClass&(void|null|' . TypeTest_Interface1::class .
+					'&' . TypeTest_Enum1::class . ')'
 			],
 			[
-				'(((String | ? ' . TypeTest_Class::class . ' < T >) [ 100 ] & ((' . stdClass::class . ') | null ) & ' .
-					'(VOID | NULL | ((' . TypeTest_Interface::class . ')) & ' . TypeTest_Enum::class . ')))',
+				'(((String | ? ' . TypeTest_Class1::class . ' < T >) [ 100 ] & ((' . stdClass::class . ') | null ) & ' .
+					'(VOID | NULL | ((' . TypeTest_Interface1::class . ')) & ' . TypeTest_Enum1::class . ')))',
 				UType::NORMALIZE_SHORT_NAME,
-				'(string|?TypeTest_Class<t>)[100]&?stdClass&(void|null|TypeTest_Interface&TypeTest_Enum)'
+				'(string|?TypeTest_Class1<t>)[100]&?stdClass&(void|null|TypeTest_Interface1&TypeTest_Enum1)'
 			],
 			[
-				'(((String | ? ' . TypeTest_Class::class . ' < T >) [ 100 ] & ((' . stdClass::class . ') | null ) & ' .
-					'(VOID | NULL | ((' . TypeTest_Interface::class . ')) & ' . TypeTest_Enum::class . ')))',
+				'(((String | ? ' . TypeTest_Class1::class . ' < T >) [ 100 ] & ((' . stdClass::class . ') | null ) & ' .
+					'(VOID | NULL | ((' . TypeTest_Interface1::class . ')) & ' . TypeTest_Enum1::class . ')))',
 				UType::NORMALIZE_LEADING_BACKSLASH,
-				'(string|?\\' . TypeTest_Class::class . '<t>)[100]&?\stdClass&(void|null|\\' .
-					TypeTest_Interface::class . '&\\' . TypeTest_Enum::class . ')'
+				'(string|?\\' . TypeTest_Class1::class . '<t>)[100]&?\stdClass&(void|null|\\' .
+					TypeTest_Interface1::class . '&\\' . TypeTest_Enum1::class . ')'
 			]
 		]);
 		
 		//return
 		return $data;
 	}
+	
+	/**
+	 * Provide `covariant` method data.
+	 * 
+	 * @return array
+	 * The provided `covariant` method data.
+	 */
+	public static function provideCovariantData(): array
+	{
+		return [
+			['void', 'void', true],
+			['null', 'null', true],
+			['mixed', 'mixed', true],
+			['null', 'void', true],
+			['void', 'null', false],
+			['mixed', 'void', true],
+			['void', 'mixed', false],
+			['null', 'mixed', true],
+			['mixed', 'null', false],
+			['bool', 'bool', true],
+			['int', 'int', true],
+			['float', 'float', true],
+			['string', 'string', true],
+			['array', 'array', true],
+			['object', 'object', true],
+			['resource', 'resource', true],
+			['bool', 'int', false],
+			['int', 'float', false],
+			['float', 'string', false],
+			['string', 'array', false],
+			['array', 'object', false],
+			['object', 'resource', false],
+			['BOOL', 'Bool', true],
+			['Int', 'INT', true],
+			['BOOL', 'Int', false],
+			['INT', 'Bool', false],
+			['null', '?string', true],
+			['?string', 'null', false],
+			['string', '?string', true],
+			['?string', 'string', false],
+			['object', '?object', true],
+			['?object', 'object', false],
+			[stdClass::class, 'string', false],
+			['string', stdClass::class, false],
+			['?' . stdClass::class, 'string', false],
+			['string', '?' . stdClass::class, false],
+			[stdClass::class, '?string', false],
+			['?string', stdClass::class, false],
+			['?' . stdClass::class, '?string', false],
+			['?string', '?' . stdClass::class, false],
+			[stdClass::class, 'object', true],
+			['object', stdClass::class, false],
+			[stdClass::class, stdClass::class, true],
+			[stdClass::class, '?object', true],
+			['?object', stdClass::class, false],
+			['?' . stdClass::class, 'object', false],
+			['object', '?' . stdClass::class, false],
+			['?' . stdClass::class, '?object', true],
+			['?object', '?' . stdClass::class, false],
+			[stdClass::class, 'mixed', true],
+			['mixed', stdClass::class, false],
+			['?' . stdClass::class, 'mixed', true],
+			['mixed', '?' . stdClass::class, false],
+			[TypeTest_Class1::class, 'string', false],
+			['string', TypeTest_Class1::class, false],
+			['?' . TypeTest_Class1::class, 'string', false],
+			['string', '?' . TypeTest_Class1::class, false],
+			[TypeTest_Class1::class, '?string', false],
+			['?string', TypeTest_Class1::class, false],
+			['?' . TypeTest_Class1::class, '?string', false],
+			['?string', '?' . TypeTest_Class1::class, false],
+			[TypeTest_Class1::class, 'object', true],
+			['object', TypeTest_Class1::class, false],
+			[TypeTest_Class1::class, TypeTest_Class1::class, true],
+			[TypeTest_Class1::class, '?object', true],
+			['?object', TypeTest_Class1::class, false],
+			['?' . TypeTest_Class1::class, 'object', false],
+			['object', '?' . stdClass::class, false],
+			['?' . TypeTest_Class1::class, '?object', true],
+			['?object', '?' . TypeTest_Class1::class, false],
+			[TypeTest_Class1::class, 'mixed', true],
+			['mixed', TypeTest_Class1::class, false],
+			['?' . TypeTest_Class1::class, 'mixed', true],
+			['mixed', '?' . TypeTest_Class1::class, false],
+			[TypeTest_Class1::class, TypeTest_Class2::class, false],
+			[TypeTest_Class2::class, TypeTest_Class1::class, true],
+			[TypeTest_Class3::class, TypeTest_Class1::class, false],
+			[TypeTest_Class1::class, '?' . TypeTest_Class2::class, false],
+			[TypeTest_Class2::class, '?' . TypeTest_Class1::class, true],
+			[TypeTest_Class3::class, '?' . TypeTest_Class1::class, false],
+			['?' . TypeTest_Class1::class, TypeTest_Class2::class, false],
+			['?' . TypeTest_Class2::class, TypeTest_Class1::class, false],
+			['?' . TypeTest_Class3::class, TypeTest_Class1::class, false],
+			[ '?' . TypeTest_Class1::class, '?' . TypeTest_Class2::class, false],
+			[ '?' . TypeTest_Class2::class, '?' . TypeTest_Class1::class, true],
+			[ '?' . TypeTest_Class3::class, '?' . TypeTest_Class1::class, false],
+			[TypeTest_Interface1::class, 'string', false],
+			['string', TypeTest_Interface1::class, false],
+			['?' . TypeTest_Interface1::class, 'string', false],
+			['string', '?' . TypeTest_Interface1::class, false],
+			[TypeTest_Interface1::class, '?string', false],
+			['?string', TypeTest_Interface1::class, false],
+			['?' . TypeTest_Interface1::class, '?string', false],
+			['?string', '?' . TypeTest_Interface1::class, false],
+			[TypeTest_Interface1::class, 'object', true],
+			['object', TypeTest_Interface1::class, false],
+			[TypeTest_Interface1::class, TypeTest_Interface1::class, true],
+			[TypeTest_Interface1::class, '?object', true],
+			['?object', TypeTest_Interface1::class, false],
+			['?' . TypeTest_Interface1::class, 'object', false],
+			['object', '?' . TypeTest_Interface1::class, false],
+			['?' . TypeTest_Interface1::class, '?object', true],
+			['?object', '?' . TypeTest_Interface1::class, false],
+			[TypeTest_Interface1::class, 'mixed', true],
+			['mixed', TypeTest_Interface1::class, false],
+			['?' . TypeTest_Interface1::class, 'mixed', true],
+			['mixed', '?' . TypeTest_Interface1::class, false],
+			[TypeTest_Interface1::class, TypeTest_Interface2::class, false],
+			[TypeTest_Interface2::class, TypeTest_Interface1::class, true],
+			[TypeTest_Interface3::class, TypeTest_Interface1::class, false],
+			[TypeTest_Interface1::class, '?' . TypeTest_Interface2::class, false],
+			[TypeTest_Interface2::class, '?' . TypeTest_Interface1::class, true],
+			[TypeTest_Interface3::class, '?' . TypeTest_Interface1::class, false],
+			['?' . TypeTest_Interface1::class, TypeTest_Interface2::class, false],
+			['?' . TypeTest_Interface2::class, TypeTest_Interface1::class, false],
+			['?' . TypeTest_Interface3::class, TypeTest_Interface1::class, false],
+			['?' . TypeTest_Interface1::class, '?' . TypeTest_Interface2::class, false],
+			['?' . TypeTest_Interface2::class, '?' . TypeTest_Interface1::class, true],
+			['?' . TypeTest_Interface3::class, '?' . TypeTest_Interface1::class, false],
+			[TypeTest_Enum1::class, 'string', false],
+			['string', TypeTest_Enum1::class, false],
+			['?' . TypeTest_Enum1::class, 'string', false],
+			['string', '?' . TypeTest_Enum1::class, false],
+			[TypeTest_Enum1::class, '?string', false],
+			['?string', TypeTest_Enum1::class, false],
+			['?' . TypeTest_Enum1::class, '?string', false],
+			['?string', '?' . TypeTest_Enum1::class, false],
+			[TypeTest_Enum1::class, 'object', true],
+			['object', TypeTest_Enum1::class, false],
+			[TypeTest_Enum1::class, TypeTest_Enum1::class, true],
+			[TypeTest_Enum1::class, '?object', true],
+			['?object', TypeTest_Enum1::class, false],
+			['?' . TypeTest_Enum1::class, 'object', false],
+			['object', '?' . TypeTest_Enum1::class, false],
+			['?' . TypeTest_Enum1::class, '?object', true],
+			['?object', '?' . TypeTest_Enum1::class, false],
+			[TypeTest_Enum1::class, 'mixed', true],
+			['mixed', TypeTest_Enum1::class, false],
+			['?' . TypeTest_Enum1::class, 'mixed', true],
+			['mixed', '?' . TypeTest_Enum1::class, false],
+			[TypeTest_Enum1::class, TypeTest_Enum2::class, false],
+			[TypeTest_Enum2::class, TypeTest_Enum1::class, false],
+			['?' . TypeTest_Enum1::class, TypeTest_Enum2::class, false],
+			[TypeTest_Enum2::class, '?' . TypeTest_Enum1::class, false],
+			[TypeTest_Enum1::class, '?' . TypeTest_Enum2::class, false],
+			['?' . TypeTest_Enum2::class, TypeTest_Enum1::class, false],
+			['?' . TypeTest_Enum1::class, '?' . TypeTest_Enum2::class, false],
+			['?' . TypeTest_Enum2::class, '?' . TypeTest_Enum1::class, false],
+			[TypeTest_Class1::class, TypeTest_Interface1::class, false],
+			[TypeTest_Interface1::class, TypeTest_Class1::class, false],
+			[TypeTest_Class1::class, TypeTest_Interface2::class, false],
+			[TypeTest_Interface2::class, TypeTest_Class1::class, false],
+			[TypeTest_Class1::class, TypeTest_Interface3::class, false],
+			[TypeTest_Interface3::class, TypeTest_Class1::class, false],
+			[TypeTest_Class2::class, TypeTest_Interface1::class, true],
+			[TypeTest_Interface1::class, TypeTest_Class2::class, false],
+			[TypeTest_Class2::class, TypeTest_Interface2::class, true],
+			[TypeTest_Interface2::class, TypeTest_Class2::class, false],
+			[TypeTest_Class2::class, TypeTest_Interface3::class, false],
+			[TypeTest_Interface3::class, TypeTest_Class2::class, false],
+			[TypeTest_Class3::class, TypeTest_Interface1::class, true],
+			[TypeTest_Interface1::class, TypeTest_Class3::class, false],
+			[TypeTest_Class3::class, TypeTest_Interface2::class, false],
+			[TypeTest_Interface2::class, TypeTest_Class3::class, false],
+			[TypeTest_Class3::class, TypeTest_Interface3::class, false],
+			[TypeTest_Interface3::class, TypeTest_Class3::class, false],
+			[TypeTest_Enum1::class, TypeTest_Interface1::class, false],
+			[TypeTest_Interface1::class, TypeTest_Enum1::class, false],
+			[TypeTest_Enum1::class, TypeTest_Interface2::class, false],
+			[TypeTest_Interface2::class, TypeTest_Enum1::class, false],
+			[TypeTest_Enum1::class, TypeTest_Interface3::class, false],
+			[TypeTest_Interface3::class, TypeTest_Enum1::class, false],
+			[TypeTest_Enum2::class, TypeTest_Interface1::class, true],
+			[TypeTest_Interface1::class, TypeTest_Enum2::class, false],
+			[TypeTest_Enum2::class, TypeTest_Interface2::class, true],
+			[TypeTest_Interface2::class, TypeTest_Enum2::class, false],
+			[TypeTest_Enum2::class, TypeTest_Interface3::class, false],
+			[TypeTest_Interface3::class, TypeTest_Enum2::class, false],
+			['foo<string>', 'array<string>', false],
+			['array<string>', 'array', true],
+			['array', 'array<string>', false],
+			['array<string>', 'array<string>', true],
+			['array<string,int>', 'array<string>', true],
+			['array<string>', 'array<string,int>', false],
+			['array<' . stdClass::class . '>', 'array<' . stdClass::class . '>', true],
+			['array<' . stdClass::class . '>', 'array<object>', true],
+			['array<object>', 'array<' . stdClass::class . '>', false],
+			[
+				TypeTest_Class1::class . '<' . stdClass::class . ',' . TypeTest_Interface1::class . ',string>',
+				TypeTest_Class1::class . '<' . stdClass::class . ',' . TypeTest_Interface1::class . ',string>',
+				true
+			],
+			[
+				TypeTest_Class1::class . '<' . stdClass::class . ',' . TypeTest_Interface1::class . ',string>',
+				TypeTest_Class1::class . '<object,' . TypeTest_Interface1::class . ',string>',
+				true
+			],
+			[
+				TypeTest_Class1::class . '<object,' . TypeTest_Interface1::class . ',string>',
+				TypeTest_Class1::class . '<' . stdClass::class . ',' . TypeTest_Interface1::class . ',string>',
+				false
+			],
+			[
+				TypeTest_Class1::class . '<' . stdClass::class . ',' . TypeTest_Interface2::class . ',string>',
+				TypeTest_Class1::class . '<' . stdClass::class . ',' . TypeTest_Interface1::class . ',string>',
+				true
+			],
+			[
+				TypeTest_Class1::class . '<' . stdClass::class . ',' . TypeTest_Interface1::class . ',string>',
+				TypeTest_Class1::class . '<' . stdClass::class . ',' . TypeTest_Interface2::class . ',string>',
+				false
+			],
+			[
+				TypeTest_Class1::class . '<' . stdClass::class . ',' . TypeTest_Interface1::class . ',string>',
+				TypeTest_Class1::class . '<' . stdClass::class . ',' . TypeTest_Interface1::class . ',?string>',
+				true
+			],
+			[
+				TypeTest_Class1::class . '<' . stdClass::class . ',' . TypeTest_Interface1::class . ',?string>',
+				TypeTest_Class1::class . '<' . stdClass::class . ',' . TypeTest_Interface1::class . ',string>',
+				false
+			],
+			[
+				TypeTest_Class2::class . '<' . stdClass::class . ',' . TypeTest_Interface1::class . ',string>',
+				TypeTest_Class1::class . '<' . stdClass::class . ',' . TypeTest_Interface1::class . ',string>',
+				true
+			],
+			[
+				TypeTest_Class1::class . '<' . stdClass::class . ',' . TypeTest_Interface1::class . ',string>',
+				TypeTest_Class2::class . '<' . stdClass::class . ',' . TypeTest_Interface1::class . ',string>',
+				false
+			],
+			[
+				TypeTest_Class2::class . '<' . stdClass::class . ',' . TypeTest_Interface2::class . ',string>',
+				TypeTest_Class1::class . '<object,' . TypeTest_Interface1::class . ',?string>',
+				true
+			],
+			[
+				TypeTest_Class1::class . '<object,' . TypeTest_Interface1::class . ',?string>',
+				TypeTest_Class2::class . '<' . stdClass::class . ',' . TypeTest_Interface2::class . ',string>',
+				false
+			],
+			[
+				TypeTest_Class2::class . '<' . stdClass::class . ',' . TypeTest_Interface2::class . ',string,int>',
+				TypeTest_Class1::class . '<object,' . TypeTest_Interface1::class . ',?string>',
+				true
+			],
+			[
+				TypeTest_Class2::class . '<' . stdClass::class . ',' . TypeTest_Interface2::class . ',string>',
+				TypeTest_Class1::class . '<object,' . TypeTest_Interface1::class . ',?string,int>',
+				false
+			],
+			[
+				TypeTest_Class2::class . '<' . stdClass::class . ',' . TypeTest_Class1::class . ',string>',
+				TypeTest_Class1::class . '<' . stdClass::class . ',' . TypeTest_Interface1::class . ',string>',
+				false
+			],
+			[
+				TypeTest_Class2::class . '<' . stdClass::class . ',' . TypeTest_Class2::class . ',string>',
+				TypeTest_Class1::class . '<' . stdClass::class . ',' . TypeTest_Interface1::class . ',string>',
+				true
+			],
+			[
+				TypeTest_Class1::class . '<' . stdClass::class . ',' . TypeTest_Interface1::class . ',string>',
+				TypeTest_Class2::class . '<' . stdClass::class . ',' . TypeTest_Class2::class . ',string>',
+				false
+			],
+			[
+				TypeTest_Class2::class . '<' . stdClass::class . ',' . TypeTest_Class3::class . ',string>',
+				TypeTest_Class1::class . '<' . stdClass::class . ',' . TypeTest_Interface1::class . ',string>',
+				true
+			],
+			[
+				TypeTest_Class2::class . '<' . stdClass::class . ',' . TypeTest_Enum1::class . ',string>',
+				TypeTest_Class1::class . '<' . stdClass::class . ',' . TypeTest_Interface1::class . ',string>',
+				false
+			],
+			[
+				TypeTest_Class2::class . '<' . stdClass::class . ',' . TypeTest_Enum2::class . ',string>',
+				TypeTest_Class1::class . '<' . stdClass::class . ',' . TypeTest_Interface1::class . ',string>',
+				true
+			],
+			[
+				TypeTest_Class1::class . '<' . stdClass::class . ',' . TypeTest_Interface1::class . ',string>',
+				TypeTest_Class2::class . '<' . stdClass::class . ',' . TypeTest_Enum2::class . ',string>',
+				false
+			],
+			['string', 'string[]', false],
+			['string[]', 'string', false],
+			['string[]', 'string[][]', false],
+			['string[][]', 'string[]', false],
+			['int[]', 'string[]', false],
+			['string[]', 'int[]', false],
+			['string[]', 'string[]', true],
+			['string[8]', 'string[]', true],
+			['string[]', 'string[8]', false],
+			['string[8]', 'string[8]', true],
+			['string[7]', 'string[8]', true],
+			['string[8]', 'string[7]', false],
+			['string[][]', 'string[][]', true],
+			['string[8][]', 'string[][]', true],
+			['string[][]', 'string[8][]', false],
+			['string[8][8]', 'string[][]', true],
+			['string[][]', 'string[8][8]', false],
+			['string[5][]', 'string[6][]', true],
+			['string[6][]', 'string[5][]', false],
+			['string[5][]', 'string[6][8]', false],
+			['string[6][8]', 'string[5][]', false],
+			['string[7][]', 'string[6][8]', false],
+			['string[6][8]', 'string[7][]', true],
+			['string[5][7]', 'string[6][8]', true],
+			['string[7][7]', 'string[6][8]', false],
+			['string[5][9]', 'string[6][8]', false],
+			['string[7][9]', 'string[6][8]', false],
+			[stdClass::class . '[]', 'object[]', true],
+			['object[]', stdClass::class . '[]', false],
+			[TypeTest_Class1::class . '[]', TypeTest_Class2::class . '[]', false],
+			[TypeTest_Class2::class . '[]', TypeTest_Class1::class . '[]', true],
+			[TypeTest_Class3::class . '[]', TypeTest_Class1::class . '[]', false],
+			[TypeTest_Class1::class . '[]', TypeTest_Interface1::class . '[]', false],
+			[TypeTest_Class2::class . '[]', TypeTest_Interface1::class . '[]', true],
+			[TypeTest_Class3::class . '[]', TypeTest_Interface1::class . '[]', true],
+			[TypeTest_Interface1::class . '[]', TypeTest_Interface2::class . '[]', false],
+			[TypeTest_Interface2::class . '[]', TypeTest_Interface1::class . '[]', true],
+			[TypeTest_Interface3::class . '[]', TypeTest_Interface1::class . '[]', false],
+			[TypeTest_Enum1::class . '[]', TypeTest_Interface1::class . '[]', false],
+			[TypeTest_Enum2::class . '[]', TypeTest_Interface1::class . '[]', true],
+			['bool', 'int|string|object', false],
+			['int|string|object', 'bool', false],
+			['int', 'int|string|object', true],
+			['int|string|object', 'int', false],
+			['string', 'int|string|object', true],
+			['int|string|object', 'string', false],
+			['object', 'int|string|object', true],
+			['int|string|object', 'object', false],
+			[stdClass::class, 'int|string|object', true],
+			['int|string|object', stdClass::class, false],
+			['?int', 'int|string|object', false],
+			['int|string|object', '?int', false],
+			['int', 'int|string|object|null', true],
+			['int|string|object|null', 'int', false],
+			['?int', 'int|string|object|null', true],
+			['int|string|object|null', '?int', false],
+			['int|string', 'int|string|object', true],
+			['int|string|object', 'int|string', false],
+			['int|string|null', 'int|string|object', false],
+			['int|string|object', 'int|string|null', false],
+			['int|string|null', 'int|string|object|null', true],
+			['int|string|object|null', 'int|string|null', false],
+			['?int|string', 'int|string|object', false],
+			['int|string|object', '?int|string', false],
+			['?int|string', 'int|string|object|null', true],
+			['int|string|object|null', '?int|string', false],
+			['int|string|object|null', 'int|string|object|null', true],
+			['string[]|null', '?string[]', false],
+			['?string[]', 'string[]|null', false],
+			['(string|null)[]', '?string[]', true],
+			['?string[]', '(string|null)[]', true],
+			[
+				TypeTest_Class1::class,
+				stdClass::class . '|' . TypeTest_Interface1::class . '|' . TypeTest_Enum1::class,
+				false
+			],
+			[
+				stdClass::class . '|' . TypeTest_Interface1::class . '|' . TypeTest_Enum1::class,
+				TypeTest_Class1::class,
+				false
+			],
+			[
+				TypeTest_Class2::class,
+				stdClass::class . '|' . TypeTest_Interface1::class . '|' . TypeTest_Enum1::class,
+				true
+			],
+			[
+				stdClass::class . '|' . TypeTest_Interface1::class . '|' . TypeTest_Enum1::class,
+				TypeTest_Class2::class,
+				false
+			],
+			[
+				TypeTest_Interface1::class,
+				stdClass::class . '|' . TypeTest_Interface1::class . '|' . TypeTest_Enum1::class,
+				true
+			],
+			[
+				stdClass::class . '|' . TypeTest_Interface1::class . '|' . TypeTest_Enum1::class,
+				TypeTest_Interface1::class,
+				false
+			],
+			[
+				TypeTest_Interface2::class,
+				stdClass::class . '|' . TypeTest_Interface1::class . '|' . TypeTest_Enum1::class,
+				true
+			],
+			[
+				stdClass::class . '|' . TypeTest_Interface1::class . '|' . TypeTest_Enum1::class,
+				TypeTest_Interface2::class,
+				false
+			],
+			[
+				TypeTest_Class1::class . '|' . TypeTest_Interface2::class . '|' . TypeTest_Enum1::class,
+				stdClass::class . '|' . TypeTest_Interface1::class . '|' . TypeTest_Enum1::class,
+				false
+			],
+			[
+				stdClass::class . '|' . TypeTest_Interface1::class . '|' . TypeTest_Enum1::class,
+				TypeTest_Class1::class . '|' . TypeTest_Interface2::class . '|' . TypeTest_Enum1::class,
+				false
+			],
+			[
+				TypeTest_Class2::class . '|' . TypeTest_Interface2::class . '|' . TypeTest_Enum1::class,
+				stdClass::class . '|' . TypeTest_Interface1::class . '|' . TypeTest_Enum1::class,
+				true
+			],
+			[
+				stdClass::class . '|' . TypeTest_Interface1::class . '|' . TypeTest_Enum1::class,
+				TypeTest_Class2::class . '|' . TypeTest_Interface2::class . '|' . TypeTest_Enum1::class,
+				false
+			],
+			[
+				TypeTest_Class3::class . '|' . TypeTest_Interface2::class . '|' . TypeTest_Enum2::class,
+				stdClass::class . '|' . TypeTest_Interface1::class . '|' . TypeTest_Enum1::class,
+				true
+			],
+			[
+				stdClass::class . '|' . TypeTest_Interface1::class . '|' . TypeTest_Enum1::class,
+				TypeTest_Class3::class . '|' . TypeTest_Interface2::class . '|' . TypeTest_Enum2::class,
+				false
+			],
+			[
+				TypeTest_Class3::class . '|' . TypeTest_Enum1::class,
+				stdClass::class . '|' . TypeTest_Interface1::class . '|' . TypeTest_Enum1::class,
+				true
+			],
+			[
+				stdClass::class . '|' . TypeTest_Interface1::class . '|' . TypeTest_Enum1::class,
+				TypeTest_Class3::class . '|' . TypeTest_Enum1::class,
+				false
+			],
+			[
+				TypeTest_Class3::class . '|' . TypeTest_Interface2::class . '|' . TypeTest_Enum2::class,
+				stdClass::class . '|' . TypeTest_Enum1::class,
+				false
+			],
+			[TypeTest_Class1::class, TypeTest_Class1::class . '&' . TypeTest_Interface1::class, false],
+			[TypeTest_Class1::class . '&' . TypeTest_Interface1::class, TypeTest_Class1::class, true],
+			[TypeTest_Class2::class, TypeTest_Class1::class . '&' . TypeTest_Interface1::class, true],
+			[TypeTest_Class1::class . '&' . TypeTest_Interface1::class, TypeTest_Class2::class, false],
+			[TypeTest_Class3::class, TypeTest_Class1::class . '&' . TypeTest_Interface1::class, false],
+			[TypeTest_Class1::class . '&' . TypeTest_Interface1::class, TypeTest_Class3::class, false],
+			[TypeTest_Interface1::class, TypeTest_Class1::class . '&' . TypeTest_Interface1::class, false],
+			[TypeTest_Class1::class . '&' . TypeTest_Interface1::class, TypeTest_Interface1::class, true],
+			[TypeTest_Enum1::class, TypeTest_Enum1::class . '&' . TypeTest_Interface1::class, false],
+			[TypeTest_Enum1::class . '&' . TypeTest_Interface1::class, TypeTest_Enum1::class, true],
+			[TypeTest_Enum2::class, TypeTest_Enum1::class . '&' . TypeTest_Interface1::class, false],
+			[TypeTest_Enum1::class . '&' . TypeTest_Interface1::class, TypeTest_Enum2::class, false],
+			[TypeTest_Class1::class, TypeTest_Interface1::class . '&' . TypeTest_Interface2::class, false],
+			[TypeTest_Interface1::class . '&' . TypeTest_Interface2::class, TypeTest_Class1::class, false],
+			[TypeTest_Class2::class, TypeTest_Interface1::class . '&' . TypeTest_Interface2::class, true],
+			[TypeTest_Interface1::class . '&' . TypeTest_Interface2::class, TypeTest_Class2::class, false],
+			[TypeTest_Class3::class, TypeTest_Interface1::class . '&' . TypeTest_Interface2::class, false],
+			[TypeTest_Interface1::class . '&' . TypeTest_Interface2::class, TypeTest_Class3::class, false],
+			[
+				TypeTest_Class1::class . '&' . TypeTest_Interface2::class,
+				TypeTest_Interface1::class . '&' . TypeTest_Interface2::class,
+				true
+			],
+			[
+				TypeTest_Interface1::class . '&' . TypeTest_Interface2::class,
+				TypeTest_Class1::class . '&' . TypeTest_Interface2::class,
+				false
+			],
+			[TypeTest_Interface1::class, TypeTest_Interface1::class . '&' . TypeTest_Interface2::class, false],
+			[TypeTest_Interface1::class . '&' . TypeTest_Interface2::class, TypeTest_Interface1::class, true],
+			[TypeTest_Interface2::class, TypeTest_Interface1::class . '&' . TypeTest_Interface2::class, true],
+			[TypeTest_Interface1::class . '&' . TypeTest_Interface2::class, TypeTest_Interface2::class, true],
+			[TypeTest_Enum1::class, TypeTest_Interface1::class . '&' . TypeTest_Interface2::class, false],
+			[TypeTest_Interface1::class . '&' . TypeTest_Interface2::class, TypeTest_Enum1::class, false],
+			[TypeTest_Enum2::class, TypeTest_Interface1::class . '&' . TypeTest_Interface2::class, true],
+			[TypeTest_Interface1::class . '&' . TypeTest_Interface2::class, TypeTest_Enum2::class, false],
+			[TypeTest_Class1::class, TypeTest_Class1::class . '&' . TypeTest_Interface3::class, false],
+			[TypeTest_Class1::class . '&' . TypeTest_Interface3::class, TypeTest_Class1::class, true],
+			[
+				TypeTest_Class2::class . '&' . TypeTest_Interface2::class . '&' . TypeTest_Interface3::class,
+				TypeTest_Class1::class . '&' . TypeTest_Interface1::class,
+				true
+			],
+			[
+				TypeTest_Class1::class . '&' . TypeTest_Interface1::class,
+				TypeTest_Class2::class . '&' . TypeTest_Interface2::class . '&' . TypeTest_Interface3::class,
+				false
+			],
+			[TypeTest_Class1::class, '(' . TypeTest_Class1::class . '&' . TypeTest_Interface1::class . ')|null', false],
+			['(' . TypeTest_Class1::class . '&' . TypeTest_Interface1::class . ')|null', TypeTest_Class1::class, false],
+			[
+				'?' . TypeTest_Class1::class,
+				'(' . TypeTest_Class1::class . '&' . TypeTest_Interface1::class . ')|null',
+				false
+			],
+			[
+				'(' . TypeTest_Class1::class . '&' . TypeTest_Interface1::class . ')|null',
+				'?' . TypeTest_Class1::class,
+				true
+			],
+			[
+				'?' . TypeTest_Class2::class,
+				'(' . TypeTest_Class1::class . '&' . TypeTest_Interface1::class . ')|null',
+				true
+			],
+			[
+				'(' . TypeTest_Class1::class . '&' . TypeTest_Interface1::class . ')|null',
+				'?' . TypeTest_Class2::class,
+				false
+			],			
+			[
+				'?' . TypeTest_Class1::class . '[]',
+				'((' . TypeTest_Class1::class . '&' . TypeTest_Interface1::class . ')|null)[]',
+				false
+			],
+			[
+				'((' . TypeTest_Class1::class . '&' . TypeTest_Interface1::class . ')|null)[]',
+				'?' . TypeTest_Class1::class . '[]',
+				true
+			],
+			[
+				'((' . TypeTest_Class2::class . '&' . TypeTest_Interface1::class . ')[]|(' .
+					TypeTest_Interface1::class . '&' . TypeTest_Interface2::class . ')|string|null)[4]',
+				'((' . TypeTest_Class1::class . '&' . TypeTest_Interface1::class . ')[]|(' .
+					TypeTest_Interface1::class . '&' . TypeTest_Interface2::class . ')|string|null)[8]',
+				true
+			],
+			[
+				'((' . TypeTest_Class1::class . '&' . TypeTest_Interface1::class . ')[]|(' .
+					TypeTest_Interface1::class . '&' . TypeTest_Interface2::class . ')|string|null)[8]',
+				'((' . TypeTest_Class2::class . '&' . TypeTest_Interface1::class . ')[]|(' .
+					TypeTest_Interface1::class . '&' . TypeTest_Interface2::class . ')|string|null)[4]',
+				false
+			],
+			[
+				TypeTest_Class2::class . '[][7]',
+				'((' . TypeTest_Class1::class . '&' . TypeTest_Interface1::class . ')[]|(' .
+					TypeTest_Interface1::class . '&' . TypeTest_Interface2::class . ')|string|null)[8]',
+				true
+			],
+			[
+				TypeTest_Class2::class . '[100][7]',
+				'((' . TypeTest_Class1::class . '&' . TypeTest_Interface1::class . ')[]|(' .
+					TypeTest_Interface1::class . '&' . TypeTest_Interface2::class . ')|string|null)[8]',
+				true
+			],
+			[
+				TypeTest_Class2::class . '[][]',
+				'((' . TypeTest_Class1::class . '&' . TypeTest_Interface1::class . ')[]|(' .
+					TypeTest_Interface1::class . '&' . TypeTest_Interface2::class . ')|string|null)[8]',
+				false
+			],
+			[
+				TypeTest_Class2::class . '[][9]',
+				'((' . TypeTest_Class1::class . '&' . TypeTest_Interface1::class . ')[]|(' .
+					TypeTest_Interface1::class . '&' . TypeTest_Interface2::class . ')|string|null)[8]',
+				false
+			],
+			[
+				TypeTest_Class1::class . '[][7]',
+				'((' . TypeTest_Class1::class . '&' . TypeTest_Interface1::class . ')[]|(' .
+					TypeTest_Interface1::class . '&' . TypeTest_Interface2::class . ')|string|null)[8]',
+				false
+			],
+			[
+				'?' . TypeTest_Class2::class . '[][7]',
+				'((' . TypeTest_Class1::class . '&' . TypeTest_Interface1::class . ')[]|(' .
+					TypeTest_Interface1::class . '&' . TypeTest_Interface2::class . ')|string|null)[8]',
+				false
+			],
+			[
+				TypeTest_Enum2::class . '[7]',
+				'((' . TypeTest_Class1::class . '&' . TypeTest_Interface1::class . ')[]|(' .
+					TypeTest_Interface1::class . '&' . TypeTest_Interface2::class . ')|string|null)[8]',
+				true
+			],
+			[
+				'?' . TypeTest_Enum2::class . '[7]',
+				'((' . TypeTest_Class1::class . '&' . TypeTest_Interface1::class . ')[]|(' .
+					TypeTest_Interface1::class . '&' . TypeTest_Interface2::class . ')|string|null)[8]',
+				true
+			],
+			[
+				'?' . TypeTest_Enum2::class . '[]',
+				'((' . TypeTest_Class1::class . '&' . TypeTest_Interface1::class . ')[]|(' .
+					TypeTest_Interface1::class . '&' . TypeTest_Interface2::class . ')|string|null)[8]',
+				false
+			],
+			[
+				'?' . TypeTest_Enum2::class . '[9]',
+				'((' . TypeTest_Class1::class . '&' . TypeTest_Interface1::class . ')[]|(' .
+					TypeTest_Interface1::class . '&' . TypeTest_Interface2::class . ')|string|null)[8]',
+				false
+			],
+			
+			[
+				'(string|' . TypeTest_Enum2::class . ')[7]',
+				'((' . TypeTest_Class1::class . '&' . TypeTest_Interface1::class . ')[]|(' .
+					TypeTest_Interface1::class . '&' . TypeTest_Interface2::class . ')|string|null)[8]',
+				true
+			],
+			[
+				'(string|' . TypeTest_Enum2::class . '|null)[7]',
+				'((' . TypeTest_Class1::class . '&' . TypeTest_Interface1::class . ')[]|(' .
+					TypeTest_Interface1::class . '&' . TypeTest_Interface2::class . ')|string|null)[8]',
+				true
+			],
+			[
+				'(string|' . TypeTest_Enum2::class . '|null|int)[7]',
+				'((' . TypeTest_Class1::class . '&' . TypeTest_Interface1::class . ')[]|(' .
+					TypeTest_Interface1::class . '&' . TypeTest_Interface2::class . ')|string|null)[8]',
+				false
+			],
+			[
+				'(string|(' . TypeTest_Enum2::class . '&' . TypeTest_Interface1::class . ')|null)[7]',
+				'((' . TypeTest_Class1::class . '&' . TypeTest_Interface1::class . ')[]|(' .
+					TypeTest_Interface1::class . '&' . TypeTest_Interface2::class . ')|string|null)[8]',
+				true
+			],
+			[
+				'((string|(' . TypeTest_Enum2::class . '&' . TypeTest_Interface1::class . ')|null)|null)[7]',
+				'((' . TypeTest_Class1::class . '&' . TypeTest_Interface1::class . ')[]|(' .
+					TypeTest_Interface1::class . '&' . TypeTest_Interface2::class . ')|string|null)[8]',
+				true
+			],
+			[
+				'(string|' . TypeTest_Class2::class . '[100]|(' . TypeTest_Enum2::class . '&' .
+					TypeTest_Interface1::class . ')|null)[7]',
+				'((' . TypeTest_Class1::class . '&' . TypeTest_Interface1::class . ')[]|(' .
+					TypeTest_Interface1::class . '&' . TypeTest_Interface2::class . ')|string|null)[8]',
+				true
+			],
+			[
+				'(string|?' . TypeTest_Class2::class . '[100]|(' . TypeTest_Enum2::class . '&' .
+					TypeTest_Interface1::class . ')|null)[7]',
+				'((' . TypeTest_Class1::class . '&' . TypeTest_Interface1::class . ')[]|(' .
+					TypeTest_Interface1::class . '&' . TypeTest_Interface2::class . ')|string|null)[8]',
+				false
+			],
+			[
+				'(string|' . TypeTest_Class2::class . '[100][]|(' . TypeTest_Enum2::class . '&' .
+					TypeTest_Interface1::class . ')|null)[7]',
+				'((' . TypeTest_Class1::class . '&' . TypeTest_Interface1::class . ')[]|(' .
+					TypeTest_Interface1::class . '&' . TypeTest_Interface2::class . ')|string|null)[8]',
+				false
+			],
+			[
+				'(string|(' . TypeTest_Class1::class . '&' . TypeTest_Interface2::class . ')[100]|(' .
+					TypeTest_Enum2::class . '&' . TypeTest_Interface1::class . ')|null)[7]',
+				'((' . TypeTest_Class1::class . '&' . TypeTest_Interface1::class . ')[]|(' .
+					TypeTest_Interface1::class . '&' . TypeTest_Interface2::class . ')|string|null)[8]',
+				true
+			],
+			[
+				'(string|(' . TypeTest_Class1::class . '&' . TypeTest_Interface2::class . '&object)[100]|(' .
+					TypeTest_Enum2::class . '&' . TypeTest_Interface1::class . ')|null)[7]',
+				'((' . TypeTest_Class1::class . '&' . TypeTest_Interface1::class . ')[]|(' .
+					TypeTest_Interface1::class . '&' . TypeTest_Interface2::class . ')|string|null)[8]',
+				true
+			],
+			[
+				'(string|(' . TypeTest_Class1::class . '&' . TypeTest_Interface2::class . '&' . stdClass::class .
+					')[100]|(' . TypeTest_Enum2::class . '&' . TypeTest_Interface1::class . ')|null)[7]',
+				'((' . TypeTest_Class1::class . '&' . TypeTest_Interface1::class . ')[]|(' .
+					TypeTest_Interface1::class . '&' . TypeTest_Interface2::class . ')|string|null)[8]',
+				true
+			],
+			[
+				'(string|((' . TypeTest_Class1::class . '&' . TypeTest_Interface2::class . ')|' .
+					TypeTest_Class2::class . ')[100]|(' . TypeTest_Enum2::class . '&' . TypeTest_Interface1::class .
+					')|null)[7]',
+				'((' . TypeTest_Class1::class . '&' . TypeTest_Interface1::class . ')[]|(' .
+					TypeTest_Interface1::class . '&' . TypeTest_Interface2::class . ')|string|null)[8]',
+				true
+			],
+			[
+				'(string|((' . TypeTest_Class1::class . '&' . TypeTest_Interface2::class . ')|' .
+					TypeTest_Class3::class . ')[100]|(' . TypeTest_Enum2::class . '&' . TypeTest_Interface1::class .
+					')|null)[7]',
+				'((' . TypeTest_Class1::class . '&' . TypeTest_Interface1::class . ')[]|(' .
+					TypeTest_Interface1::class . '&' . TypeTest_Interface2::class . ')|string|null)[8]',
+				false
+			],
+			[
+				'(string|((' . TypeTest_Class1::class . '&' . TypeTest_Interface2::class . ')|' .
+					TypeTest_Class2::class . '|null)[100]|(' . TypeTest_Enum2::class . '&' .
+					TypeTest_Interface1::class . ')|null)[7]',
+				'((' . TypeTest_Class1::class . '&' . TypeTest_Interface1::class . ')[]|(' .
+					TypeTest_Interface1::class . '&' . TypeTest_Interface2::class . ')|string|null)[8]',
+				false
+			]
+		];
+	}
+	
+	/**
+	 * Provide `contravariant` method data.
+	 * 
+	 * @return array
+	 * The provided `contravariant` method data.
+	 */
+	public static function provideContravariantData(): array
+	{
+		$data = [];
+		foreach (self::provideCovariantData() as $d) {
+			$data[] = [$d[1], $d[0], $d[2]];
+		}
+		return $data;
+	}
 }
 
 
 
-/** Test case dummy class. */
-class TypeTest_Class {}
+/** Test case dummy interface 1. */
+interface TypeTest_Interface1 {}
 
 
 
-/** Test case dummy interface. */
-interface TypeTest_Interface {}
+/** Test case dummy interface 2. */
+interface TypeTest_Interface2 extends TypeTest_Interface1 {}
 
 
 
-/** Test case dummy enumeration. */
-enum TypeTest_Enum {}
+/** Test case dummy interface 3. */
+interface TypeTest_Interface3 {}
+
+
+
+/** Test case dummy class 1. */
+class TypeTest_Class1 {}
+
+
+
+/** Test case dummy class 2. */
+class TypeTest_Class2 extends TypeTest_Class1 implements TypeTest_Interface2 {}
+
+
+
+/** Test case dummy class 3. */
+class TypeTest_Class3 implements TypeTest_Interface1 {}
+
+
+
+/** Test case dummy enumeration 1. */
+enum TypeTest_Enum1 {}
+
+
+
+/** Test case dummy enumeration 2. */
+enum TypeTest_Enum2 implements TypeTest_Interface2 {}
