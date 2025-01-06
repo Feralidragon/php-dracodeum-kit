@@ -118,21 +118,21 @@ class Type extends Component
 			case EInfoKind::GENERIC:
 				switch ($info->name) {
 					case 'class':
-						if (isset($info->names[0])) {
+						if ($info->names) {
 							return !isset($info->names[1])
 								? new Prototypes\TClass(['class' => $info->names[0]] + $properties)
 								: null;
 						}
 						break;
 					case 'object':
-						if (isset($info->names[0])) {
+						if ($info->names) {
 							return !isset($info->names[1])
 								? new Prototypes\TObject(['class' => $info->names[0]] + $properties)
 								: null;
 						}
 						break;
 					case 'resource':
-						if (isset($info->names[0])) {
+						if ($info->names) {
 							return !isset($info->names[1])
 								? new Prototypes\TResource(['type' => $info->names[0]] + $properties)
 								: null;
@@ -140,7 +140,7 @@ class Type extends Component
 					case 'array':
 						if (isset($info->names[2])) {
 							return null;
-						} elseif (isset($info->names[1]) && isset($info->names[0])) {
+						} elseif (isset($info->names[1])) {
 							return new Prototypes\TArray([
 								'type' => $this->build($info->names[1], ['strict' => $this->strict]),
 								'key_type' => $this->build($info->names[0], ['strict' => $this->strict])
@@ -152,7 +152,7 @@ class Type extends Component
 						}
 						break;
 					default:
-						if (isset($info->names[0])) {
+						if ($info->names) {
 							return null;
 						}
 				}
