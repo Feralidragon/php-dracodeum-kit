@@ -27,7 +27,7 @@ use ReflectionClass;
  * - modes of operation, such as read-write, read-only, write-only, and others;
  * - lazy type validation and coercion.
  * 
- * Only non-static and non-private properties are supported and affected.
+ * Only non-static, non-private and non-virtual properties are supported and affected.
  * 
  * @see \Dracodeum\Kit\Managers\PropertiesV2\Interfaces\PropertyBooter
  * @see \Dracodeum\Kit\Managers\PropertiesV2\Interfaces\Attribute\Class\MetaInitializer
@@ -968,8 +968,10 @@ final class PropertiesV2 extends Manager
 					
 					//check
 					if (
-						$r_property->isStatic() || $r_property->isPrivate() || isset($properties[$p_name]) || 
-						in_array($r_property->getDeclaringClass()->getName(), $outer_classes, true)
+						$r_property->isStatic() || $r_property->isPrivate() || $r_property->isVirtual() ||
+						isset($properties[$p_name]) || in_array(
+							$r_property->getDeclaringClass()->getName(), $outer_classes, true
+						)
 					) {
 						continue;
 					}

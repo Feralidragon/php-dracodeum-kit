@@ -8122,6 +8122,8 @@ class PropertiesTest_Class1
 	#[Ignore]
 	public $p24;
 	
+	public $p25 {get {} set {}}
+	
 	#[Mode('r+'), Coercive, Lazy]
 	public string $c1p0 = 'foo';
 	
