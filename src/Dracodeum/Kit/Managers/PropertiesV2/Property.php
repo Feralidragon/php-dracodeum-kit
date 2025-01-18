@@ -145,14 +145,29 @@ final class Property
 	 * @param string|null $scope_class
 	 * The scope class to check with.
 	 * 
+	 * @param bool $set
+	 * Whether is a `set` access.
+	 * 
 	 * @return bool
 	 * Boolean `true` if is accessible.
 	 */
-	final public function isAccessible(?string $scope_class = null): bool
+	final public function isAccessible(?string $scope_class = null, bool $set = false): bool
 	{
-		return $this->reflection->isPublic() || (
-			$scope_class !== null && is_a($scope_class, $this->reflection->getDeclaringClass()->getName(), true)
-		);
+		//initialize
+		$declaring_class = $this->reflection->getDeclaringClass()->getName();
+		$covariant = $scope_class !== null && is_a($scope_class, $declaring_class, true);
+		$accessible = $covariant || $this->reflection->isPublic();
+		
+		//set
+		$readonly = $this->reflection->isReadOnly();
+		$private_set = !$readonly && $this->reflection->isPrivateSet();
+		$protected_set = !$readonly && $this->reflection->isProtectedSet();
+		if ($accessible && $set && ($protected_set || $private_set)) {
+			$accessible = $covariant && ($protected_set || $scope_class === $declaring_class);
+		}
+		
+		//return
+		return $accessible;
 	}
 	
 	/**

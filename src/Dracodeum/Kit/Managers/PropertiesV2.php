@@ -513,17 +513,20 @@ final class PropertiesV2 extends Manager
 	 * @param string|null $scope_class
 	 * The scope class to use.
 	 * 
+	 * @param bool $set
+	 * Validate as a `set` access.
+	 * 
 	 * @throws \Dracodeum\Kit\Managers\PropertiesV2\Exceptions\Inaccessible
 	 * 
 	 * @return $this
 	 * This instance, for chaining purposes.
 	 */
-	private function validateAccess(array $names, ?string $scope_class)
+	private function validateAccess(array $names, ?string $scope_class, bool $set = false)
 	{
 		//process
 		$inaccessible_names = [];
 		foreach ($names as $name) {
-			if (!isset($this->properties[$name]) || !$this->properties[$name]->isAccessible($scope_class)) {
+			if (!isset($this->properties[$name]) || !$this->properties[$name]->isAccessible($scope_class, $set)) {
 				$inaccessible_names[] = $name;
 			}
 		}
@@ -821,7 +824,7 @@ final class PropertiesV2 extends Manager
 		$names = array_keys($values);
 		$this
 			->validateDefined($names)
-			->validateAccess($names, $scope_class)
+			->validateAccess($names, $scope_class, true)
 			->validateWrite($names, $scope_class, $initializing)
 		;
 		
@@ -886,7 +889,7 @@ final class PropertiesV2 extends Manager
 		}
 		
 		//validate
-		$this->validateDefined($names)->validateAccess($names, $scope_class)->validateUnset($names, $scope_class);
+		$this->validateDefined($names)->validateAccess($names, $scope_class, true)->validateUnset($names, $scope_class);
 		
 		//process
 		foreach ($names as $name) {
