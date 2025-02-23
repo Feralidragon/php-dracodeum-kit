@@ -20,10 +20,7 @@ use Dracodeum\Kit\Exceptions\Value\Unexpected as UnexpectedValue;
  * This class is the base to be extended from when creating a component.
  * 
  * A *component*, in the context of this kit, is a class that represents an object with a closed set of public 
- * properties and methods, with its inner implementation specified through a chosen *blueprint* class.  
- *   
- * This is akin to the strategy behavioral pattern, where the *component* acts as the main context class, whereas the 
- * *blueprint* acts as both the strategy class and interface, but with many differences and new features.  
+ * properties and methods, with its inner implementation specified through a chosen *blueprint* class.   
  *   
  * When instantiating a *component*, a *blueprint* is given either by name or class, and never given as an instance, 
  * meaning that a *blueprint* class is never meant to be directly instantiated on its own outside of a *component*.  
@@ -35,7 +32,6 @@ use Dracodeum\Kit\Exceptions\Value\Unexpected as UnexpectedValue;
  *   
  * Both the *component* and *blueprint* classes implement extended properties.
  * 
- * @see https://en.wikipedia.org/wiki/Strategy_pattern
  * @see \Dracodeum\Kit\Blueprint
  * @see \Dracodeum\Kit\ComponentV2\Traits\Booter
  * @see \Dracodeum\Kit\ComponentV2\Traits\Initializer
